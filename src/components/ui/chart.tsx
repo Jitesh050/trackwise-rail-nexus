@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 
@@ -353,6 +354,269 @@ function getPayloadConfigFromPayload(
     : config[key as keyof typeof config]
 }
 
+// Create wrapper components for Recharts chart types
+const AreaChart = React.forwardRef<
+  HTMLDivElement,
+  Omit<
+    React.ComponentProps<typeof ChartContainer>,
+    "children" | "config"
+  > & {
+    data: Array<Record<string, any>>
+    categories: string[]
+    index: string
+    colors?: string[]
+    valueFormatter?: (value: number) => string | number
+  }
+>(({ data, categories, index, colors, valueFormatter, className, ...props }, ref) => {
+  const categoriesWithColors = React.useMemo(() => {
+    return categories.map((category, i) => ({
+      category,
+      color: colors?.[i] || `hsl(${(i * 360) / categories.length}, 65%, 60%)`,
+    }))
+  }, [categories, colors])
+
+  const config = React.useMemo<ChartConfig>(
+    () =>
+      Object.fromEntries(
+        categoriesWithColors.map(({ category, color }) => [
+          category,
+          { color },
+        ])
+      ),
+    [categoriesWithColors]
+  )
+
+  return (
+    <ChartContainer ref={ref} className={className} config={config} {...props}>
+      <RechartsPrimitive.AreaChart data={data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+        <RechartsPrimitive.CartesianGrid strokeDasharray="3 3" />
+        <RechartsPrimitive.XAxis
+          dataKey={index}
+          axisLine={false}
+          tickLine={false}
+        />
+        <RechartsPrimitive.YAxis
+          axisLine={false}
+          tickLine={false}
+          tickFormatter={(value) => valueFormatter ? valueFormatter(value) : value}
+        />
+        <ChartTooltip
+          content={({ active, payload }) => {
+            if (!active || !payload?.length) return null
+            
+            return (
+              <div className="rounded-lg border bg-background p-2 shadow-sm">
+                <div className="grid grid-cols-1 gap-2">
+                  {payload.map((entry, i) => (
+                    <div key={`tooltip-${i}`} className="flex items-center gap-2">
+                      <div 
+                        className="h-2 w-2 rounded-full"
+                        style={{ backgroundColor: entry.color }}
+                      />
+                      <p className="text-sm font-medium">
+                        {entry.name}: {valueFormatter ? valueFormatter(entry.value) : entry.value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          }}
+        />
+        {categoriesWithColors.map(({ category, color }, i) => (
+          <RechartsPrimitive.Area
+            key={category}
+            type="monotone"
+            dataKey={category}
+            fill={color}
+            stroke={color}
+            fillOpacity={0.2}
+            activeDot={{ r: 4 }}
+          />
+        ))}
+      </RechartsPrimitive.AreaChart>
+    </ChartContainer>
+  )
+})
+AreaChart.displayName = "AreaChart"
+
+const BarChart = React.forwardRef<
+  HTMLDivElement,
+  Omit<
+    React.ComponentProps<typeof ChartContainer>,
+    "children" | "config"
+  > & {
+    data: Array<Record<string, any>>
+    categories: string[]
+    index: string
+    colors?: string[]
+    valueFormatter?: (value: number) => string | number
+    layout?: "vertical" | "horizontal"
+    stack?: boolean
+  }
+>(({ data, categories, index, colors, valueFormatter, layout = "horizontal", stack = false, className, ...props }, ref) => {
+  const categoriesWithColors = React.useMemo(() => {
+    return categories.map((category, i) => ({
+      category,
+      color: colors?.[i] || `hsl(${(i * 360) / categories.length}, 65%, 60%)`,
+    }))
+  }, [categories, colors])
+
+  const config = React.useMemo<ChartConfig>(
+    () =>
+      Object.fromEntries(
+        categoriesWithColors.map(({ category, color }) => [
+          category,
+          { color },
+        ])
+      ),
+    [categoriesWithColors]
+  )
+
+  return (
+    <ChartContainer ref={ref} className={className} config={config} {...props}>
+      <RechartsPrimitive.BarChart data={data} layout={layout} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+        <RechartsPrimitive.CartesianGrid strokeDasharray="3 3" />
+        <RechartsPrimitive.XAxis
+          dataKey={layout === "horizontal" ? index : undefined}
+          type={layout === "horizontal" ? "category" : "number"}
+          axisLine={false}
+          tickLine={false}
+          tickFormatter={(value) => (layout === "vertical" && valueFormatter) ? valueFormatter(value) : value}
+        />
+        <RechartsPrimitive.YAxis
+          dataKey={layout === "vertical" ? index : undefined}
+          type={layout === "vertical" ? "category" : "number"}
+          axisLine={false}
+          tickLine={false}
+          tickFormatter={(value) => (layout === "horizontal" && valueFormatter) ? valueFormatter(value) : value}
+        />
+        <ChartTooltip
+          content={({ active, payload }) => {
+            if (!active || !payload?.length) return null
+            
+            return (
+              <div className="rounded-lg border bg-background p-2 shadow-sm">
+                <div className="grid grid-cols-1 gap-2">
+                  {payload.map((entry, i) => (
+                    <div key={`tooltip-${i}`} className="flex items-center gap-2">
+                      <div 
+                        className="h-2 w-2 rounded-full"
+                        style={{ backgroundColor: entry.color }}
+                      />
+                      <p className="text-sm font-medium">
+                        {entry.name}: {valueFormatter ? valueFormatter(entry.value) : entry.value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          }}
+        />
+        {categoriesWithColors.map(({ category, color }) => (
+          <RechartsPrimitive.Bar
+            key={category}
+            dataKey={category}
+            fill={color}
+            stackId={stack ? "stack" : undefined}
+          />
+        ))}
+      </RechartsPrimitive.BarChart>
+    </ChartContainer>
+  )
+})
+BarChart.displayName = "BarChart"
+
+const PieChart = React.forwardRef<
+  HTMLDivElement,
+  Omit<
+    React.ComponentProps<typeof ChartContainer>,
+    "children" | "config"
+  > & {
+    data: Array<Record<string, any>>
+    category: string
+    index: string
+    colors?: string[]
+    valueFormatter?: (value: number) => string | number
+    startAngle?: number
+    endAngle?: number
+    innerRadius?: number
+    outerRadius?: number
+  }
+>(({ data, category, index, colors, valueFormatter, startAngle = 0, endAngle = 360, className, innerRadius = 0, outerRadius, ...props }, ref) => {
+  const categoriesWithColors = React.useMemo(() => {
+    return data.map((item, i) => ({
+      category: item[index],
+      color: colors?.[i] || `hsl(${(i * 360) / data.length}, 65%, 60%)`,
+    }))
+  }, [data, index, colors])
+
+  const config = React.useMemo<ChartConfig>(
+    () =>
+      Object.fromEntries(
+        categoriesWithColors.map(({ category, color }) => [
+          category,
+          { color },
+        ])
+      ),
+    [categoriesWithColors]
+  )
+
+  return (
+    <ChartContainer ref={ref} className={className} config={config} {...props}>
+      <RechartsPrimitive.PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+        <RechartsPrimitive.Pie
+          data={data}
+          dataKey={category}
+          nameKey={index}
+          cx="50%"
+          cy="50%"
+          startAngle={startAngle}
+          endAngle={endAngle}
+          innerRadius={innerRadius}
+          outerRadius={outerRadius}
+          paddingAngle={2}
+          minAngle={4}
+          label={({ name, value, percent }) => `${name}: ${valueFormatter ? valueFormatter(value) : value} (${(percent * 100).toFixed(0)}%)`}
+          labelLine={true}
+        >
+          {data.map((entry, i) => (
+            <RechartsPrimitive.Cell
+              key={`cell-${i}`}
+              fill={colors?.[i % (colors.length || 1)] || `hsl(${(i * 360) / data.length}, 65%, 60%)`}
+            />
+          ))}
+        </RechartsPrimitive.Pie>
+        <ChartTooltip
+          content={({ active, payload }) => {
+            if (!active || !payload?.length) return null
+            
+            return (
+              <div className="rounded-lg border bg-background p-2 shadow-sm">
+                <div className="grid grid-cols-1 gap-2">
+                  {payload.map((entry, i) => (
+                    <div key={`tooltip-${i}`} className="flex items-center gap-2">
+                      <div 
+                        className="h-2 w-2 rounded-full"
+                        style={{ backgroundColor: entry.color }}
+                      />
+                      <p className="text-sm font-medium">
+                        {entry.name}: {valueFormatter ? valueFormatter(entry.value) : entry.value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          }}
+        />
+      </RechartsPrimitive.PieChart>
+    </ChartContainer>
+  )
+})
+PieChart.displayName = "PieChart"
+
 export {
   ChartContainer,
   ChartTooltip,
@@ -360,4 +624,7 @@ export {
   ChartLegend,
   ChartLegendContent,
   ChartStyle,
+  AreaChart,
+  BarChart,
+  PieChart
 }
