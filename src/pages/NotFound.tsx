@@ -1,5 +1,8 @@
-import { useLocation } from "react-router-dom";
+
+import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Train } from "lucide-react";
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,13 +15,26 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
+    <div className="min-h-screen flex items-center justify-center bg-rail-light p-4">
+      <div className="text-center max-w-md">
+        <div className="flex justify-center mb-4">
+          <div className="bg-rail-primary rounded-full p-4">
+            <Train className="h-12 w-12 text-white" />
+          </div>
+        </div>
+        <h1 className="text-6xl font-bold text-rail-primary mb-4">404</h1>
+        <p className="text-2xl text-rail-dark mb-4">Oops! This train doesn't stop here.</p>
+        <p className="text-rail-secondary mb-8">
+          We couldn't find the page you're looking for. It might have been moved, 
+          renamed, or might not exist.
+        </p>
+        <div className="flex justify-center">
+          <Link to="/">
+            <Button className="bg-rail-primary hover:bg-rail-primary/90">
+              Return to Home Station
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );
