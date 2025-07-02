@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { MapPin, Calendar, ArrowRight, Train, Users, CreditCard, QrCode } from "lucide-react";
+import PaymentPage from "@/components/PaymentPage";
 
 const BookTicket = () => {
   const [step, setStep] = useState(1);
+  const [selectedTrain, setSelectedTrain] = useState(null);
   const [formData, setFormData] = useState({
     origin: "",
     destination: "",
@@ -183,7 +185,17 @@ const BookTicket = () => {
                   duration="4h 15m"
                   price={59.99}
                   availability="Available"
-                  onSelect={() => console.log("Selected train")}
+                  onSelect={() => {
+                    setSelectedTrain({
+                      trainNumber: "EXP101",
+                      trainName: "Ocean Express",
+                      departureTime: "08:30",
+                      arrivalTime: "12:45",
+                      duration: "4h 15m",
+                      price: 59.99
+                    });
+                    setStep(3);
+                  }}
                 />
                 <TrainOption
                   trainNumber="SPD330"
@@ -193,7 +205,17 @@ const BookTicket = () => {
                   duration="3h 20m"
                   price={79.99}
                   availability="Few seats left"
-                  onSelect={() => console.log("Selected train")}
+                  onSelect={() => {
+                    setSelectedTrain({
+                      trainNumber: "SPD330",
+                      trainName: "Capital Bullet",
+                      departureTime: "10:00",
+                      arrivalTime: "13:20",
+                      duration: "3h 20m",
+                      price: 79.99
+                    });
+                    setStep(3);
+                  }}
                 />
                 <TrainOption
                   trainNumber="REG205"
@@ -211,6 +233,14 @@ const BookTicket = () => {
                 <Button variant="outline" onClick={() => setStep(1)}>Back to Search</Button>
               </CardFooter>
             </Card>
+          )}
+          
+          {step === 3 && selectedTrain && (
+            <PaymentPage 
+              selectedTrain={selectedTrain}
+              bookingDetails={formData}
+              onBack={() => setStep(2)}
+            />
           )}
         </div>
         

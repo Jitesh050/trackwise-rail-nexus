@@ -2,7 +2,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { User, Ticket, Clock, Calendar } from "lucide-react";
+import { User, Ticket, Clock, Calendar, Train } from "lucide-react";
+import BookedTickets from "@/components/BookedTickets";
+import LiveTrainStatus from "@/components/LiveTrainStatus";
 
 const UserPortal = () => {
   return (
@@ -34,57 +36,18 @@ const UserPortal = () => {
         </Card>
         
         <div className="space-y-6">
-          <Tabs defaultValue="upcoming">
-            <TabsList>
-              <TabsTrigger value="upcoming">Upcoming Journeys</TabsTrigger>
-              <TabsTrigger value="past">Past Trips</TabsTrigger>
-              <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
+          <Tabs defaultValue="booked">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="booked">Booked Tickets</TabsTrigger>
+              <TabsTrigger value="live">Live Train Status</TabsTrigger>
             </TabsList>
             
-            <TabsContent value="upcoming" className="mt-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Your Upcoming Journeys</CardTitle>
-                  <CardDescription>Manage your upcoming train bookings</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-12 text-muted-foreground">
-                    <Ticket className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p className="mb-4">You don't have any upcoming journeys</p>
-                    <Button>Book a Ticket</Button>
-                  </div>
-                </CardContent>
-              </Card>
+            <TabsContent value="booked" className="mt-6">
+              <BookedTickets />
             </TabsContent>
             
-            <TabsContent value="past">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Your Past Journeys</CardTitle>
-                  <CardDescription>View your travel history</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-12 text-muted-foreground">
-                    <Clock className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p>No past journeys found</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="cancelled">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Cancelled Journeys</CardTitle>
-                  <CardDescription>View your cancelled bookings</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-12 text-muted-foreground">
-                    <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p>No cancelled journeys</p>
-                  </div>
-                </CardContent>
-              </Card>
+            <TabsContent value="live" className="mt-6">
+              <LiveTrainStatus />
             </TabsContent>
           </Tabs>
         </div>
