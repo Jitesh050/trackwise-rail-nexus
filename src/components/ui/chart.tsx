@@ -413,9 +413,9 @@ const AreaChart = React.forwardRef<
                         className="h-2 w-2 rounded-full"
                         style={{ backgroundColor: entry.color }}
                       />
-                      <p className="text-sm font-medium">
-                        {entry.name}: {valueFormatter ? valueFormatter(entry.value) : entry.value}
-                      </p>
+                       <p className="text-sm font-medium">
+                         {entry.name}: {valueFormatter ? valueFormatter(Number(entry.value)) : entry.value}
+                       </p>
                     </div>
                   ))}
                 </div>
@@ -504,9 +504,9 @@ const BarChart = React.forwardRef<
                         className="h-2 w-2 rounded-full"
                         style={{ backgroundColor: entry.color }}
                       />
-                      <p className="text-sm font-medium">
-                        {entry.name}: {valueFormatter ? valueFormatter(entry.value) : entry.value}
-                      </p>
+                       <p className="text-sm font-medium">
+                         {entry.name}: {valueFormatter ? valueFormatter(Number(entry.value)) : entry.value}
+                       </p>
                     </div>
                   ))}
                 </div>
@@ -601,9 +601,9 @@ const PieChart = React.forwardRef<
                         className="h-2 w-2 rounded-full"
                         style={{ backgroundColor: entry.color }}
                       />
-                      <p className="text-sm font-medium">
-                        {entry.name}: {valueFormatter ? valueFormatter(entry.value) : entry.value}
-                      </p>
+                       <p className="text-sm font-medium">
+                         {entry.name}: {valueFormatter ? valueFormatter(Number(entry.value)) : entry.value}
+                       </p>
                     </div>
                   ))}
                 </div>

@@ -35,6 +35,15 @@
 
     --radius: 0.5rem;
 
+    /* Railway-specific design tokens */
+    --rail-primary: 216 98% 18%;
+    --rail-secondary: 214 32% 47%;
+    --rail-accent: 174 70% 41%;
+    --rail-light: 210 40% 96%;
+    --rail-success: 142 76% 36%;
+    --rail-warning: 38 92% 50%;
+    --rail-danger: 0 84% 60%;
+
     --sidebar-background: 216 98% 12%;
     --sidebar-foreground: 210 40% 98%;
     --sidebar-primary: 174 70% 41%;

@@ -13,6 +13,7 @@ import BookTicket from "./pages/BookTicket";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
+import HelpCenter from "./pages/HelpCenter";
 import Layout from "./components/Layout";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/train-status" element={<TrainStatus />} />
             <Route path="/stations" element={<StationInfo />} />
             <Route path="/book-ticket" element={<BookTicket />} />
+            <Route path="/help" element={<HelpCenter />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Route>
