@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { CreditCard, Smartphone, Building2, Wallet, Shield, CheckCircle } from "lucide-react";
 import ETicket from "./ETicket";
+import { Switch } from "@/components/ui/switch";
+import { ticketsApi, type TicketRecord } from "@/lib/tickets";
 
 interface PaymentPageProps {
   selectedTrain: {
@@ -32,11 +34,13 @@ const PaymentPage = ({ selectedTrain, bookingDetails, onBack }: PaymentPageProps
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [ticketData, setTicketData] = useState(null);
+  const [ticketData, setTicketData] = useState<any>(null);
+  const [priority, setPriority] = useState(false);
 
   const totalFare = selectedTrain.price * parseInt(bookingDetails.passengers);
   const serviceFee = 2.99;
-  const totalAmount = totalFare + serviceFee;
+  const priorityFee = priority ? 20 : 0;
+  const totalAmount = totalFare + serviceFee + priorityFee;
 
   const handlePayment = async () => {
     setIsProcessing(true);
@@ -44,8 +48,7 @@ const PaymentPage = ({ selectedTrain, bookingDetails, onBack }: PaymentPageProps
     // Simulate payment processing
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    // Generate ticket data
-    const newTicketData = {
+    const newTicketData: TicketRecord = {
       pnr: `PNR${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
       passengerName: "John Traveler",
       trainNumber: selectedTrain.trainNumber,
@@ -58,9 +61,18 @@ const PaymentPage = ({ selectedTrain, bookingDetails, onBack }: PaymentPageProps
       seatNumbers: Array.from({length: parseInt(bookingDetails.passengers)}, (_, i) => `A${i + 15}`),
       class: bookingDetails.trainClass,
       fare: totalAmount,
-      status: "Confirmed"
+      status: "Confirmed",
+      coach: "C1",
+      priority,
     };
-    
+
+    try {
+      await ticketsApi.add(newTicketData);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn("Saving ticket failed, but proceeding to confirmation.", e);
+    }
+
     setTicketData(newTicketData);
     setPaymentSuccess(true);
     setIsProcessing(false);
@@ -113,6 +125,14 @@ const PaymentPage = ({ selectedTrain, bookingDetails, onBack }: PaymentPageProps
           
           <Separator />
           
+          <div className="flex items-center justify-between py-2">
+            <div>
+              <p className="font-medium">Priority Ticket</p>
+              <p className="text-xs text-muted-foreground">Skip queues and get faster support</p>
+            </div>
+            <Switch checked={priority} onCheckedChange={setPriority} />
+          </div>
+          
           <div className="space-y-2">
             <div className="flex justify-between">
               <span>Tickets ({bookingDetails.passengers}x)</span>
@@ -122,6 +142,12 @@ const PaymentPage = ({ selectedTrain, bookingDetails, onBack }: PaymentPageProps
               <span>Service Fee</span>
               <span>${serviceFee.toFixed(2)}</span>
             </div>
+            {priority && (
+              <div className="flex justify-between">
+                <span>Priority Fee</span>
+                <span>${priorityFee.toFixed(2)}</span>
+              </div>
+            )}
             <Separator />
             <div className="flex justify-between font-semibold text-lg">
               <span>Total Amount</span>
