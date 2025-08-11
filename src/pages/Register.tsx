@@ -5,34 +5,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Train, UserPlus } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Train, UserPlus, Shield, User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("user");
   const [isLoading, setIsLoading] = useState(false);
   const { signUp } = useAuth();
   const navigate = useNavigate();
   
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-  
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (formData.password !== formData.confirmPassword) {
+    if (password !== confirmPassword) {
       toast.error("Passwords don't match");
       return;
     }
@@ -40,12 +30,12 @@ const Register = () => {
     setIsLoading(true);
     
     try {
-      const { error } = await signUp(formData.email, formData.password);
+      const { error } = await signUp(email, password);
       
       if (error) {
         toast.error(error.message);
       } else {
-        toast.success("Account created successfully! Please check your email for verification.");
+        toast.success("Account created successfully! Please check your email to verify your account.");
         navigate("/login");
       }
     } catch (error) {
@@ -56,93 +46,113 @@ const Register = () => {
   };
   
   return (
-    <div className="container mx-auto py-12 flex justify-center items-center min-h-[80vh] animate-enter">
-      <Card className="max-w-md w-full">
-        <CardHeader className="space-y-2 text-center">
-          <div className="flex justify-center mb-2">
-            <Train size={32} className="text-rail-accent" />
-          </div>
-          <CardTitle className="text-2xl">Create an Account</CardTitle>
-          <CardDescription>Sign up for TrackWise to manage your train journeys</CardDescription>
-        </CardHeader>
-        
-        <form onSubmit={handleRegister}>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+      <div className="w-full max-w-md space-y-8">
+        <div className="text-center">
+          <Train size={48} className="mx-auto text-rail-accent mb-4" />
+          <h1 className="text-3xl font-bold text-white">Join TrackWise</h1>
+          <p className="text-slate-400 mt-2">Create your account to get started</p>
+        </div>
+
+        <Card className="bg-slate-800 border-slate-600">
+          <CardHeader className="space-y-2 text-center">
+            <CardTitle className="text-2xl text-white">Create Account</CardTitle>
+            <CardDescription className="text-slate-400">Fill in your details to register</CardDescription>
+          </CardHeader>
+          
+          <form onSubmit={handleRegister}>
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
+                <Label className="text-white text-sm font-medium">Account Type</Label>
+                <RadioGroup value={role} onValueChange={setRole} className="grid grid-cols-2 gap-4">
+                  <div>
+                    <RadioGroupItem value="user" id="user" className="peer sr-only" />
+                    <Label
+                      htmlFor="user"
+                      className="flex flex-col items-center justify-between rounded-md border-2 border-slate-600 bg-slate-700 p-4 hover:bg-slate-600 peer-data-[state=checked]:border-rail-accent [&:has([data-state=checked])]:border-rail-accent cursor-pointer"
+                    >
+                      <User className="mb-3 h-6 w-6 text-blue-400" />
+                      <div className="text-center">
+                        <div className="text-sm font-medium text-white">Passenger</div>
+                        <div className="text-xs text-slate-400">Book & manage travel</div>
+                      </div>
+                    </Label>
+                  </div>
+                  <div>
+                    <RadioGroupItem value="admin" id="admin" className="peer sr-only" />
+                    <Label
+                      htmlFor="admin"
+                      className="flex flex-col items-center justify-between rounded-md border-2 border-slate-600 bg-slate-700 p-4 hover:bg-slate-600 peer-data-[state=checked]:border-rail-accent [&:has([data-state=checked])]:border-rail-accent cursor-pointer"
+                    >
+                      <Shield className="mb-3 h-6 w-6 text-red-400" />
+                      <div className="text-center">
+                        <div className="text-sm font-medium text-white">Admin</div>
+                        <div className="text-xs text-slate-400">Manage operations</div>
+                      </div>
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
+                <Label htmlFor="email" className="text-white">Email</Label>
                 <Input
-                  id="firstName"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleInputChange}
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
                   required
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="password" className="text-white">Password</Label>
                 <Input
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleInputChange}
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
                   required
                 />
               </div>
-            </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword" className="text-white">Confirm Password</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="••••••••"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+                  required
+                />
+              </div>
+            </CardContent>
             
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-          </CardContent>
-          
-          <CardFooter className="flex flex-col">
-            <Button type="submit" className="w-full bg-rail-primary hover:bg-rail-primary/90" disabled={isLoading}>
-              <UserPlus size={18} className="mr-2" />
-              {isLoading ? "Creating Account..." : "Create Account"}
-            </Button>
-            <p className="text-sm text-center mt-4">
-              Already have an account?{" "}
-              <Link to="/login" className="text-rail-secondary hover:text-rail-accent font-medium">
-                Sign in
-              </Link>
-            </p>
-          </CardFooter>
-        </form>
-      </Card>
+            <CardFooter className="flex flex-col">
+              <Button 
+                type="submit" 
+                className="w-full bg-rail-primary hover:bg-rail-primary/90 text-white" 
+                disabled={isLoading}
+              >
+                <UserPlus size={18} className="mr-2" />
+                {isLoading ? "Creating Account..." : "Create Account"}
+              </Button>
+              <p className="text-sm text-center mt-4 text-slate-400">
+                Already have an account?{" "}
+                <Link to="/login" className="text-rail-accent hover:text-rail-accent/80 font-medium">
+                  Sign in
+                </Link>
+              </p>
+            </CardFooter>
+          </form>
+        </Card>
+      </div>
     </div>
   );
 };

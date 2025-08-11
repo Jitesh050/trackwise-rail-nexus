@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AdminDashboard from "./pages/AdminDashboard";
+import PassengerDashboard from "./pages/PassengerDashboard";
 import UserPortal from "./pages/UserPortal";
 import TrainStatus from "./pages/TrainStatus";
 import StationInfo from "./pages/StationInfo";
@@ -26,11 +27,18 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="/admin" element={
               <ProtectedRoute requireRole="admin">
                 <AdminDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/passenger" element={
+              <ProtectedRoute requireRole="user">
+                <PassengerDashboard />
               </ProtectedRoute>
             } />
             <Route path="/user" element={
@@ -46,8 +54,6 @@ const App = () => (
               </ProtectedRoute>
             } />
             <Route path="/help" element={<HelpCenter />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

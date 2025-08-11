@@ -28,7 +28,7 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
   };
   
   return (
-    <nav className="bg-rail-primary border-b border-rail-light">
+    <nav className="bg-slate-900 border-b border-slate-700">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-4">
@@ -36,30 +36,30 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
               variant="ghost" 
               size="icon" 
               onClick={toggleSidebar}
-              className="md:hidden text-white hover:bg-rail-primary/80"
+              className="md:hidden text-white hover:bg-slate-800"
             >
               <Menu size={20} />
             </Button>
             
             <Link to="/" className="flex items-center space-x-2">
-              <Train size={32} className="text-white" />
+              <Train size={32} className="text-rail-accent" />
               <span className="text-xl font-bold text-white hidden sm:block">TrackWise</span>
             </Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-6">
-            <Link to="/train-status" className="text-white hover:text-rail-light transition-colors">
+            <Link to="/train-status" className="text-slate-300 hover:text-white transition-colors">
               Train Status
             </Link>
-            <Link to="/stations" className="text-white hover:text-rail-light transition-colors">
+            <Link to="/stations" className="text-slate-300 hover:text-white transition-colors">
               Stations
             </Link>
             {user && (
-              <Link to="/book-ticket" className="text-white hover:text-rail-light transition-colors">
+              <Link to="/book-ticket" className="text-slate-300 hover:text-white transition-colors">
                 Book Ticket
               </Link>
             )}
-            <Link to="/help" className="text-white hover:text-rail-light transition-colors">
+            <Link to="/help" className="text-slate-300 hover:text-white transition-colors">
               Help
             </Link>
           </div>
@@ -68,20 +68,26 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-white hover:bg-rail-primary/80">
+                  <Button variant="ghost" size="icon" className="text-white hover:bg-slate-800">
                     <User size={20} />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem onClick={() => navigate(isAdmin ? '/admin' : '/user')}>
+                <DropdownMenuContent align="end" className="w-48 bg-slate-800 border-slate-600">
+                  <DropdownMenuItem 
+                    onClick={() => navigate(isAdmin ? '/admin' : '/passenger')}
+                    className="text-slate-300 hover:text-white hover:bg-slate-700"
+                  >
                     {isAdmin ? <Shield size={16} className="mr-2" /> : <UserCircle size={16} className="mr-2" />}
-                    {isAdmin ? 'Admin Dashboard' : 'User Portal'}
+                    {isAdmin ? 'Admin Dashboard' : 'Passenger Portal'}
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem className="text-slate-300 hover:text-white hover:bg-slate-700">
                     <Settings size={16} className="mr-2" />
                     Settings
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleSignOut}>
+                  <DropdownMenuItem 
+                    onClick={handleSignOut}
+                    className="text-slate-300 hover:text-white hover:bg-slate-700"
+                  >
                     <LogOut size={16} className="mr-2" />
                     Sign Out
                   </DropdownMenuItem>
@@ -92,7 +98,7 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="text-white hover:bg-rail-primary/80"
+                  className="text-slate-300 hover:bg-slate-800 hover:text-white"
                   onClick={() => navigate("/login")}
                 >
                   Sign In
@@ -100,7 +106,7 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="text-rail-primary border-white hover:bg-white hover:text-rail-primary"
+                  className="text-slate-300 border-slate-600 hover:bg-slate-800 hover:text-white"
                   onClick={() => navigate("/register")}
                 >
                   Sign Up
@@ -111,22 +117,22 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
             {/* Mobile menu */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden text-white hover:bg-rail-primary/80">
+                <Button variant="ghost" size="icon" className="md:hidden text-white hover:bg-slate-800">
                   <Menu size={20} />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-64">
+              <SheetContent side="right" className="w-64 bg-slate-800 border-slate-600">
                 <div className="flex flex-col space-y-4 pt-4">
                   <Link 
                     to="/train-status" 
-                    className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                    className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
                     onClick={() => setIsOpen(false)}
                   >
                     Train Status
                   </Link>
                   <Link 
                     to="/stations" 
-                    className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                    className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
                     onClick={() => setIsOpen(false)}
                   >
                     Stations
@@ -134,7 +140,7 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
                   {user && (
                     <Link 
                       to="/book-ticket" 
-                      className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                      className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
                       onClick={() => setIsOpen(false)}
                     >
                       Book Ticket
@@ -142,32 +148,32 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
                   )}
                   <Link 
                     to="/help" 
-                    className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                    className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
                     onClick={() => setIsOpen(false)}
                   >
                     Help
                   </Link>
                   {user && (
                     <Link 
-                      to={isAdmin ? '/admin' : '/user'} 
-                      className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                      to={isAdmin ? '/admin' : '/passenger'} 
+                      className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
                       onClick={() => setIsOpen(false)}
                     >
-                      {isAdmin ? 'Admin Dashboard' : 'User Portal'}
+                      {isAdmin ? 'Admin Dashboard' : 'Passenger Portal'}
                     </Link>
                   )}
                   {!user && (
                     <>
                       <Link 
                         to="/login" 
-                        className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                        className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
                         onClick={() => setIsOpen(false)}
                       >
                         Sign In
                       </Link>
                       <Link 
                         to="/register" 
-                        className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                        className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
                         onClick={() => setIsOpen(false)}
                       >
                         Sign Up
