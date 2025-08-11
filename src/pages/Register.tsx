@@ -1,11 +1,13 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Train, UserPlus } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +17,9 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -24,10 +29,30 @@ const Register = () => {
     }));
   };
   
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    // Handle registration logic here
+    
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords don't match");
+      return;
+    }
+    
+    setIsLoading(true);
+    
+    try {
+      const { error } = await signUp(formData.email, formData.password);
+      
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("Account created successfully! Please check your email for verification.");
+        navigate("/login");
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   return (
@@ -105,9 +130,9 @@ const Register = () => {
           </CardContent>
           
           <CardFooter className="flex flex-col">
-            <Button type="submit" className="w-full bg-rail-primary hover:bg-rail-primary/90">
+            <Button type="submit" className="w-full bg-rail-primary hover:bg-rail-primary/90" disabled={isLoading}>
               <UserPlus size={18} className="mr-2" />
-              Create Account
+              {isLoading ? "Creating Account..." : "Create Account"}
             </Button>
             <p className="text-sm text-center mt-4">
               Already have an account?{" "}

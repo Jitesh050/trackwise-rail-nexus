@@ -1,22 +1,44 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Train, LogIn } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   
-  const handleLogin = (e: React.FormEvent) => {
+  const from = location.state?.from?.pathname || "/";
+  
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ email, password, rememberMe });
-    // Handle login logic here
+    setIsLoading(true);
+    
+    try {
+      const { error } = await signIn(email, password);
+      
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("Logged in successfully!");
+        navigate(from, { replace: true });
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   return (
@@ -72,9 +94,9 @@ const Login = () => {
           </CardContent>
           
           <CardFooter className="flex flex-col">
-            <Button type="submit" className="w-full bg-rail-primary hover:bg-rail-primary/90">
+            <Button type="submit" className="w-full bg-rail-primary hover:bg-rail-primary/90" disabled={isLoading}>
               <LogIn size={18} className="mr-2" />
-              Sign In
+              {isLoading ? "Signing In..." : "Sign In"}
             </Button>
             <p className="text-sm text-center mt-4">
               Don't have an account?{" "}

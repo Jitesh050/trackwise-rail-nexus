@@ -1,104 +1,185 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Train, Bell, User } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Train, Menu, User, LogOut, Settings, UserCircle, Shield } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 interface NavbarProps {
   toggleSidebar: () => void;
 }
 
 const Navbar = ({ toggleSidebar }: NavbarProps) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { user, signOut, isAdmin } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast.success("Signed out successfully");
+      navigate("/");
+    } catch (error) {
+      toast.error("Error signing out");
+    }
+  };
   
   return (
-    <nav className="bg-rail-primary text-white py-4 px-6 sticky top-0 z-50 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="flex items-center space-x-4">
-          <button 
-            onClick={toggleSidebar}
-            className="focus:outline-none"
-            aria-label="Toggle sidebar"
-          >
-            <Menu size={24} />
-          </button>
-          <Link to="/" className="flex items-center gap-2">
-            <Train size={24} className="text-rail-accent" />
-            <span className="text-xl font-bold">TrackWise</span>
-          </Link>
-        </div>
-        
-        {/* Desktop navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          <Link to="/train-status" className="hover:text-rail-accent transition-colors">
-            Train Status
-          </Link>
-          <Link to="/stations" className="hover:text-rail-accent transition-colors">
-            Stations
-          </Link>
-          <Link to="/book-ticket" className="hover:text-rail-accent transition-colors">
-            Book Ticket
-          </Link>
-        </div>
-        
-        {/* User actions */}
-        <div className="hidden md:flex items-center space-x-4">
-          <Button variant="ghost" size="icon" className="text-white hover:bg-rail-secondary/20">
-            <Bell size={20} />
-          </Button>
-          <Link to="/login">
-            <Button variant="outline" className="border-rail-accent text-rail-accent hover:bg-rail-accent hover:text-white">
-              <User size={18} className="mr-2" />
-              Login
+    <nav className="bg-rail-primary border-b border-rail-light">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center space-x-4">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={toggleSidebar}
+              className="md:hidden text-white hover:bg-rail-primary/80"
+            >
+              <Menu size={20} />
             </Button>
-          </Link>
-        </div>
-        
-        {/* Mobile menu button */}
-        <button 
-          className="md:hidden focus:outline-none"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-      
-      {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-rail-primary border-t border-rail-secondary/30 animate-slide-in">
-          <div className="container mx-auto py-4 px-6 flex flex-col space-y-4">
-            <Link 
-              to="/train-status" 
-              className="py-2 hover:text-rail-accent transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Train Status
-            </Link>
-            <Link 
-              to="/stations" 
-              className="py-2 hover:text-rail-accent transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Stations
-            </Link>
-            <Link 
-              to="/book-ticket" 
-              className="py-2 hover:text-rail-accent transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Book Ticket
-            </Link>
-            <Link 
-              to="/login" 
-              className="py-2 hover:text-rail-accent transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Login
+            
+            <Link to="/" className="flex items-center space-x-2">
+              <Train size={32} className="text-white" />
+              <span className="text-xl font-bold text-white hidden sm:block">TrackWise</span>
             </Link>
           </div>
+
+          <div className="hidden md:flex items-center space-x-6">
+            <Link to="/train-status" className="text-white hover:text-rail-light transition-colors">
+              Train Status
+            </Link>
+            <Link to="/stations" className="text-white hover:text-rail-light transition-colors">
+              Stations
+            </Link>
+            {user && (
+              <Link to="/book-ticket" className="text-white hover:text-rail-light transition-colors">
+                Book Ticket
+              </Link>
+            )}
+            <Link to="/help" className="text-white hover:text-rail-light transition-colors">
+              Help
+            </Link>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="text-white hover:bg-rail-primary/80">
+                    <User size={20} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={() => navigate(isAdmin ? '/admin' : '/user')}>
+                    {isAdmin ? <Shield size={16} className="mr-2" /> : <UserCircle size={16} className="mr-2" />}
+                    {isAdmin ? 'Admin Dashboard' : 'User Portal'}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Settings size={16} className="mr-2" />
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut size={16} className="mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-white hover:bg-rail-primary/80"
+                  onClick={() => navigate("/login")}
+                >
+                  Sign In
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="text-rail-primary border-white hover:bg-white hover:text-rail-primary"
+                  onClick={() => navigate("/register")}
+                >
+                  Sign Up
+                </Button>
+              </div>
+            )}
+
+            {/* Mobile menu */}
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden text-white hover:bg-rail-primary/80">
+                  <Menu size={20} />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-64">
+                <div className="flex flex-col space-y-4 pt-4">
+                  <Link 
+                    to="/train-status" 
+                    className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Train Status
+                  </Link>
+                  <Link 
+                    to="/stations" 
+                    className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Stations
+                  </Link>
+                  {user && (
+                    <Link 
+                      to="/book-ticket" 
+                      className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Book Ticket
+                    </Link>
+                  )}
+                  <Link 
+                    to="/help" 
+                    className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Help
+                  </Link>
+                  {user && (
+                    <Link 
+                      to={isAdmin ? '/admin' : '/user'} 
+                      className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {isAdmin ? 'Admin Dashboard' : 'User Portal'}
+                    </Link>
+                  )}
+                  {!user && (
+                    <>
+                      <Link 
+                        to="/login" 
+                        className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Sign In
+                      </Link>
+                      <Link 
+                        to="/register" 
+                        className="text-left p-2 hover:bg-rail-light rounded-md transition-colors"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Sign Up
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };

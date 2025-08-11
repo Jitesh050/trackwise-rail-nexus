@@ -15,6 +15,7 @@ import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import HelpCenter from "./pages/HelpCenter";
 import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -27,11 +28,23 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/user" element={<UserPortal />} />
+            <Route path="/admin" element={
+              <ProtectedRoute requireRole="admin">
+                <AdminDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/user" element={
+              <ProtectedRoute requireRole="user">
+                <UserPortal />
+              </ProtectedRoute>
+            } />
             <Route path="/train-status" element={<TrainStatus />} />
             <Route path="/stations" element={<StationInfo />} />
-            <Route path="/book-ticket" element={<BookTicket />} />
+            <Route path="/book-ticket" element={
+              <ProtectedRoute>
+                <BookTicket />
+              </ProtectedRoute>
+            } />
             <Route path="/help" element={<HelpCenter />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
