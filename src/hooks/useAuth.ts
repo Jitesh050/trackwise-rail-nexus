@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
+
+// Mock User and Session types that were previously imported from '@supabase/supabase-js'
+export interface User {
+  id: string;
+  email?: string;
+  // Add any other user properties your application uses
+}
+
+export interface Session {
+  user: User | null;
+  // Add any other session properties your application uses
+}
 
 export interface AuthState {
   user: User | null;
@@ -10,79 +20,62 @@ export interface AuthState {
   userRole: 'admin' | 'user' | null;
 }
 
+// A simple in-memory store for the user state
+let memoryUser: User | null = null;
+let memorySession: Session | null = null;
+let memoryUserRole: 'admin' | 'user' | null = null;
+
 export const useAuth = (): AuthState & {
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signUp: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 } => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [userRole, setUserRole] = useState<'admin' | 'user' | null>(null);
+  const [user, setUser] = useState<User | null>(memoryUser);
+  const [session, setSession] = useState<Session | null>(memorySession);
+  const [isLoading, setIsLoading] = useState(false); // Set to false as we are not doing async operations
+  const [userRole, setUserRole] = useState<'admin' | 'user' | null>(memoryUserRole);
 
   useEffect(() => {
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          // Check user role with timeout to prevent deadlock
-          setTimeout(async () => {
-            try {
-              const { data } = await supabase
-                .from('user_roles')
-                .select('role')
-                .eq('user_id', session.user.id)
-                .single();
-              setUserRole(data?.role ?? 'user');
-            } catch (error) {
-              console.error('Error fetching user role:', error);
-              setUserRole('user');
-            }
-          }, 0);
-        } else {
-          setUserRole(null);
-        }
-        
-        setIsLoading(false);
-      }
-    );
-
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setIsLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    // On initial load, we can check if we have a user in our "memory"
+    setUser(memoryUser);
+    setSession(memorySession);
+    setUserRole(memoryUserRole);
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { error };
+    setIsLoading(true);
+    // Simulate a successful login
+    const mockUser: User = { id: 'mock-user-id', email };
+    const mockSession: Session = { user: mockUser };
+    
+    memoryUser = mockUser;
+    memorySession = mockSession;
+    // for testing purposes, let's say 'admin@example.com' is an admin
+    memoryUserRole = email === 'admin@example.com' ? 'admin' : 'user';
+
+    setUser(mockUser);
+    setSession(mockSession);
+    setUserRole(memoryUserRole);
+    setIsLoading(false);
+    
+    return { error: null };
   };
 
   const signUp = async (email: string, password: string) => {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: redirectUrl
-      }
-    });
-    return { error };
+    // For simplicity, signUp will just sign in the user directly
+    return signIn(email, password);
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    setIsLoading(true);
+    memoryUser = null;
+    memorySession = null;
+    memoryUserRole = null;
+
+    setUser(null);
+    setSession(null);
+    setUserRole(null);
+    setIsLoading(false);
   };
 
   return {

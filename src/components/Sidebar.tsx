@@ -1,4 +1,5 @@
 
+
 import { Link } from "react-router-dom";
 import { 
   Home, 
@@ -24,7 +25,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
   
   return (
     <aside 
-      className={`bg-slate-800 text-white transition-all duration-300 ease-in-out border-r border-slate-700 ${
+      className={`bg-slate-900 text-white transition-all duration-300 ease-in-out border-r border-slate-700 ${
         isOpen ? 'w-64' : 'w-0 md:w-16'
       } overflow-hidden`}
     >
@@ -77,7 +78,7 @@ const SidebarLink = ({ to, icon: Icon, label, isOpen }: SidebarLinkProps) => {
   return (
     <Link 
       to={to} 
-      className={`flex items-center p-2 rounded-md hover:bg-slate-700 transition-colors text-slate-300 hover:text-white ${
+      className={`flex items-center p-2 rounded-md hover:bg-slate-800 transition-colors text-slate-300 hover:text-white ${
         isOpen ? 'justify-start' : 'justify-center'
       }`}
     >
@@ -88,3 +89,4 @@ const SidebarLink = ({ to, icon: Icon, label, isOpen }: SidebarLinkProps) => {
 };
 
 export default Sidebar;
+

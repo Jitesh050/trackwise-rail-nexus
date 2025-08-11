@@ -1,5 +1,5 @@
-
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
@@ -10,10 +10,10 @@ import { MapPin, Calendar, ArrowRight, Train, Users, CreditCard, QrCode, Star, M
 import PaymentPage from "@/components/PaymentPage";
 import SeatSelection from "@/components/SeatSelection";
 import ETicket from "@/components/ETicket";
-import TripPlanner from "@/components/TripPlanner";
 import ChatBot from "@/components/ChatBot";
 
 const BookTicket = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [selectedTrain, setSelectedTrain] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
@@ -384,7 +384,13 @@ const BookTicket = () => {
               
               <ETicket ticketData={generatedTicket} />
               
-              <TripPlanner destination={formData.destination} />
+              <Button 
+                onClick={() => navigate("/trip-planner", { state: { destination: formData.destination } })}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                <MapPin size={18} className="mr-2" />
+                Trip Planner
+              </Button>
             </div>
           )}
         </div>
@@ -450,7 +456,7 @@ const BookTicket = () => {
                 {showChatBot ? "Hide" : "Open"} ChatBot Assistant
               </Button>
             </CardContent>
-          </Card>
+          </_Card>
 
           {showChatBot && (
             <div className="mt-4">
@@ -528,10 +534,10 @@ const TrainOption = ({
         </div>
         <div className="flex flex-col items-end mt-4 sm:mt-0">
           <div className="text-lg font-semibold">
-            ${finalPrice.toFixed(2)}
+            ₹{finalPrice.toFixed(0)}
             {priorityMultiplier > 1 && (
               <span className="text-sm text-muted-foreground line-through ml-1">
-                ${price.toFixed(2)}
+                ₹{price.toFixed(0)}
               </span>
             )}
           </div>

@@ -1,6 +1,7 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import React from "react";
+import { Toaster } from "./components/ui/toaster";
+import { Toaster as Sonner } from "./components/ui/sonner";
+import { TooltipProvider } from "./components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -16,6 +17,7 @@ import NotFound from "./pages/NotFound";
 import HelpCenter from "./pages/HelpCenter";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
+import TripPlannerPage from "./pages/TripPlannerPage";
 
 const queryClient = new QueryClient();
 
@@ -30,29 +32,49 @@ const App = () => (
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
-            <Route path="/admin" element={
-              <ProtectedRoute requireRole="admin">
-                <AdminDashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/passenger" element={
-              <ProtectedRoute requireRole="user">
-                <PassengerDashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/user" element={
-              <ProtectedRoute requireRole="user">
-                <UserPortal />
-              </ProtectedRoute>
-            } />
-            <Route path="/train-status" element={<TrainStatus />} />
-            <Route path="/stations" element={<StationInfo />} />
-            <Route path="/book-ticket" element={
-              <ProtectedRoute>
-                <BookTicket />
-              </ProtectedRoute>
-            } />
-            <Route path="/help" element={<HelpCenter />} />
+            <Route
+              path="admin"
+              element={
+                <ProtectedRoute requireRole="admin">
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="passenger"
+              element={
+                <ProtectedRoute requireRole="user">
+                  <PassengerDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="user"
+              element={
+                <ProtectedRoute requireRole="user">
+                  <UserPortal />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="train-status" element={<TrainStatus />} />
+            <Route path="stations" element={<StationInfo />} />
+            <Route
+              path="book-ticket"
+              element={
+                <ProtectedRoute>
+                  <BookTicket />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="trip-planner"
+              element={
+                <ProtectedRoute>
+                  <TripPlannerPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="help" element={<HelpCenter />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -62,3 +84,4 @@ const App = () => (
 );
 
 export default App;
+
