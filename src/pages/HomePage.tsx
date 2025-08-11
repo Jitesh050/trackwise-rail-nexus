@@ -1,7 +1,7 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Search, Train, Ticket, MapPin, ArrowRight, Clock } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Search, Train, Ticket, MapPin, ArrowRight, Clock, Users, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import TrainStatusCard from "@/components/TrainStatusCard";
@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
   
   return (
     <div className="container mx-auto space-y-10 pb-10 animate-enter">
@@ -21,19 +22,54 @@ const HomePage = () => {
             <p className="text-xl mb-8 text-gray-200">
               Real-time train updates, easy booking, and comprehensive railway management
             </p>
+            
+            {/* Login Options */}
+            <div className="flex flex-col sm:flex-row gap-6 mb-8">
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 flex-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <Users className="h-8 w-8 text-rail-accent" />
+                  <h3 className="text-xl font-semibold">Passenger Portal</h3>
+                </div>
+                <p className="text-gray-200 mb-4">Book tickets, check train status, and plan your journey</p>
+                <Button 
+                  onClick={() => navigate("/login?type=passenger")}
+                  className="w-full bg-rail-accent hover:bg-rail-accent/90"
+                >
+                  Passenger Login
+                </Button>
+              </div>
+              
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 flex-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <Shield className="h-8 w-8 text-yellow-400" />
+                  <h3 className="text-xl font-semibold">Admin Dashboard</h3>
+                </div>
+                <p className="text-gray-200 mb-4">Monitor operations, track crowds, and manage safety</p>
+                <Button 
+                  onClick={() => navigate("/login?type=admin")}
+                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-slate-900"
+                >
+                  Admin Login
+                </Button>
+              </div>
+            </div>
+            
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/train-status">
-                <Button size="lg" className="bg-rail-accent hover:bg-rail-accent/90">
+                <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white/10">
                   <Train size={18} className="mr-2" />
                   Check Train Status
                 </Button>
               </Link>
-              <Link to="/book-ticket">
-                <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white/10">
-                  <Ticket size={18} className="mr-2" />
-                  Book Tickets
-                </Button>
-              </Link>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="bg-transparent border-white text-white hover:bg-white/10"
+                onClick={() => navigate("/register")}
+              >
+                <Ticket size={18} className="mr-2" />
+                Register Now
+              </Button>
             </div>
           </div>
         </div>

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { AreaChart, BarChart, PieChart } from "@/components/ui/chart";
 import { 
   Users, 
   ArrowUp, 
@@ -18,20 +17,12 @@ import {
   Zap,
   Activity
 } from "lucide-react";
-import FeatureCard from "@/components/FeatureCard";
+import CrowdDensity from "@/components/CrowdDensity";
+import CollisionDetection from "@/components/CollisionDetection";
+import EnergyOptimization from "@/components/EnergyOptimization";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
-
-  const adminFeatures = [
-    "Collision detection",
-    "Real time crowd density", 
-    "energy optimization"
-  ];
-
-  const handleAddCard = () => {
-    console.log("Add admin card clicked");
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8">
@@ -41,20 +32,12 @@ const AdminDashboard = () => {
           <p className="text-slate-300 text-lg">Monitor and manage railway operations</p>
         </header>
 
-        <div className="flex justify-center mb-8">
-          <FeatureCard
-            title="Feature ( admin )"
-            features={adminFeatures}
-            onAddCard={handleAddCard}
-            variant="admin"
-          />
-        </div>
-
         <Tabs defaultValue="overview" className="space-y-4" onValueChange={setActiveTab}>
-          <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:flex bg-slate-800 border-slate-600">
+          <TabsList className="grid grid-cols-2 md:grid-cols-5 lg:flex bg-slate-800 border-slate-600">
             <TabsTrigger value="overview" className="data-[state=active]:bg-slate-600 text-white">Overview</TabsTrigger>
-            <TabsTrigger value="safety" className="data-[state=active]:bg-slate-600 text-white">Safety</TabsTrigger>
-            <TabsTrigger value="operations" className="data-[state=active]:bg-slate-600 text-white">Operations</TabsTrigger>
+            <TabsTrigger value="crowd" className="data-[state=active]:bg-slate-600 text-white">Crowd Density</TabsTrigger>
+            <TabsTrigger value="safety" className="data-[state=active]:bg-slate-600 text-white">Collision Detection</TabsTrigger>
+            <TabsTrigger value="energy" className="data-[state=active]:bg-slate-600 text-white">Energy Optimization</TabsTrigger>
             <TabsTrigger value="analytics" className="data-[state=active]:bg-slate-600 text-white">Analytics</TabsTrigger>
           </TabsList>
 
@@ -70,7 +53,7 @@ const AdminDashboard = () => {
               <StatsCard 
                 title="Active Trains"
                 value="43"
-                description={<>2 delayed</>}
+                description={<>2 delayed, 41 on time</>}
                 icon={<Train className="h-6 w-6 text-rail-accent" />}
               />
               <StatsCard 
@@ -103,6 +86,14 @@ const AdminDashboard = () => {
                   <div className="mt-4 h-2 bg-slate-700 rounded">
                     <div className="h-2 bg-green-500 rounded w-full"></div>
                   </div>
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="mt-3 text-slate-300 border-slate-600"
+                    onClick={() => setActiveTab("safety")}
+                  >
+                    View Details
+                  </Button>
                 </CardContent>
               </Card>
 
@@ -120,6 +111,14 @@ const AdminDashboard = () => {
                   <div className="mt-4 h-2 bg-slate-700 rounded">
                     <div className="h-2 bg-blue-500 rounded w-3/4"></div>
                   </div>
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="mt-3 text-slate-300 border-slate-600"
+                    onClick={() => setActiveTab("crowd")}
+                  >
+                    View Details
+                  </Button>
                 </CardContent>
               </Card>
 
@@ -137,64 +136,82 @@ const AdminDashboard = () => {
                   <div className="mt-4 h-2 bg-slate-700 rounded">
                     <div className="h-2 bg-yellow-500 rounded w-11/12"></div>
                   </div>
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="mt-3 text-slate-300 border-slate-600"
+                    onClick={() => setActiveTab("energy")}
+                  >
+                    View Details
+                  </Button>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Heatmap placeholder */}
+            {/* Train Status Overview */}
             <Card className="bg-slate-800 border-slate-600">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2 text-white">
-                  <Map className="h-5 w-5" />
-                  Real-time System Overview
+                  <Train className="h-5 w-5" />
+                  Train On-Time Performance
                 </CardTitle>
-                <CardDescription className="text-slate-400">Live monitoring across all stations and routes</CardDescription>
+                <CardDescription className="text-slate-400">Current status of all active trains</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-80 bg-slate-700 rounded-md flex items-center justify-center text-slate-400">
-                  Interactive system monitoring dashboard would appear here
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-green-900/30 rounded-lg border border-green-700">
+                    <div className="text-2xl font-bold text-green-400">41</div>
+                    <div className="text-sm text-green-300">On Time</div>
+                  </div>
+                  <div className="text-center p-4 bg-yellow-900/30 rounded-lg border border-yellow-700">
+                    <div className="text-2xl font-bold text-yellow-400">2</div>
+                    <div className="text-sm text-yellow-300">Delayed</div>
+                  </div>
+                  <div className="text-center p-4 bg-gray-900/30 rounded-lg border border-gray-700">
+                    <div className="text-2xl font-bold text-gray-400">0</div>
+                    <div className="text-sm text-gray-300">Cancelled</div>
+                  </div>
+                </div>
+                <div className="mt-4 space-y-2">
+                  <div className="flex justify-between text-sm text-slate-400">
+                    <span>Overall Performance</span>
+                    <span>95.3%</span>
+                  </div>
+                  <div className="h-2 bg-slate-700 rounded">
+                    <div className="h-2 bg-green-500 rounded" style={{width: '95.3%'}}></div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="crowd">
+            <div className="bg-white rounded-lg p-6">
+              <CrowdDensity />
+            </div>
           </TabsContent>
 
           <TabsContent value="safety">
-            <Card className="bg-slate-800 border-slate-600">
-              <CardHeader>
-                <CardTitle className="text-white">Safety Management System</CardTitle>
-                <CardDescription className="text-slate-400">Collision detection and prevention protocols</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-80 bg-slate-700 rounded-md flex items-center justify-center text-slate-400">
-                  Safety monitoring interface would appear here
-                </div>
-              </CardContent>
-            </Card>
+            <div className="bg-white rounded-lg p-6">
+              <CollisionDetection />
+            </div>
           </TabsContent>
 
-          <TabsContent value="operations">
-            <Card className="bg-slate-800 border-slate-600">
-              <CardHeader>
-                <CardTitle className="text-white">Operations Control</CardTitle>
-                <CardDescription className="text-slate-400">Train management and crowd density monitoring</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-80 bg-slate-700 rounded-md flex items-center justify-center text-slate-400">
-                  Operations management interface would appear here
-                </div>
-              </CardContent>
-            </Card>
+          <TabsContent value="energy">
+            <div className="bg-white rounded-lg p-6">
+              <EnergyOptimization />
+            </div>
           </TabsContent>
 
           <TabsContent value="analytics">
             <Card className="bg-slate-800 border-slate-600">
               <CardHeader>
-                <CardTitle className="text-white">Analytics & Optimization</CardTitle>
-                <CardDescription className="text-slate-400">Energy efficiency and performance metrics</CardDescription>
+                <CardTitle className="text-white">Analytics & Reports</CardTitle>
+                <CardDescription className="text-slate-400">Performance metrics and insights</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="h-80 bg-slate-700 rounded-md flex items-center justify-center text-slate-400">
-                  Analytics dashboard would appear here
+                  Analytics dashboard with charts and reports would appear here
                 </div>
               </CardContent>
             </Card>

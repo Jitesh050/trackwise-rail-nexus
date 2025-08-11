@@ -6,31 +6,70 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { MapPin, Calendar, ArrowRight, Train, Users, CreditCard, QrCode } from "lucide-react";
+import { MapPin, Calendar, ArrowRight, Train, Users, CreditCard, QrCode, Star, MessageCircle } from "lucide-react";
 import PaymentPage from "@/components/PaymentPage";
+import SeatSelection from "@/components/SeatSelection";
+import ETicket from "@/components/ETicket";
+import TripPlanner from "@/components/TripPlanner";
+import ChatBot from "@/components/ChatBot";
 
 const BookTicket = () => {
   const [step, setStep] = useState(1);
   const [selectedTrain, setSelectedTrain] = useState(null);
+  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+  const [showChatBot, setShowChatBot] = useState(false);
+  const [bookingComplete, setBookingComplete] = useState(false);
+  const [generatedTicket, setGeneratedTicket] = useState(null);
   const [formData, setFormData] = useState({
     origin: "",
     destination: "",
     date: "",
     passengers: "1",
     trainClass: "economy",
+    priorityTicket: false,
+    passengerName: "",
+    email: "",
+    phone: ""
   });
   
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setStep(2);
+  };
+
+  const handleSeatSelection = (seats: string[]) => {
+    setSelectedSeats(seats);
+  };
+
+  const handlePaymentSuccess = () => {
+    // Generate ticket data
+    const ticketData = {
+      pnr: `PNR${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
+      passengerName: formData.passengerName,
+      trainNumber: selectedTrain.trainNumber,
+      trainName: selectedTrain.trainName,
+      from: formData.origin,
+      to: formData.destination,
+      date: formData.date,
+      departureTime: selectedTrain.departureTime,
+      arrivalTime: selectedTrain.arrivalTime,
+      seatNumbers: selectedSeats,
+      class: formData.trainClass,
+      fare: selectedTrain.price * parseInt(formData.passengers) * (formData.priorityTicket ? 1.2 : 1),
+      status: "Confirmed"
+    };
+    
+    setGeneratedTicket(ticketData);
+    setBookingComplete(true);
+    setStep(5);
   };
   
   return (
@@ -119,6 +158,49 @@ const BookTicket = () => {
                       </div>
                     </div>
                   </div>
+
+                  {/* Passenger Details */}
+                  <Separator />
+                  <div className="space-y-4">
+                    <h3 className="font-medium">Passenger Information</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="passengerName">Full Name</Label>
+                        <Input
+                          id="passengerName"
+                          name="passengerName"
+                          placeholder="Enter full name"
+                          value={formData.passengerName}
+                          onChange={handleFormChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="email">Email</Label>
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          placeholder="Enter email"
+                          value={formData.email}
+                          onChange={handleFormChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">Phone Number</Label>
+                        <Input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          placeholder="Enter phone number"
+                          value={formData.phone}
+                          onChange={handleFormChange}
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
                   
                   <div>
                     <Label>Class</Label>
@@ -158,6 +240,29 @@ const BookTicket = () => {
                       </div>
                     </RadioGroup>
                   </div>
+
+                  {/* Priority Ticket Option */}
+                  <div className="flex items-center space-x-2 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <input
+                      type="checkbox"
+                      id="priorityTicket"
+                      name="priorityTicket"
+                      checked={formData.priorityTicket}
+                      onChange={handleFormChange}
+                      className="w-4 h-4 text-yellow-600 bg-gray-100 border-gray-300 rounded focus:ring-yellow-500"
+                    />
+                    <div className="flex-1">
+                      <Label htmlFor="priorityTicket" className="cursor-pointer">
+                        <div className="flex items-center gap-2">
+                          <Star className="h-4 w-4 text-yellow-600" />
+                          <span className="font-medium">Priority Ticket (+20%)</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Faster confirmation, priority boarding, and dedicated customer support
+                        </p>
+                      </Label>
+                    </div>
+                  </div>
                 </CardContent>
                 
                 <CardFooter>
@@ -185,6 +290,7 @@ const BookTicket = () => {
                   duration="4h 15m"
                   price={59.99}
                   availability="Available"
+                  priorityMultiplier={formData.priorityTicket ? 1.2 : 1}
                   onSelect={() => {
                     setSelectedTrain({
                       trainNumber: "EXP101",
@@ -205,6 +311,7 @@ const BookTicket = () => {
                   duration="3h 20m"
                   price={79.99}
                   availability="Few seats left"
+                  priorityMultiplier={formData.priorityTicket ? 1.2 : 1}
                   onSelect={() => {
                     setSelectedTrain({
                       trainNumber: "SPD330",
@@ -226,6 +333,7 @@ const BookTicket = () => {
                   price={49.99}
                   availability="Sold out"
                   disabled
+                  priorityMultiplier={1}
                   onSelect={() => console.log("Selected train")}
                 />
               </CardContent>
@@ -234,17 +342,54 @@ const BookTicket = () => {
               </CardFooter>
             </Card>
           )}
-          
+
           {step === 3 && selectedTrain && (
+            <SeatSelection 
+              onSeatsSelected={handleSeatSelection}
+              maxSeats={parseInt(formData.passengers)}
+            />
+          )}
+
+          {step === 3 && selectedTrain && selectedSeats.length > 0 && (
+            <div className="mt-6">
+              <Button 
+                onClick={() => setStep(4)}
+                className="w-full bg-rail-primary hover:bg-rail-primary/90"
+              >
+                Proceed to Payment
+              </Button>
+            </div>
+          )}
+          
+          {step === 4 && selectedTrain && (
             <PaymentPage 
               selectedTrain={selectedTrain}
               bookingDetails={formData}
-              onBack={() => setStep(2)}
+              selectedSeats={selectedSeats}
+              onBack={() => setStep(3)}
+              onPaymentSuccess={handlePaymentSuccess}
             />
+          )}
+
+          {step === 5 && bookingComplete && generatedTicket && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader className="text-center bg-green-50">
+                  <CardTitle className="text-green-800">Booking Confirmed!</CardTitle>
+                  <CardDescription className="text-green-600">
+                    Your ticket has been booked successfully. You can download your e-ticket below.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+              
+              <ETicket ticketData={generatedTicket} />
+              
+              <TripPlanner destination={formData.destination} />
+            </div>
           )}
         </div>
         
-        <div>
+        <div className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Quick Tips</CardTitle>
@@ -285,6 +430,33 @@ const BookTicket = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* ChatBot Toggle */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MessageCircle className="h-5 w-5 text-rail-primary" />
+                Need Help?
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-3">
+                Our AI assistant can help you with booking tickets through voice or text chat.
+              </p>
+              <Button 
+                onClick={() => setShowChatBot(!showChatBot)}
+                className="w-full bg-rail-accent hover:bg-rail-accent/90"
+              >
+                {showChatBot ? "Hide" : "Open"} ChatBot Assistant
+              </Button>
+            </CardContent>
+          </Card>
+
+          {showChatBot && (
+            <div className="mt-4">
+              <ChatBot />
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -300,6 +472,7 @@ interface TrainOptionProps {
   price: number;
   availability: string;
   disabled?: boolean;
+  priorityMultiplier: number;
   onSelect: () => void;
 }
 
@@ -312,9 +485,11 @@ const TrainOption = ({
   price,
   availability,
   disabled = false,
+  priorityMultiplier,
   onSelect
 }: TrainOptionProps) => {
   const isAvailable = !disabled;
+  const finalPrice = price * priorityMultiplier;
   
   return (
     <div 
@@ -332,6 +507,9 @@ const TrainOption = ({
             <span className="font-medium">{trainNumber}</span>
             <span className="text-sm text-muted-foreground">|</span>
             <span>{trainName}</span>
+            {priorityMultiplier > 1 && (
+              <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+            )}
           </div>
           <div className="flex items-center mt-2">
             <div>
@@ -349,7 +527,14 @@ const TrainOption = ({
           </div>
         </div>
         <div className="flex flex-col items-end mt-4 sm:mt-0">
-          <div className="text-lg font-semibold">${price.toFixed(2)}</div>
+          <div className="text-lg font-semibold">
+            ${finalPrice.toFixed(2)}
+            {priorityMultiplier > 1 && (
+              <span className="text-sm text-muted-foreground line-through ml-1">
+                ${price.toFixed(2)}
+              </span>
+            )}
+          </div>
           <div className={`text-xs ${disabled ? 'text-red-500' : 'text-green-600'}`}>{availability}</div>
           {isAvailable && (
             <Button size="sm" className="mt-2 bg-rail-primary hover:bg-rail-primary/90">
