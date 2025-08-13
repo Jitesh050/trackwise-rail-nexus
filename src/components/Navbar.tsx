@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -16,6 +16,8 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login" || location.pathname === "/register";
 
   const handleSignOut = async () => {
     try {
@@ -41,27 +43,31 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
               <Menu size={20} />
             </Button>
             
-            <Link to="/" className="flex items-center space-x-2">
-              <Train size={32} className="text-rail-accent" />
-              <span className="text-xl font-bold text-white hidden sm:block">TrackWise</span>
-            </Link>
+            {!isLoginPage && (
+              <Link to="/" className="flex items-center space-x-2">
+                <Train size={32} className="text-rail-accent" />
+                <span className="text-xl font-bold text-white hidden sm:block">TrackWise</span>
+              </Link>
+            )}
           </div>
 
           <div className="hidden md:flex items-center space-x-6">
-            <Link to="/train-status" className="text-slate-300 hover:text-white transition-colors">
-              Train Status
-            </Link>
-            <Link to="/stations" className="text-slate-300 hover:text-white transition-colors">
-              Stations
-            </Link>
-            {user && (
-              <Link to="/book-ticket" className="text-slate-300 hover:text-white transition-colors">
-                Book Ticket
-              </Link>
+            {user && !isLoginPage && (
+              <>
+                <Link to="/train-status" className="text-slate-300 hover:text-white transition-colors">
+                  Train Status
+                </Link>
+                <Link to="/stations" className="text-slate-300 hover:text-white transition-colors">
+                  Stations
+                </Link>
+                <Link to="/book-ticket" className="text-slate-300 hover:text-white transition-colors">
+                  Book Ticket
+                </Link>
+                <Link to="/help" className="text-slate-300 hover:text-white transition-colors">
+                  Help
+                </Link>
+              </>
             )}
-            <Link to="/help" className="text-slate-300 hover:text-white transition-colors">
-              Help
-            </Link>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -123,36 +129,38 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
               </SheetTrigger>
               <SheetContent side="right" className="w-64 bg-slate-800 border-slate-600">
                 <div className="flex flex-col space-y-4 pt-4">
-                  <Link 
-                    to="/train-status" 
-                    className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Train Status
-                  </Link>
-                  <Link 
-                    to="/stations" 
-                    className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Stations
-                  </Link>
-                  {user && (
-                    <Link 
-                      to="/book-ticket" 
-                      className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Book Ticket
-                    </Link>
+                  {user && !isLoginPage && (
+                    <>
+                      <Link
+                        to="/train-status"
+                        className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Train Status
+                      </Link>
+                      <Link
+                        to="/stations"
+                        className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Stations
+                      </Link>
+                      <Link
+                        to="/book-ticket"
+                        className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Book Ticket
+                      </Link>
+                      <Link
+                        to="/help"
+                        className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Help
+                      </Link>
+                    </>
                   )}
-                  <Link 
-                    to="/help" 
-                    className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Help
-                  </Link>
                   {user && (
                     <Link 
                       to={isAdmin ? '/admin' : '/passenger'} 

@@ -456,7 +456,7 @@ const BookTicket = () => {
                 {showChatBot ? "Hide" : "Open"} ChatBot Assistant
               </Button>
             </CardContent>
-          </_Card>
+          </Card>
 
           {showChatBot && (
             <div className="mt-4">
