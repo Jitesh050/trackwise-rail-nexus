@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Toaster } from "./components/ui/toaster";
 import { Toaster as Sonner } from "./components/ui/sonner";
@@ -5,13 +6,14 @@ import { TooltipProvider } from "./components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import WelcomePage from "./pages/WelcomePage";
 import AdminDashboard from "./pages/AdminDashboard";
 import PassengerDashboard from "./pages/PassengerDashboard";
 import UserPortal from "./pages/UserPortal";
 import TrainStatus from "./pages/TrainStatus";
 import StationInfo from "./pages/StationInfo";
 import BookTicket from "./pages/BookTicket";
-import Login from "./pages/Login";
+import LoginPage from "./pages/LoginPage";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import HelpCenter from "./pages/HelpCenter";
@@ -28,10 +30,18 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/welcome" element={<WelcomePage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
+            <Route 
+              index 
+              element={
+                <ProtectedRoute requireRole="user">
+                  <HomePage />
+                </ProtectedRoute>
+              } 
+            />
             <Route
               path="admin"
               element={
@@ -84,4 +94,3 @@ const App = () => (
 );
 
 export default App;
-

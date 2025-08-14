@@ -1,3 +1,4 @@
+
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -19,12 +20,11 @@ const ProtectedRoute = ({ children, requireRole }: ProtectedRouteProps) => {
   }
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/welcome" state={{ from: location }} replace />;
   }
 
   if (requireRole && userRole !== requireRole) {
-    // Redirect to appropriate dashboard based on role
-    const redirectTo = userRole === 'admin' ? '/admin' : '/user';
+    const redirectTo = userRole === 'admin' ? '/admin' : '/';
     return <Navigate to={redirectTo} replace />;
   }
 

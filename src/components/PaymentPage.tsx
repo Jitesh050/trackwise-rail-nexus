@@ -26,16 +26,22 @@ interface PaymentPageProps {
     date: string;
     passengers: string;
     trainClass: string;
+    priorityTicket: boolean;
+    passengerName: string;
+    email: string;
+    phone: string;
   };
+  selectedSeats: string[];
   onBack: () => void;
+  onPaymentSuccess: () => void;
 }
 
-const PaymentPage = ({ selectedTrain, bookingDetails, onBack }: PaymentPageProps) => {
+const PaymentPage = ({ selectedTrain, bookingDetails, selectedSeats, onBack, onPaymentSuccess }: PaymentPageProps) => {
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [ticketData, setTicketData] = useState<any>(null);
-  const [priority, setPriority] = useState(false);
+  const [priority, setPriority] = useState(bookingDetails.priorityTicket);
 
   const totalFare = selectedTrain.price * parseInt(bookingDetails.passengers);
   const serviceFee = 2.99;
@@ -50,7 +56,7 @@ const PaymentPage = ({ selectedTrain, bookingDetails, onBack }: PaymentPageProps
     
     const newTicketData: TicketRecord = {
       pnr: `PNR${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
-      passengerName: "John Traveler",
+      passengerName: bookingDetails.passengerName,
       trainNumber: selectedTrain.trainNumber,
       trainName: selectedTrain.trainName,
       from: bookingDetails.origin,
@@ -58,7 +64,7 @@ const PaymentPage = ({ selectedTrain, bookingDetails, onBack }: PaymentPageProps
       date: bookingDetails.date,
       departureTime: selectedTrain.departureTime,
       arrivalTime: selectedTrain.arrivalTime,
-      seatNumbers: Array.from({length: parseInt(bookingDetails.passengers)}, (_, i) => `A${i + 15}`),
+      seatNumbers: selectedSeats,
       class: bookingDetails.trainClass,
       fare: totalAmount,
       status: "Confirmed",
@@ -69,13 +75,13 @@ const PaymentPage = ({ selectedTrain, bookingDetails, onBack }: PaymentPageProps
     try {
       await ticketsApi.add(newTicketData);
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.warn("Saving ticket failed, but proceeding to confirmation.", e);
     }
 
     setTicketData(newTicketData);
     setPaymentSuccess(true);
     setIsProcessing(false);
+    onPaymentSuccess();
   };
 
   if (paymentSuccess && ticketData) {
@@ -136,22 +142,22 @@ const PaymentPage = ({ selectedTrain, bookingDetails, onBack }: PaymentPageProps
           <div className="space-y-2">
             <div className="flex justify-between">
               <span>Tickets ({bookingDetails.passengers}x)</span>
-              <span>${totalFare.toFixed(2)}</span>
+              <span>₹{totalFare.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span>Service Fee</span>
-              <span>${serviceFee.toFixed(2)}</span>
+              <span>₹{serviceFee.toFixed(2)}</span>
             </div>
             {priority && (
               <div className="flex justify-between">
                 <span>Priority Fee</span>
-                <span>${priorityFee.toFixed(2)}</span>
+                <span>₹{priorityFee.toFixed(2)}</span>
               </div>
             )}
             <Separator />
             <div className="flex justify-between font-semibold text-lg">
               <span>Total Amount</span>
-              <span>${totalAmount.toFixed(2)}</span>
+              <span>₹{totalAmount.toFixed(2)}</span>
             </div>
           </div>
         </CardContent>
@@ -249,7 +255,7 @@ const PaymentPage = ({ selectedTrain, bookingDetails, onBack }: PaymentPageProps
               disabled={isProcessing}
               className="flex-1 bg-rail-primary hover:bg-rail-primary/90"
             >
-              {isProcessing ? "Processing..." : `Pay $${totalAmount.toFixed(2)}`}
+              {isProcessing ? "Processing..." : `Pay ₹${totalAmount.toFixed(2)}`}
             </Button>
           </div>
         </CardContent>

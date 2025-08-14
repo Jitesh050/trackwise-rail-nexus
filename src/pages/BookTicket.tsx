@@ -50,7 +50,6 @@ const BookTicket = () => {
   };
 
   const handlePaymentSuccess = () => {
-    // Generate ticket data
     const ticketData = {
       pnr: `PNR${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
       passengerName: formData.passengerName,
@@ -159,7 +158,6 @@ const BookTicket = () => {
                     </div>
                   </div>
 
-                  {/* Passenger Details */}
                   <Separator />
                   <div className="space-y-4">
                     <h3 className="font-medium">Passenger Information</h3>
@@ -241,7 +239,6 @@ const BookTicket = () => {
                     </RadioGroup>
                   </div>
 
-                  {/* Priority Ticket Option */}
                   <div className="flex items-center space-x-2 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                     <input
                       type="checkbox"
@@ -384,13 +381,23 @@ const BookTicket = () => {
               
               <ETicket ticketData={generatedTicket} />
               
-              <Button 
-                onClick={() => navigate("/trip-planner", { state: { destination: formData.destination } })}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                <MapPin size={18} className="mr-2" />
-                Trip Planner
-              </Button>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Button 
+                  onClick={() => navigate("/trip-planner", { state: { destination: formData.destination } })}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  <MapPin size={18} className="mr-2" />
+                  Plan Your Trip
+                </Button>
+                
+                <Button 
+                  onClick={() => navigate("/")}
+                  variant="outline"
+                  className="w-full"
+                >
+                  Back to Home
+                </Button>
+              </div>
             </div>
           )}
         </div>
@@ -437,7 +444,6 @@ const BookTicket = () => {
             </CardContent>
           </Card>
 
-          {/* ChatBot Toggle */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
