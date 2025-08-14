@@ -59,9 +59,11 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
                 <Link to="/stations" className="text-slate-300 hover:text-white transition-colors">
                   Stations
                 </Link>
-                <Link to="/book-ticket" className="text-slate-300 hover:text-white transition-colors">
-                  Book Ticket
-                </Link>
+                {user && !isAdmin && (
+                  <Link to="/book-ticket" className="text-slate-300 hover:text-white transition-colors">
+                    Book Ticket
+                  </Link>
+                )}
                 <Link to="/help" className="text-slate-300 hover:text-white transition-colors">
                   Help
                 </Link>
@@ -144,13 +146,15 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
                       >
                         Stations
                       </Link>
-                      <Link
-                        to="/book-ticket"
-                        className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        Book Ticket
-                      </Link>
+                      {user && !isAdmin && (
+                        <Link
+                          to="/book-ticket"
+                          className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          Book Ticket
+                        </Link>
+                      )}
                       <Link
                         to="/help"
                         className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"

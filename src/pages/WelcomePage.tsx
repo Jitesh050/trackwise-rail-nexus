@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { Users, Shield, Train } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 const WelcomePage = () => {
   const navigate = useNavigate();
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
       <div className="container mx-auto max-w-4xl space-y-10 animate-enter">
@@ -25,7 +24,7 @@ const WelcomePage = () => {
 
         {/* Login Options */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-          <Card className="bg-slate-800 border-slate-600 hover:border-rail-accent transition-colors cursor-pointer" 
+          <Card className="bg-slate-800 border-slate-600 hover:border-rail-accent transition-colors cursor-pointer"
                 onClick={() => navigate("/login?type=passenger")}>
             <CardHeader className="text-center">
               <div className="flex justify-center mb-4">
@@ -39,7 +38,7 @@ const WelcomePage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button 
+              <Button
                 onClick={() => navigate("/login?type=passenger")}
                 className="w-full bg-rail-accent hover:bg-rail-accent/90 text-white"
               >
@@ -47,7 +46,7 @@ const WelcomePage = () => {
               </Button>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-slate-800 border-slate-600 hover:border-yellow-500 transition-colors cursor-pointer"
                 onClick={() => navigate("/login?type=admin")}>
             <CardHeader className="text-center">
@@ -62,7 +61,7 @@ const WelcomePage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button 
+              <Button
                 onClick={() => navigate("/login?type=admin")}
                 className="w-full bg-yellow-500 hover:bg-yellow-600 text-slate-900"
               >
@@ -75,8 +74,8 @@ const WelcomePage = () => {
         <div className="text-center">
           <p className="text-slate-400 mb-4">
             Don't have an account?{" "}
-            <Button 
-              variant="link" 
+            <Button
+              variant="link"
               className="text-rail-accent hover:text-rail-accent/80 p-0"
               onClick={() => navigate("/register")}
             >

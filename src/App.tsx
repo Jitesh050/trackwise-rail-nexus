@@ -13,7 +13,7 @@ import UserPortal from "./pages/UserPortal";
 import TrainStatus from "./pages/TrainStatus";
 import StationInfo from "./pages/StationInfo";
 import BookTicket from "./pages/BookTicket";
-import LoginPage from "./pages/LoginPage";
+import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import HelpCenter from "./pages/HelpCenter";
@@ -31,7 +31,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/welcome" element={<WelcomePage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Layout />}>
             <Route 

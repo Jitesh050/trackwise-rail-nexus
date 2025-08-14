@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,14 +7,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Train, Shield, Users, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [searchParams] = useSearchParams();
-  const loginType = searchParams.get("type") || "passenger";
+  const [role, setRole] = useState("passenger");
   const navigate = useNavigate();
   const { signIn } = useAuth();
 
@@ -29,8 +28,7 @@ const Login = () => {
         toast.error(error.message);
       } else {
         toast.success("Signed in successfully!");
-        // Navigation will be handled by the auth state change
-        if (loginType === "admin") {
+        if (role === "admin") {
           navigate("/admin");
         } else {
           navigate("/passenger");
@@ -43,7 +41,7 @@ const Login = () => {
     }
   };
 
-  const isAdmin = loginType === "admin";
+  const isAdmin = role === "admin";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
@@ -69,6 +67,12 @@ const Login = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <Tabs value={role} onValueChange={setRole} className="w-full mb-4">
+            <TabsList className="grid w-full grid-cols-2 bg-slate-700">
+              <TabsTrigger value="passenger">Passenger</TabsTrigger>
+              <TabsTrigger value="admin">Admin</TabsTrigger>
+            </TabsList>
+          </Tabs>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email" className="text-slate-300">Email</Label>
@@ -130,15 +134,6 @@ const Login = () => {
                 className={`${isAdmin ? 'text-yellow-400 hover:text-yellow-300' : 'text-rail-accent hover:text-rail-accent/80'} font-medium`}
               >
                 Sign up
-              </Link>
-            </p>
-            <p className="text-slate-400 text-sm">
-              Want to access the {isAdmin ? "passenger" : "admin"} portal?{" "}
-              <Link 
-                to={`/login?type=${isAdmin ? "passenger" : "admin"}`}
-                className={`${isAdmin ? 'text-blue-400 hover:text-blue-300' : 'text-yellow-400 hover:text-yellow-300'} font-medium`}
-              >
-                Switch to {isAdmin ? "Passenger" : "Admin"} Login
               </Link>
             </p>
             <Link 
