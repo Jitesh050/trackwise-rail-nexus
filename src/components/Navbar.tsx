@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -84,7 +83,7 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
                     className="text-slate-300 hover:text-white hover:bg-slate-700"
                   >
                     {isAdmin ? <Shield size={16} className="mr-2" /> : <UserCircle size={16} className="mr-2" />}
-                    {isAdmin ? 'Admin Dashboard' : 'Passenger Portal'}
+                    {isAdmin ? 'Admin Control Center' : 'Passenger Portal'}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="text-slate-300 hover:text-white hover:bg-slate-700">
                     <Settings size={16} className="mr-2" />
@@ -167,7 +166,7 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
                       className="text-left p-2 hover:bg-slate-700 rounded-md transition-colors text-slate-300"
                       onClick={() => setIsOpen(false)}
                     >
-                      {isAdmin ? 'Admin Dashboard' : 'Passenger Portal'}
+                      {isAdmin ? 'Admin Control Center' : 'Passenger Portal'}
                     </Link>
                   )}
                   {!user && (

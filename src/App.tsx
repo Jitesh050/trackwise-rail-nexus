@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Toaster } from "./components/ui/toaster";
 import { Toaster as Sonner } from "./components/ui/sonner";
@@ -8,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import WelcomePage from "./pages/WelcomePage";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminHomePage from "./pages/AdminHomePage";
 import PassengerDashboard from "./pages/PassengerDashboard";
 import UserPortal from "./pages/UserPortal";
 import TrainStatus from "./pages/TrainStatus";
@@ -44,6 +44,14 @@ const App = () => (
             />
             <Route
               path="admin"
+              element={
+                <ProtectedRoute requireRole="admin">
+                  <AdminHomePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="admin/dashboard"
               element={
                 <ProtectedRoute requireRole="admin">
                   <AdminDashboard />
