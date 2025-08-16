@@ -16,6 +16,7 @@ import BookTicket from "./pages/BookTicket";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
+import TicketDetailsPage from "./pages/TicketDetailsPage";
 import HelpCenter from "./pages/HelpCenter";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -93,6 +94,7 @@ const App = () => (
               }
             />
             <Route path="help" element={<HelpCenter />} />
+          <Route path="ticket/:pnr" element={<TicketDetailsPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

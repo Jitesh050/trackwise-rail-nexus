@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -22,10 +23,13 @@ interface ETicketProps {
 }
 
 const ETicket = ({ ticketData }: ETicketProps) => {
+  const [showQrModal, setShowQrModal] = useState(false);
   const generateQRCode = () => {
     // In a real app, this would generate an actual QR code
     // For demo purposes, we'll create a placeholder
-    return `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=PNR:${ticketData.pnr}`;
+    // QR code will encode all ticket details as formatted plain text
+    const details = `PNR: ${ticketData.pnr}\nPassenger: ${ticketData.passengerName}\nTrain: ${ticketData.trainNumber} - ${ticketData.trainName}\nFrom: ${ticketData.from}\nTo: ${ticketData.to}\nDate: ${ticketData.date}\nDeparture: ${ticketData.departureTime}\nArrival: ${ticketData.arrivalTime}\nSeat Numbers: ${ticketData.seatNumbers.join(', ')}\nClass: ${ticketData.class}\nFare: ₹${ticketData.fare}\nStatus: ${ticketData.status}`;
+    return `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(details)}`;
   };
 
   const handleDownload = () => {
@@ -146,12 +150,27 @@ const ETicket = ({ ticketData }: ETicketProps) => {
             <img 
               src={generateQRCode()} 
               alt="QR Code" 
-              className="w-20 h-20 mx-auto mb-2"
+              className="w-20 h-20 mx-auto mb-2 cursor-pointer transition-transform hover:scale-105"
+              onClick={() => setShowQrModal(true)}
             />
             <p className="text-xs text-muted-foreground flex items-center gap-1">
               <QrCode size={12} />
               Scan at station
             </p>
+            {showQrModal && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70" onClick={() => setShowQrModal(false)}>
+                <div className="bg-white rounded-lg p-4 shadow-lg" onClick={e => e.stopPropagation()}>
+                  <img 
+                    src={generateQRCode().replace('size=100x100', 'size=300x300')} 
+                    alt="QR Code Large" 
+                    className="w-72 h-72 mx-auto mb-4" 
+                  />
+                  <button className="block mx-auto mt-2 px-4 py-2 bg-rail-primary text-white rounded hover:bg-rail-accent" onClick={() => setShowQrModal(false)}>
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
