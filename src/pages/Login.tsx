@@ -1,34 +1,37 @@
+
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Train, Shield, Users, Eye, EyeOff } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Train, LogIn, Shield, User, ArrowRight, Sparkles } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [role, setRole] = useState("passenger");
-  const navigate = useNavigate();
   const { signIn } = useAuth();
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const userType = searchParams.get("type") || "passenger";
+  
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
+    
     try {
       const { error } = await signIn(email, password);
+      
       if (error) {
         toast.error(error.message);
       } else {
-        toast.success("Signed in successfully!");
-        if (role === "admin") {
+        toast.success("Welcome back! Login successful");
+        // Navigate based on user role
+        if (email === 'admin@example.com') {
           navigate("/admin");
         } else {
           navigate("/passenger");
@@ -40,112 +43,172 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-
-  const isAdmin = role === "admin";
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-slate-800 border-slate-600">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <div className={`p-3 rounded-full ${isAdmin ? 'bg-yellow-500' : 'bg-rail-accent'}`}>
-              {isAdmin ? (
-                <Shield className="h-8 w-8 text-slate-900" />
-              ) : (
-                <Users className="h-8 w-8 text-white" />
-              )}
-            </div>
-          </div>
-          <CardTitle className="text-2xl font-bold text-white">
-            {isAdmin ? "Admin Login" : "Passenger Login"}
-          </CardTitle>
-          <CardDescription className="text-slate-400">
-            {isAdmin 
-              ? "Access the administrative dashboard" 
-              : "Sign in to book tickets and manage your journey"
-            }
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs value={role} onValueChange={setRole} className="w-full mb-4">
-            <TabsList className="grid w-full grid-cols-2 bg-slate-700">
-              <TabsTrigger value="passenger">Passenger</TabsTrigger>
-              <TabsTrigger value="admin">Admin</TabsTrigger>
-            </TabsList>
-          </Tabs>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-slate-300">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="bg-slate-700 border-slate-600 text-white placeholder-slate-400"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-slate-300">Password</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="bg-slate-700 border-slate-600 text-white placeholder-slate-400 pr-10"
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-slate-400 hover:text-slate-300"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </Button>
+      <div className="w-full max-w-md space-y-8 animate-fade-in">
+        {/* Header Section */}
+        <div className="text-center space-y-4">
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <div className="absolute inset-0 bg-rail-accent/20 rounded-full blur-xl"></div>
+              <div className="relative p-4 bg-gradient-to-br from-rail-primary to-rail-secondary rounded-full">
+                <Train className="h-12 w-12 text-white" />
               </div>
             </div>
-            <Button 
-              type="submit" 
-              className={`w-full ${
-                isAdmin 
-                  ? 'bg-yellow-500 hover:bg-yellow-600 text-slate-900' 
-                  : 'bg-rail-accent hover:bg-rail-accent/90 text-white'
-              }`}
-              disabled={isLoading}
-            >
-              {isLoading ? "Signing In..." : "Sign In"}
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center space-y-2">
-            <p className="text-slate-400 text-sm">
-              Don't have an account?{" "}
-              <Link 
-                to="/register" 
-                className={`${isAdmin ? 'text-yellow-400 hover:text-yellow-300' : 'text-rail-accent hover:text-rail-accent/80'} font-medium`}
-              >
-                Sign up
-              </Link>
-            </p>
-            <Link 
-              to="/" 
-              className="inline-flex items-center text-slate-400 hover:text-white text-sm mt-4"
-            >
-              <Train className="h-4 w-4 mr-1" />
-              Back to Home
-            </Link>
           </div>
-        </CardContent>
-      </Card>
+          <div className="space-y-2">
+            <h1 className="text-3xl font-bold text-white">Welcome Back</h1>
+            <p className="text-slate-400">Sign in to access your TrackWise account</p>
+          </div>
+        </div>
+
+        {/* Login Card */}
+        <Card className="bg-slate-800/90 backdrop-blur-sm border-slate-600 shadow-2xl">
+          <CardHeader className="space-y-4">
+            <Tabs value={userType} className="w-full">
+              <TabsList className="grid w-full grid-cols-2 bg-slate-700 border-slate-600">
+                <TabsTrigger 
+                  value="passenger" 
+                  className="data-[state=active]:bg-rail-accent data-[state=active]:text-white"
+                  onClick={() => navigate("/login?type=passenger")}
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Passenger
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="admin" 
+                  className="data-[state=active]:bg-yellow-500 data-[state=active]:text-slate-900"
+                  onClick={() => navigate("/login?type=admin")}
+                >
+                  <Shield className="w-4 h-4 mr-2" />
+                  Admin
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="passenger" className="mt-4">
+                <div className="text-center space-y-2">
+                  <CardTitle className="text-xl text-white flex items-center justify-center gap-2">
+                    <div className="w-2 h-2 bg-rail-accent rounded-full animate-pulse"></div>
+                    Passenger Portal
+                  </CardTitle>
+                  <CardDescription className="text-slate-400">
+                    Access booking, trip planning, and travel updates
+                  </CardDescription>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="admin" className="mt-4">
+                <div className="text-center space-y-2">
+                  <CardTitle className="text-xl text-white flex items-center justify-center gap-2">
+                    <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+                    Admin Control Center
+                  </CardTitle>
+                  <CardDescription className="text-slate-400">
+                    Monitor operations, safety systems, and analytics
+                  </CardDescription>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </CardHeader>
+          
+          <form onSubmit={handleLogin}>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-white text-sm font-medium">
+                    Email Address
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-rail-accent focus:ring-rail-accent/20 transition-all duration-200"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-white text-sm font-medium">
+                    Password
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-rail-accent focus:ring-rail-accent/20 transition-all duration-200"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Demo Credentials */}
+              <div className="p-4 bg-slate-700/30 rounded-lg border border-slate-600/50">
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles className="w-4 h-4 text-rail-accent" />
+                  <span className="text-sm font-medium text-slate-300">Demo Credentials</span>
+                </div>
+                <div className="space-y-1 text-xs text-slate-400">
+                  <p><strong className="text-slate-300">Admin:</strong> admin@example.com</p>
+                  <p><strong className="text-slate-300">Passenger:</strong> user@example.com</p>
+                  <p><strong className="text-slate-300">Password:</strong> any password</p>
+                </div>
+              </div>
+            </CardContent>
+            
+            <CardFooter className="flex flex-col space-y-4">
+              <Button 
+                type="submit" 
+                className={`w-full h-12 text-white font-medium transition-all duration-200 ${
+                  userType === 'admin' 
+                    ? 'bg-yellow-500 hover:bg-yellow-600 hover:shadow-lg hover:shadow-yellow-500/25' 
+                    : 'bg-rail-primary hover:bg-rail-primary/90 hover:shadow-lg hover:shadow-rail-primary/25'
+                }`}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    Signing In...
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <LogIn size={18} />
+                    Sign In
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                )}
+              </Button>
+              
+              <div className="text-center space-y-2">
+                <p className="text-sm text-slate-400">
+                  Don't have an account?{" "}
+                  <Link 
+                    to="/register" 
+                    className="text-rail-accent hover:text-rail-accent/80 font-medium transition-colors hover:underline"
+                  >
+                    Create Account
+                  </Link>
+                </p>
+                <Link 
+                  to="/" 
+                  className="text-xs text-slate-500 hover:text-slate-400 transition-colors inline-flex items-center gap-1"
+                >
+                  ← Back to Home
+                </Link>
+              </div>
+            </CardFooter>
+          </form>
+        </Card>
+      </div>
     </div>
   );
 };
