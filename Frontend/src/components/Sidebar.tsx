@@ -46,11 +46,9 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
             {user && isAdmin && (
               <SidebarLink to="/admin" icon={Shield} label="Admin Dashboard" isOpen={isOpen} />
             )}
-            <SidebarLink to="/announcements" icon={Bell} label="Announcements" isOpen={isOpen} />
             {user && !isAdmin && (
               <>
                 <SidebarLink to="/passenger" icon={Gauge} label="Passenger Portal" isOpen={isOpen} />
-                <SidebarLink to="/profile" icon={Activity} label="My Profile" isOpen={isOpen} />
               </>
             )}
             <SidebarLink to="/train-status" icon={Train} label="Train Status" isOpen={isOpen} />
