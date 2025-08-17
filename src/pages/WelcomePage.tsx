@@ -1,6 +1,6 @@
 
 import { useNavigate } from "react-router-dom";
-import { Users, Shield, Train, ArrowRight, Sparkles, Zap } from "lucide-react";
+import { Train, ArrowRight, Sparkles, Zap, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -17,7 +17,7 @@ const WelcomePage = () => {
       </div>
 
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
-        <div className="container mx-auto max-w-6xl space-y-12 animate-fade-in">
+        <div className="container mx-auto max-w-4xl space-y-12 animate-fade-in">
           {/* Hero Section */}
           <div className="text-center space-y-8">
             <div className="flex justify-center mb-8">
@@ -58,28 +58,27 @@ const WelcomePage = () => {
             </div>
           </div>
 
-          {/* Login Options */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* Passenger Portal Card */}
+          {/* Single Login Card */}
+          <div className="flex justify-center">
             <Card 
-              className="group bg-slate-800/80 backdrop-blur-sm border-slate-600 hover:border-rail-accent transition-all duration-300 cursor-pointer hover:shadow-2xl hover:shadow-rail-accent/10 hover:-translate-y-1"
-              onClick={() => navigate("/login?type=passenger")}
+              className="group bg-slate-800/80 backdrop-blur-sm border-slate-600 hover:border-rail-accent transition-all duration-300 cursor-pointer hover:shadow-2xl hover:shadow-rail-accent/10 hover:-translate-y-1 w-full max-w-md"
+              onClick={() => navigate("/login")}
             >
               <CardHeader className="text-center space-y-4">
                 <div className="flex justify-center mb-4">
                   <div className="relative">
                     <div className="absolute inset-0 bg-rail-accent/20 rounded-full blur-lg group-hover:bg-rail-accent/30 transition-all duration-300"></div>
-                    <div className="relative p-4 bg-gradient-to-br from-rail-accent to-rail-secondary rounded-full group-hover:scale-110 transition-transform duration-300">
-                      <Users className="h-10 w-10 text-white" />
+                    <div className="relative p-4 bg-gradient-to-br from-rail-primary to-rail-accent rounded-full group-hover:scale-110 transition-transform duration-300">
+                      <Train className="h-10 w-10 text-white" />
                     </div>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <CardTitle className="text-2xl font-semibold text-white group-hover:text-rail-accent transition-colors">
-                    Passenger Portal
+                    Access TrackWise Portal
                   </CardTitle>
                   <CardDescription className="text-slate-400 text-base leading-relaxed">
-                    Book tickets seamlessly, track your journey in real-time, and plan your perfect trip with our intelligent system
+                    Sign in to access your personalized dashboard with booking, tracking, and management features
                   </CardDescription>
                 </div>
               </CardHeader>
@@ -87,7 +86,7 @@ const WelcomePage = () => {
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div className="flex items-center gap-2 text-slate-300">
                     <div className="w-2 h-2 bg-rail-accent rounded-full"></div>
-                    Quick Booking
+                    Smart Booking
                   </div>
                   <div className="flex items-center gap-2 text-slate-300">
                     <div className="w-2 h-2 bg-rail-accent rounded-full"></div>
@@ -99,69 +98,15 @@ const WelcomePage = () => {
                   </div>
                   <div className="flex items-center gap-2 text-slate-300">
                     <div className="w-2 h-2 bg-rail-accent rounded-full"></div>
-                    E-Tickets
+                    Analytics
                   </div>
                 </div>
                 <Button
-                  onClick={() => navigate("/login?type=passenger")}
-                  className="w-full bg-rail-accent hover:bg-rail-accent/90 text-white h-12 group/btn transition-all duration-200 hover:shadow-lg hover:shadow-rail-accent/25"
+                  onClick={() => navigate("/login")}
+                  className="w-full bg-rail-primary hover:bg-rail-primary/90 text-white h-12 group/btn transition-all duration-200 hover:shadow-lg hover:shadow-rail-primary/25"
                 >
                   <span className="flex items-center gap-2">
-                    Access Passenger Portal
-                    <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </span>
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Admin Dashboard Card */}
-            <Card 
-              className="group bg-slate-800/80 backdrop-blur-sm border-slate-600 hover:border-yellow-500 transition-all duration-300 cursor-pointer hover:shadow-2xl hover:shadow-yellow-500/10 hover:-translate-y-1"
-              onClick={() => navigate("/login?type=admin")}
-            >
-              <CardHeader className="text-center space-y-4">
-                <div className="flex justify-center mb-4">
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-yellow-500/20 rounded-full blur-lg group-hover:bg-yellow-500/30 transition-all duration-300"></div>
-                    <div className="relative p-4 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full group-hover:scale-110 transition-transform duration-300">
-                      <Shield className="h-10 w-10 text-slate-900" />
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <CardTitle className="text-2xl font-semibold text-white group-hover:text-yellow-400 transition-colors">
-                    Admin Control Center
-                  </CardTitle>
-                  <CardDescription className="text-slate-400 text-base leading-relaxed">
-                    Monitor railway operations, ensure passenger safety, and optimize system performance with advanced analytics
-                  </CardDescription>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-3 text-sm">
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                    Live Monitoring
-                  </div>
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                    Safety Systems
-                  </div>
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                    Analytics Hub
-                  </div>
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                    Energy Control
-                  </div>
-                </div>
-                <Button
-                  onClick={() => navigate("/login?type=admin")}
-                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-slate-900 h-12 font-medium group/btn transition-all duration-200 hover:shadow-lg hover:shadow-yellow-500/25"
-                >
-                  <span className="flex items-center gap-2">
-                    Access Admin Dashboard
+                    Sign In to Continue
                     <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
                   </span>
                 </Button>
@@ -170,7 +115,7 @@ const WelcomePage = () => {
           </div>
 
           {/* Bottom CTA */}
-          <div className="text-center space-y-4 pt-8">
+          <div className="text-center space-y-4 pt-4">
             <p className="text-slate-400 text-lg">
               New to TrackWise Rail?
             </p>
