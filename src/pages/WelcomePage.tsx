@@ -1,135 +1,218 @@
 
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Train, ArrowRight, Sparkles, Zap, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Train, 
+  Users, 
+  Shield, 
+  Zap, 
+  QrCode, 
+  MessageCircle,
+  MapPin,
+  Star,
+  CreditCard,
+  Clock,
+  AlertTriangle,
+  Activity,
+  LogIn
+} from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const WelcomePage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { signIn } = useAuth();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+      await signIn(email, password);
+      
+      // Route based on email
+      if (email.includes("admin")) {
+        navigate("/admin");
+      } else {
+        navigate("/passenger");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
+
+  const passengerFeatures = [
+    { icon: Clock, title: "Live Train Status", description: "Real-time tracking" },
+    { icon: QrCode, title: "QR Ticket Booking", description: "Contactless booking" },
+    { icon: MessageCircle, title: "AI Chatbot", description: "24/7 assistance" },
+    { icon: MapPin, title: "Trip Planner", description: "Hotels & attractions" },
+    { icon: Star, title: "Priority Tickets", description: "Fast-track access" },
+    { icon: CreditCard, title: "Secure Payments", description: "Multiple options" }
+  ];
+
+  const adminFeatures = [
+    { icon: AlertTriangle, title: "Collision Detection", description: "Real-time monitoring" },
+    { icon: Users, title: "Crowd Density", description: "Heat map analysis" },
+    { icon: Zap, title: "Energy Control", description: "Smart optimization" }
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-rail-accent/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-rail-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-rail-accent/5 to-rail-secondary/5 rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
-        <div className="container mx-auto max-w-4xl space-y-12 animate-fade-in">
-          {/* Hero Section */}
-          <div className="text-center space-y-8">
-            <div className="flex justify-center mb-8">
-              <div className="relative">
-                <div className="absolute inset-0 bg-rail-accent/30 rounded-full blur-2xl animate-pulse"></div>
-                <div className="relative p-6 bg-gradient-to-br from-rail-primary via-rail-secondary to-rail-accent rounded-full">
-                  <Train className="h-20 w-20 text-white drop-shadow-lg" />
-                </div>
-              </div>
-            </div>
-            
-            <div className="space-y-6">
-              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
-                <span className="bg-gradient-to-r from-white via-slate-200 to-rail-accent bg-clip-text text-transparent">
-                  TrackWise Rail
-                </span>
-              </h1>
-              <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-                Experience the future of railway management with real-time updates, 
-                intelligent booking, and comprehensive operational control
-              </p>
-            </div>
-
-            {/* Feature Highlights */}
-            <div className="flex flex-wrap justify-center gap-4 pt-6">
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full border border-slate-600/50">
-                <Zap className="w-4 h-4 text-rail-accent" />
-                <span className="text-sm text-slate-300">Real-time Tracking</span>
-              </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full border border-slate-600/50">
-                <Sparkles className="w-4 h-4 text-yellow-400" />
-                <span className="text-sm text-slate-300">Smart Analytics</span>
-              </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full border border-slate-600/50">
-                <Shield className="w-4 h-4 text-green-400" />
-                <span className="text-sm text-slate-300">Safety First</span>
-              </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center mb-4">
+            <div className="p-3 bg-primary/10 rounded-2xl">
+              <Train className="h-12 w-12 text-primary" />
             </div>
           </div>
+          <h1 className="text-4xl font-bold tracking-tight mb-2">Railway Management System</h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Modern, intelligent railway operations with seamless passenger experience and advanced admin controls
+          </p>
+        </div>
 
-          {/* Single Login Card */}
-          <div className="flex justify-center">
-            <Card 
-              className="group bg-slate-800/80 backdrop-blur-sm border-slate-600 hover:border-rail-accent transition-all duration-300 cursor-pointer hover:shadow-2xl hover:shadow-rail-accent/10 hover:-translate-y-1 w-full max-w-md"
-              onClick={() => navigate("/login")}
-            >
-              <CardHeader className="text-center space-y-4">
-                <div className="flex justify-center mb-4">
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-rail-accent/20 rounded-full blur-lg group-hover:bg-rail-accent/30 transition-all duration-300"></div>
-                    <div className="relative p-4 bg-gradient-to-br from-rail-primary to-rail-accent rounded-full group-hover:scale-110 transition-transform duration-300">
-                      <Train className="h-10 w-10 text-white" />
+        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {/* Login Section */}
+          <div className="lg:col-span-1">
+            <Card className="border-border/50 shadow-lg">
+              <CardHeader className="text-center pb-4">
+                <div className="flex items-center justify-center mb-3">
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    <LogIn className="h-6 w-6 text-primary" />
+                  </div>
+                </div>
+                <CardTitle className="text-xl">Access Portal</CardTitle>
+                <CardDescription>
+                  Sign in to access your dashboard
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Enter password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <Button type="submit" className="w-full">
+                    Sign In
+                  </Button>
+                </form>
+                
+                <div className="mt-6 pt-4 border-t border-border/50">
+                  <p className="text-sm text-muted-foreground text-center mb-3">Demo Accounts:</p>
+                  <div className="space-y-2 text-xs">
+                    <div className="flex justify-between items-center p-2 bg-muted/50 rounded">
+                      <span>Passenger: user@example.com</span>
+                      <Badge variant="outline" className="text-xs">User</Badge>
+                    </div>
+                    <div className="flex justify-between items-center p-2 bg-muted/50 rounded">
+                      <span>Admin: admin@example.com</span>
+                      <Badge variant="outline" className="text-xs">Admin</Badge>
                     </div>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <CardTitle className="text-2xl font-semibold text-white group-hover:text-rail-accent transition-colors">
-                    Access TrackWise Portal
-                  </CardTitle>
-                  <CardDescription className="text-slate-400 text-base leading-relaxed">
-                    Sign in to access your personalized dashboard with booking, tracking, and management features
-                  </CardDescription>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-3 text-sm">
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <div className="w-2 h-2 bg-rail-accent rounded-full"></div>
-                    Smart Booking
-                  </div>
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <div className="w-2 h-2 bg-rail-accent rounded-full"></div>
-                    Live Updates
-                  </div>
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <div className="w-2 h-2 bg-rail-accent rounded-full"></div>
-                    Trip Planning
-                  </div>
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <div className="w-2 h-2 bg-rail-accent rounded-full"></div>
-                    Analytics
-                  </div>
-                </div>
-                <Button
-                  onClick={() => navigate("/login")}
-                  className="w-full bg-rail-primary hover:bg-rail-primary/90 text-white h-12 group/btn transition-all duration-200 hover:shadow-lg hover:shadow-rail-primary/25"
-                >
-                  <span className="flex items-center gap-2">
-                    Sign In to Continue
-                    <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </span>
-                </Button>
               </CardContent>
             </Card>
           </div>
 
-          {/* Bottom CTA */}
-          <div className="text-center space-y-4 pt-4">
-            <p className="text-slate-400 text-lg">
-              New to TrackWise Rail?
-            </p>
-            <Button
-              variant="outline"
-              size="lg"
-              className="text-rail-accent border-rail-accent hover:bg-rail-accent hover:text-white transition-all duration-200 hover:shadow-lg hover:shadow-rail-accent/25"
-              onClick={() => navigate("/register")}
-            >
-              <span className="flex items-center gap-2">
-                Create Your Account
-                <Sparkles size={18} />
-              </span>
-            </Button>
+          {/* Features Overview */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Passenger Features */}
+            <div>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Users className="h-5 w-5 text-blue-600" />
+                </div>
+                <h2 className="text-xl font-semibold">Passenger Features</h2>
+                <Badge variant="secondary">User-Friendly</Badge>
+              </div>
+              <div className="grid md:grid-cols-2 gap-3">
+                {passengerFeatures.map((feature, index) => (
+                  <div key={index} className="flex items-center space-x-3 p-3 bg-card rounded-lg border border-border/50 hover:shadow-sm transition-shadow">
+                    <div className="p-2 bg-primary/10 rounded">
+                      <feature.icon className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-sm">{feature.title}</p>
+                      <p className="text-xs text-muted-foreground">{feature.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Admin Features */}
+            <div>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="p-2 bg-red-100 rounded-lg">
+                  <Shield className="h-5 w-5 text-red-600" />
+                </div>
+                <h2 className="text-xl font-semibold">Admin Features</h2>
+                <Badge variant="destructive">Advanced Control</Badge>
+              </div>
+              <div className="grid md:grid-cols-3 gap-3">
+                {adminFeatures.map((feature, index) => (
+                  <div key={index} className="flex items-center space-x-3 p-3 bg-card rounded-lg border border-border/50 hover:shadow-sm transition-shadow">
+                    <div className="p-2 bg-primary/10 rounded">
+                      <feature.icon className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-medium text-sm">{feature.title}</p>
+                      <p className="text-xs text-muted-foreground">{feature.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* System Status Preview */}
+            <Card className="border-border/50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Activity className="h-5 w-5" />
+                  Live System Status
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div className="p-3 bg-green-50 rounded-lg border border-green-200">
+                    <div className="text-lg font-bold text-green-600">43</div>
+                    <div className="text-xs text-green-700">Active Trains</div>
+                  </div>
+                  <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <div className="text-lg font-bold text-blue-600">98.5%</div>
+                    <div className="text-xs text-blue-700">System Uptime</div>
+                  </div>
+                  <div className="p-3 bg-orange-50 rounded-lg border border-orange-200">
+                    <div className="text-lg font-bold text-orange-600">1,247</div>
+                    <div className="text-xs text-orange-700">Passengers Today</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
