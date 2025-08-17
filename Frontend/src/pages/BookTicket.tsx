@@ -17,8 +17,7 @@ const BookTicket = () => {
   const [step, setStep] = useState(1);
   const [selectedTrain, setSelectedTrain] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
-  const [showChatBot, setShowChatBot] = useState(false);
-  const [bookingComplete, setBookingComplete] = useState(false);
+    const [bookingComplete, setBookingComplete] = useState(false);
   const [generatedTicket, setGeneratedTicket] = useState(null);
   const [formData, setFormData] = useState({
     origin: "",
@@ -204,36 +203,52 @@ const BookTicket = () => {
                     <Label>Class</Label>
                     <RadioGroup 
                       defaultValue={formData.trainClass}
-                      className="grid grid-cols-3 gap-4 mt-2"
+                      className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-2"
                       onValueChange={(value) => setFormData(prev => ({ ...prev, trainClass: value }))}
                     >
                       <div>
-                        <RadioGroupItem value="economy" id="economy" className="peer sr-only" />
+                        <RadioGroupItem value="general" id="general" className="peer sr-only" />
                         <Label
-                          htmlFor="economy"
-                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-rail-light p-4 hover:bg-rail-light/80 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10"
+                          htmlFor="general"
+                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-slate-800 p-4 hover:bg-slate-700 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10 text-slate-100"
                         >
-                          <span className="text-sm font-medium">Economy</span>
+                          <span className="text-sm font-medium">General</span>
                         </Label>
                       </div>
-                      
                       <div>
-                        <RadioGroupItem value="business" id="business" className="peer sr-only" />
+                        <RadioGroupItem value="sleeper" id="sleeper" className="peer sr-only" />
                         <Label
-                          htmlFor="business"
-                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-rail-light p-4 hover:bg-rail-light/80 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10"
+                          htmlFor="sleeper"
+                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-slate-800 p-4 hover:bg-slate-700 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10 text-slate-100"
                         >
-                          <span className="text-sm font-medium">Business</span>
+                          <span className="text-sm font-medium">Sleeper</span>
                         </Label>
                       </div>
-                      
                       <div>
-                        <RadioGroupItem value="first" id="first" className="peer sr-only" />
+                        <RadioGroupItem value="ac3" id="ac3" className="peer sr-only" />
                         <Label
-                          htmlFor="first"
-                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-rail-light p-4 hover:bg-rail-light/80 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10"
+                          htmlFor="ac3"
+                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-slate-800 p-4 hover:bg-slate-700 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10 text-slate-100"
                         >
-                          <span className="text-sm font-medium">First Class</span>
+                          <span className="text-sm font-medium">AC 3-Tier</span>
+                        </Label>
+                      </div>
+                      <div>
+                        <RadioGroupItem value="ac2" id="ac2" className="peer sr-only" />
+                        <Label
+                          htmlFor="ac2"
+                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-slate-800 p-4 hover:bg-slate-700 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10 text-slate-100"
+                        >
+                          <span className="text-sm font-medium">AC 2-Tier</span>
+                        </Label>
+                      </div>
+                      <div>
+                        <RadioGroupItem value="ac1" id="ac1" className="peer sr-only" />
+                        <Label
+                          htmlFor="ac1"
+                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-slate-800 p-4 hover:bg-slate-700 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10 text-slate-100"
+                        >
+                          <span className="text-sm font-medium">AC First Class</span>
                         </Label>
                       </div>
                     </RadioGroup>
@@ -456,20 +471,15 @@ const BookTicket = () => {
                 Our AI assistant can help you with booking tickets through voice or text chat.
               </p>
               <Button 
-                onClick={() => setShowChatBot(!showChatBot)}
+                onClick={() => navigate('/chatbot')}
                 className="w-full bg-rail-accent hover:bg-rail-accent/90"
               >
-                {showChatBot ? "Hide" : "Open"} ChatBot Assistant
+                Open ChatBot Assistant
               </Button>
             </CardContent>
           </Card>
 
-          {showChatBot && (
-            <div className="mt-4">
-              <ChatBot />
-            </div>
-          )}
-        </div>
+                  </div>
       </div>
     </div>
   );

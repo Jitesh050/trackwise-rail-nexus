@@ -63,7 +63,7 @@ const AdminHomePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6">
+    <div className="min-h-screen bg-slate-900 p-6">
       <div className="container mx-auto space-y-6">
         <header className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">Admin Control Center</h1>

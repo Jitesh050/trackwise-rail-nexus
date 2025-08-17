@@ -42,7 +42,7 @@ const Login = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-900 dark:bg-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8 animate-fade-in">
         {/* Header Section */}
         <div className="text-center space-y-4">
@@ -61,7 +61,7 @@ const Login = () => {
         </div>
 
         {/* Login Card */}
-        <Card className="bg-slate-800/90 backdrop-blur-sm border-slate-600 shadow-2xl">
+        <Card className="bg-slate-800 dark:bg-slate-800 border-slate-700 rounded-2xl shadow-xl">
           <CardHeader className="space-y-4">
             <div className="text-center space-y-2">
               <CardTitle className="text-xl text-white flex items-center justify-center gap-2">

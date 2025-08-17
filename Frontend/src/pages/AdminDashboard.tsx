@@ -28,12 +28,12 @@ const AdminDashboard = () => {
   const [notifications] = useState(3);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="min-h-screen bg-slate-900">
       <div className="container mx-auto p-6 space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Admin Control Center</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-white">Admin Control Center</h1>
             <p className="text-muted-foreground mt-1">
               Advanced monitoring and management for railway operations
             </p>
@@ -56,7 +56,7 @@ const AdminDashboard = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6" onValueChange={setActiveTab}>
-          <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:flex bg-card border border-border/50">
+          <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:flex bg-slate-800 border border-slate-700 rounded-xl shadow" style={{background: 'rgba(30,41,59,0.97)'}}>
             <TabsTrigger value="overview" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <BarChart3 className="h-4 w-4 mr-2" />
               Overview
@@ -165,7 +165,7 @@ const AdminDashboard = () => {
             </FeatureSection>
 
             {/* System Status Overview */}
-            <Card className="border-border/50">
+            <Card className="bg-slate-800 border-slate-700 rounded-2xl shadow-xl" style={{background: 'rgba(30,41,59,0.97)'}}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Activity className="h-5 w-5" />

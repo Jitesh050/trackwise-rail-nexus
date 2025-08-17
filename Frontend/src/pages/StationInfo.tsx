@@ -44,12 +44,13 @@ const StationInfo = () => {
         <p className="text-muted-foreground">Find details about our stations, amenities, and facilities</p>
       </header>
       
-      <div className="bg-rail-light p-6 rounded-lg">
+      <div className="bg-slate-800 p-6 rounded-lg">
         <div className="relative max-w-lg mx-auto">
-          <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={18} />
+          <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-100" size={18} />
           <Input
+            type="text"
             placeholder="Search for a station"
-            className="pl-10"
+            className="pl-10 bg-slate-800 text-slate-100 border border-slate-700 placeholder:text-slate-400"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />

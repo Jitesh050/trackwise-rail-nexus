@@ -2,7 +2,23 @@ import React from "react";
 import { Toaster } from "./components/ui/toaster";
 import { Toaster as Sonner } from "./components/ui/sonner";
 import { TooltipProvider } from "./components/ui/tooltip";
+import { useAuth } from "@/hooks/useAuth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "@/components/ThemeContext";
+import { useEffect } from 'react';
+import './App.css'; // Ensure dark styles are always loaded
+
+// Simple auth wrapper component
+const AuthWrapper: React.FC<{children: React.ReactNode}> = ({ children }) => {
+  const { isLoading } = useAuth();
+  
+  if (isLoading) {
+    return <div className="flex items-center justify-center min-h-screen bg-background">Loading...</div>;
+  }
+  
+  return <>{children}</>;
+};
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import WelcomePage from "./pages/WelcomePage";
@@ -13,6 +29,7 @@ import UserPortal from "./pages/UserPortal";
 import TrainStatus from "./pages/TrainStatus";
 import StationInfo from "./pages/StationInfo";
 import BookTicket from "./pages/BookTicket";
+import ChatBotPage from "./pages/ChatBotPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
@@ -26,80 +43,87 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/welcome" element={<WelcomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Layout />}>
-            <Route 
-              index 
-              element={
-                <ProtectedRoute requireRole="user">
-                  <HomePage />
-                </ProtectedRoute>
-              } 
-            />
-            <Route
-              path="admin"
-              element={
-                <ProtectedRoute requireRole="admin">
-                  <AdminHomePage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="admin/dashboard"
-              element={
-                <ProtectedRoute requireRole="admin">
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="passenger"
-              element={
-                <ProtectedRoute requireRole="user">
-                  <PassengerDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="user"
-              element={
-                <ProtectedRoute requireRole="user">
-                  <UserPortal />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="train-status" element={<TrainStatus />} />
-            <Route path="stations" element={<StationInfo />} />
-            <Route
-              path="book-ticket"
-              element={
-                <ProtectedRoute>
-                  <BookTicket />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="trip-planner"
-              element={
-                <ProtectedRoute>
-                  <TripPlannerPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="help" element={<HelpCenter />} />
-          <Route path="ticket/:pnr" element={<TicketDetailsPage />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <ThemeProvider>
+      <AuthWrapper>
+        <div className="min-h-screen bg-background">
+          <TooltipProvider>
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/welcome" element={<WelcomePage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/" element={<Layout />}>
+                  <Route 
+                    index 
+                    element={
+                      <ProtectedRoute requireRole="user">
+                        <HomePage />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route
+                    path="admin"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <AdminHomePage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/dashboard"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <AdminDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="passenger"
+                    element={
+                      <ProtectedRoute requireRole="user">
+                        <PassengerDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="user"
+                    element={
+                      <ProtectedRoute requireRole="user">
+                        <UserPortal />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route path="train-status" element={<TrainStatus />} />
+                  <Route path="stations" element={<StationInfo />} />
+                  <Route path="chatbot" element={<ChatBotPage />} /> 
+                  <Route
+                    path="book-ticket"
+                    element={
+                      <ProtectedRoute>
+                        <BookTicket /> 
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="trip-planner"
+                    element={
+                      <ProtectedRoute>
+                        <TripPlannerPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route path="help" element={<HelpCenter />} />
+                  <Route path="ticket/:pnr" element={<TicketDetailsPage />} />
+                </Route>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </div>
+        <Toaster />
+      </AuthWrapper>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

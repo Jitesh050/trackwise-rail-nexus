@@ -148,7 +148,7 @@ const SeatSelection = ({ onSeatsSelected, maxSeats = 4 }: SeatSelectionProps) =>
         </div>
 
         {selectedSeats.length > 0 && (
-          <div className="mt-4 p-3 bg-rail-light rounded">
+          <div className="mt-4 p-3 bg-slate-800 rounded text-slate-100">
             <p className="text-sm font-medium">Selected Seats:</p>
             <p className="text-sm text-muted-foreground">
               {selectedSeats.join(', ')}

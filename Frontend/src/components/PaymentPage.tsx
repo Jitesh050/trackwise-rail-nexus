@@ -6,7 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { CreditCard, Smartphone, Building2, Wallet, Shield, CheckCircle } from "lucide-react";
+import { Shield, CheckCircle } from "lucide-react";
+// Using a direct path to the image
+const qrCodeImage = "/src/assets/upi-qr.png";
 import ETicket from "./ETicket";
 import { Switch } from "@/components/ui/switch";
 import { ticketsApi, type TicketRecord } from "@/lib/tickets";
@@ -37,7 +39,7 @@ interface PaymentPageProps {
 }
 
 const PaymentPage = ({ selectedTrain, bookingDetails, selectedSeats, onBack, onPaymentSuccess }: PaymentPageProps) => {
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [showQR, setShowQR] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [ticketData, setTicketData] = useState<any>(null);
@@ -165,97 +167,31 @@ const PaymentPage = ({ selectedTrain, bookingDetails, selectedSeats, onBack, onP
 
       <Card>
         <CardHeader>
-          <CardTitle>Select Payment Method</CardTitle>
-          <CardDescription>Choose your preferred payment option</CardDescription>
+          <CardTitle>UPI Payment</CardTitle>
+          <CardDescription>Scan the QR code with any UPI app to pay</CardDescription>
         </CardHeader>
         <CardContent>
-          <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-4">
-            <div className="flex items-center space-x-2 p-4 border rounded-lg">
-              <RadioGroupItem value="card" id="card" />
-              <Label htmlFor="card" className="flex items-center gap-3 flex-1 cursor-pointer">
-                <CreditCard className="w-5 h-5 text-rail-primary" />
-                <div>
-                  <p className="font-medium">Credit/Debit Card</p>
-                  <p className="text-sm text-muted-foreground">Visa, Mastercard, RuPay accepted</p>
-                </div>
-              </Label>
+          {!showQR ? (
+            <div className="flex flex-col items-center gap-6">
+              <Button className="bg-rail-primary hover:bg-rail-primary/90" onClick={() => setShowQR(true)}>
+                Show UPI QR Code
+              </Button>
             </div>
-            
-            <div className="flex items-center space-x-2 p-4 border rounded-lg">
-              <RadioGroupItem value="upi" id="upi" />
-              <Label htmlFor="upi" className="flex items-center gap-3 flex-1 cursor-pointer">
-                <Smartphone className="w-5 h-5 text-rail-primary" />
-                <div>
-                  <p className="font-medium">UPI</p>
-                  <p className="text-sm text-muted-foreground">Pay using any UPI app</p>
-                </div>
-              </Label>
-            </div>
-            
-            <div className="flex items-center space-x-2 p-4 border rounded-lg">
-              <RadioGroupItem value="netbanking" id="netbanking" />
-              <Label htmlFor="netbanking" className="flex items-center gap-3 flex-1 cursor-pointer">
-                <Building2 className="w-5 h-5 text-rail-primary" />
-                <div>
-                  <p className="font-medium">Net Banking</p>
-                  <p className="text-sm text-muted-foreground">All major banks supported</p>
-                </div>
-              </Label>
-            </div>
-            
-            <div className="flex items-center space-x-2 p-4 border rounded-lg">
-              <RadioGroupItem value="wallet" id="wallet" />
-              <Label htmlFor="wallet" className="flex items-center gap-3 flex-1 cursor-pointer">
-                <Wallet className="w-5 h-5 text-rail-primary" />
-                <div>
-                  <p className="font-medium">Digital Wallets</p>
-                  <p className="text-sm text-muted-foreground">Paytm, PhonePe, Google Pay</p>
-                </div>
-              </Label>
-            </div>
-          </RadioGroup>
-
-          {paymentMethod === "card" && (
-            <div className="mt-6 space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="cardNumber">Card Number</Label>
-                <Input id="cardNumber" placeholder="1234 5678 9012 3456" />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="expiry">Expiry Date</Label>
-                  <Input id="expiry" placeholder="MM/YY" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="cvv">CVV</Label>
-                  <Input id="cvv" placeholder="123" />
-                </div>
-              </div>
+          ) : (
+            <div className="flex flex-col items-center gap-6">
+              <img src={qrCodeImage} alt="UPI QR Code" className="w-64 h-64 rounded-lg border bg-white p-2" />
+              <Button onClick={handlePayment} disabled={isProcessing} className="bg-green-600 hover:bg-green-700">
+                {isProcessing ? "Processing..." : `I've Paid, Confirm Payment`}
+              </Button>
             </div>
           )}
-
-          {paymentMethod === "upi" && (
-            <div className="mt-6 space-y-2">
-              <Label htmlFor="upiId">UPI ID</Label>
-              <Input id="upiId" placeholder="yourname@upi" />
-            </div>
-          )}
-
           <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
             <Shield className="w-4 h-4" />
             <span>Your payment information is secured with 256-bit SSL encryption</span>
           </div>
-
           <div className="mt-6 flex gap-4">
             <Button variant="outline" onClick={onBack} className="flex-1">
               Back
-            </Button>
-            <Button 
-              onClick={handlePayment} 
-              disabled={isProcessing}
-              className="flex-1 bg-rail-primary hover:bg-rail-primary/90"
-            >
-              {isProcessing ? "Processing..." : `Pay ₹${totalAmount.toFixed(2)}`}
             </Button>
           </div>
         </CardContent>

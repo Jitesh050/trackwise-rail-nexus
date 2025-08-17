@@ -30,10 +30,10 @@ const PassengerDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-slate-900">
       <div className="space-y-8">
         {/* Welcome Header */}
-        <div className="relative overflow-hidden bg-gradient-to-r from-primary/10 via-primary/5 to-transparent rounded-2xl p-8 border border-primary/10">
+        <div className="relative overflow-hidden bg-slate-800 rounded-2xl p-8 border border-slate-700">
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-6">
               <div>
@@ -61,7 +61,7 @@ const PassengerDashboard = () => {
             
             {/* Quick Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+              <div className="bg-slate-800 rounded-xl p-4 border border-slate-700 text-slate-100">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-green-100 rounded-lg">
                     <CheckCircle className="h-5 w-5 text-green-600" />
@@ -72,7 +72,7 @@ const PassengerDashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+              <div className="bg-slate-800 rounded-xl p-4 border border-slate-700 text-slate-100">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-blue-100 rounded-lg">
                     <Calendar className="h-5 w-5 text-blue-600" />
@@ -83,7 +83,7 @@ const PassengerDashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+              <div className="bg-slate-800 rounded-xl p-4 border border-slate-700 text-slate-100">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-purple-100 rounded-lg">
                     <TrendingUp className="h-5 w-5 text-purple-600" />
@@ -108,7 +108,7 @@ const PassengerDashboard = () => {
             badge="Most Popular"
             badgeVariant="default"
             onClick={() => handleFeatureClick("/book-ticket")}
-            className="card-hover bg-gradient-to-br from-blue-50 to-blue-100/50 border-blue-200"
+            className="card-hover bg-slate-800 border-slate-700 text-slate-100"
           />
           <DashboardCard
             title="Live Train Status"
@@ -117,7 +117,7 @@ const PassengerDashboard = () => {
             badge="Live Updates"
             badgeVariant="secondary"
             onClick={() => handleFeatureClick("/train-status")}
-            className="card-hover bg-gradient-to-br from-green-50 to-green-100/50 border-green-200"
+            className="card-hover bg-slate-800 border-slate-700 text-slate-100"
           />
           <DashboardCard
             title="AI Assistant"
@@ -126,7 +126,7 @@ const PassengerDashboard = () => {
             badge="24/7 Available"
             badgeVariant="outline"
             onClick={() => handleFeatureClick("/user-portal")}
-            className="card-hover bg-gradient-to-br from-purple-50 to-purple-100/50 border-purple-200"
+            className="card-hover bg-slate-800 border-slate-700 text-slate-100"
           />
         </div>
 
@@ -187,7 +187,7 @@ const PassengerDashboard = () => {
               </Button>
             </div>
             <div className="grid gap-4">
-              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-transparent rounded-xl border border-green-100">
+              <div className="flex items-center justify-between p-4 bg-slate-800 border-slate-700 text-slate-100">
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-green-100 rounded-xl">
                     <QrCode className="h-5 w-5 text-green-600" />
@@ -200,7 +200,7 @@ const PassengerDashboard = () => {
                 <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Today 2:30 PM</Badge>
               </div>
               
-              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-transparent rounded-xl border border-blue-100">
+              <div className="flex items-center justify-between p-4 bg-slate-800 border-slate-700 text-slate-100">
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-blue-100 rounded-xl">
                     <Train className="h-5 w-5 text-blue-600" />

@@ -12,6 +12,33 @@ interface Message {
   timestamp: Date;
 }
 
+type ChatBotFlow =
+  | 'idle'
+  | 'select_option'
+  | 'booking_source'
+  | 'booking_destination'
+  | 'booking_date'
+  | 'booking_type'
+  | 'booking_name'
+  | 'booking_email'
+  | 'booking_phone'
+  | 'booking_seat'
+  | 'booking_confirm'
+  | 'train_status_pnr'
+  | 'train_status_result'
+  | 'query';
+
+interface BookingData {
+  source?: string;
+  destination?: string;
+  date?: string;
+  type?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  seat?: string;
+}
+
 const ChatBot = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -22,6 +49,10 @@ const ChatBot = () => {
     }
   ]);
   const [inputText, setInputText] = useState("");
+const [flow, setFlow] = useState<ChatBotFlow>('select_option');
+const [booking, setBooking] = useState<BookingData>({});
+const [pendingOption, setPendingOption] = useState<string | null>(null);
+const [trainStatusPNR, setTrainStatusPNR] = useState<string>("");
   const [isListening, setIsListening] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -35,32 +66,178 @@ const ChatBot = () => {
   }, [messages]);
 
   const handleSendMessage = async () => {
-    if (!inputText.trim()) return;
+  if (!inputText.trim()) return;
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      text: inputText,
-      isBot: false,
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setInputText("");
-    setIsTyping(true);
-
-    // Simulate bot response (in real app, this would call an AI service)
-    setTimeout(() => {
-      const botResponse = generateBotResponse(inputText);
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: botResponse,
-        isBot: true,
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, botMessage]);
-      setIsTyping(false);
-    }, 1500);
+  const userMessage: Message = {
+    id: Date.now().toString(),
+    text: inputText,
+    isBot: false,
+    timestamp: new Date()
   };
+
+  setMessages(prev => [...prev, userMessage]);
+  setInputText("");
+  setIsTyping(true);
+
+  // Conversational flow logic
+  setTimeout(() => {
+    let botResponse = "";
+    let nextFlow: ChatBotFlow = flow;
+    let updateBooking = { ...booking };
+
+    switch (flow) {
+      case 'select_option':
+        botResponse = "Please select an option above.";
+        break;
+      case 'booking_source':
+        updateBooking.source = userMessage.text;
+        botResponse = "Great! What's your destination station?";
+        nextFlow = 'booking_destination';
+        break;
+      case 'booking_destination':
+        updateBooking.destination = userMessage.text;
+        botResponse = "What date would you like to travel? (YYYY-MM-DD)";
+        nextFlow = 'booking_date';
+        break;
+      case 'booking_date':
+        updateBooking.date = userMessage.text;
+        botResponse = "What type of ticket do you want? (General, Sleeper, AC, etc.)";
+        nextFlow = 'booking_type';
+        break;
+      case 'booking_type':
+        updateBooking.type = userMessage.text;
+        botResponse = "Please enter your name.";
+        nextFlow = 'booking_name';
+        break;
+      case 'booking_name':
+        updateBooking.name = userMessage.text;
+        botResponse = "Please enter your email address.";
+        nextFlow = 'booking_email';
+        break;
+      case 'booking_email':
+        updateBooking.email = userMessage.text;
+        botResponse = "Please enter your phone number.";
+        nextFlow = 'booking_phone';
+        break;
+      case 'booking_phone':
+        updateBooking.phone = userMessage.text;
+        botResponse = "Which seat number would you prefer? (Leave blank for auto-assign)";
+        nextFlow = 'booking_seat';
+        break;
+      case 'booking_seat':
+        updateBooking.seat = userMessage.text;
+        // --- Integrate ticket booking API ---
+        botResponse = "Booking your ticket...";
+        nextFlow = 'booking_confirm';
+        setIsTyping(true);
+        fetch('/api/tickets/book', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updateBooking)
+        })
+          .then(res => res.json())
+          .then(data => {
+            setMessages(prev => [...prev, {
+              id: (Date.now() + 2).toString(),
+              text: data.success ? `Ticket booked!\n\nPNR: ${data.pnr}\nFrom: ${data.source}\nTo: ${data.destination}\nDate: ${data.date}\nSeat: ${data.seat}\n\nRedirecting you to confirmation page...` : `Booking failed: ${data.error || 'Unknown error'}`,
+              isBot: true,
+              timestamp: new Date()
+            }]);
+            setIsTyping(false);
+            if (data.success) {
+              setTimeout(() => {
+                window.location.href = '/ticket-confirm';
+              }, 2000);
+            }
+          })
+          .catch(() => {
+            setMessages(prev => [...prev, {
+              id: (Date.now() + 2).toString(),
+              text: 'Booking failed: Could not reach server.',
+              isBot: true,
+              timestamp: new Date()
+            }]);
+            setIsTyping(false);
+          });
+        return; // Prevent fallthrough
+      case 'train_status_pnr':
+        setTrainStatusPNR(userMessage.text);
+        botResponse = "Checking status for PNR: " + userMessage.text + "...";
+        nextFlow = 'train_status_result';
+        setIsTyping(true);
+        fetch('/api/train-status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pnr: userMessage.text })
+        })
+          .then(res => res.json())
+          .then(data => {
+            setMessages(prev => [...prev, {
+              id: (Date.now() + 2).toString(),
+              text: data.status
+                ? `Train Status for PNR ${userMessage.text}:\n${data.status}`
+                : `No status found for PNR ${userMessage.text}.`,
+              isBot: true,
+              timestamp: new Date()
+            }]);
+            setIsTyping(false);
+          })
+          .catch(() => {
+            setMessages(prev => [...prev, {
+              id: (Date.now() + 2).toString(),
+              text: 'Could not fetch train status.',
+              isBot: true,
+              timestamp: new Date()
+            }]);
+            setIsTyping(false);
+          });
+        return;
+      case 'query':
+      default:
+        setIsTyping(true);
+        fetch('/api/chatbot/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: userMessage.text })
+        })
+          .then(res => res.json())
+          .then(data => {
+            setMessages(prev => [...prev, {
+              id: (Date.now() + 2).toString(),
+              text: data.answer || 'Sorry, I could not answer that.',
+              isBot: true,
+              timestamp: new Date()
+            }]);
+            setIsTyping(false);
+          })
+          .catch(() => {
+            setMessages(prev => [...prev, {
+              id: (Date.now() + 2).toString(),
+              text: 'Could not reach chatbot service.',
+              isBot: true,
+              timestamp: new Date()
+            }]);
+            setIsTyping(false);
+          });
+        return;
+    }
+    setBooking(updateBooking);
+    setFlow(nextFlow);
+    setMessages(prev => [...prev, {
+      id: (Date.now() + 1).toString(),
+      text: botResponse,
+      isBot: true,
+      timestamp: new Date()
+    }]);
+    setIsTyping(false);
+    // Simulate redirect after booking
+    if (nextFlow === 'booking_confirm') {
+      setTimeout(() => {
+        window.location.href = '/ticket-confirm';
+      }, 2000);
+    }
+  }, 1200);
+};
 
   const generateBotResponse = (userInput: string): string => {
     const input = userInput.toLowerCase();
@@ -102,8 +279,43 @@ const ChatBot = () => {
     }
   };
 
+
+  const handleOptionClick = (option: string) => {
+    switch (option) {
+      case 'book_ticket':
+        setMessages(prev => [...prev, { id: Date.now().toString(), text: 'Book Ticket', isBot: false, timestamp: new Date() }]);
+        setFlow('booking_source');
+        setIsTyping(true);
+        setTimeout(() => {
+          setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), text: 'Sure! What is your departure station?', isBot: true, timestamp: new Date() }]);
+          setIsTyping(false);
+        }, 800);
+        break;
+      case 'ask_query':
+        setMessages(prev => [...prev, { id: Date.now().toString(), text: 'Ask a Query', isBot: false, timestamp: new Date() }]);
+        setFlow('query');
+        setIsTyping(true);
+        setTimeout(() => {
+          setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), text: 'What would you like to ask?', isBot: true, timestamp: new Date() }]);
+          setIsTyping(false);
+        }, 800);
+        break;
+      case 'train_status':
+        setMessages(prev => [...prev, { id: Date.now().toString(), text: 'Check Train Status', isBot: false, timestamp: new Date() }]);
+        setFlow('train_status_pnr');
+        setIsTyping(true);
+        setTimeout(() => {
+          setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), text: 'Please enter your PNR number:', isBot: true, timestamp: new Date() }]);
+          setIsTyping(false);
+        }, 800);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
-    <Card className="h-[600px] flex flex-col">
+    <Card className="max-w-xl w-full h-[600px] max-h-[80vh] flex flex-col mx-auto shadow-2xl border border-slate-700 bg-slate-900">
       <CardHeader className="bg-rail-primary text-white rounded-t-lg">
         <CardTitle className="flex items-center gap-2">
           <MessageCircle className="h-5 w-5" />
@@ -111,9 +323,9 @@ const ChatBot = () => {
         </CardTitle>
       </CardHeader>
       
-      <CardContent className="flex-1 flex flex-col p-0">
+      <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-full">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -125,10 +337,10 @@ const ChatBot = () => {
                 }`}>
                   {message.isBot ? <Bot size={16} /> : <User size={16} />}
                 </div>
-                <div className={`p-3 rounded-lg ${
+                <div className={`p-3 rounded-lg break-words ${
                   message.isBot 
-                    ? 'bg-gray-100 text-gray-800' 
-                    : 'bg-rail-accent text-white'
+                    ? 'bg-slate-800 text-slate-100 border border-slate-700' 
+                    : 'bg-rail-accent text-white border border-rail-accent/30'
                 }`}>
                   <p className="text-sm whitespace-pre-line">{message.text}</p>
                   <span className="text-xs opacity-70 mt-1 block">
@@ -158,39 +370,67 @@ const ChatBot = () => {
           <div ref={messagesEndRef} />
         </div>
         
-        {/* Input Area */}
-        <div className="border-t p-4">
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={toggleVoiceInput}
-              className={isListening ? 'bg-red-100 border-red-300' : ''}
-            >
-              {isListening ? <MicOff className="h-4 w-4 text-red-600" /> : <Mic className="h-4 w-4" />}
-            </Button>
-            <Input
-              placeholder="Type your message or use voice..."
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-              className="flex-1"
-            />
-            <Button 
-              onClick={handleSendMessage}
-              className="bg-rail-primary hover:bg-rail-primary/90"
-              disabled={!inputText.trim()}
-            >
-              <Send className="h-4 w-4" />
-            </Button>
+        {/* Options Area */}
+        {flow === 'select_option' && (
+          <div className="border-t p-4">
+            <div className="flex gap-2">
+              <Button 
+                onClick={() => handleOptionClick('book_ticket')}
+                className="bg-rail-primary hover:bg-rail-primary/90"
+              >
+                Book Ticket
+              </Button>
+              <Button 
+                onClick={() => handleOptionClick('ask_query')}
+                className="bg-rail-primary hover:bg-rail-primary/90"
+              >
+                Ask Query
+              </Button>
+              <Button 
+                onClick={() => handleOptionClick('train_status')}
+                className="bg-rail-primary hover:bg-rail-primary/90"
+              >
+                Train Status
+              </Button>
+            </div>
           </div>
-          {isListening && (
-            <p className="text-sm text-red-600 mt-2 flex items-center gap-1">
-              <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
-              Listening... Speak now
-            </p>
-          )}
-        </div>
+        )}
+        
+        {/* Input Area */}
+        {flow !== 'select_option' && (
+          <div className="border-t p-4">
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={toggleVoiceInput}
+                className={isListening ? 'bg-red-100 border-red-300' : ''}
+              >
+                {isListening ? <MicOff className="h-4 w-4 text-red-600" /> : <Mic className="h-4 w-4" />}
+              </Button>
+              <Input
+                placeholder="Type your message or use voice..."
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                className="flex-1"
+              />
+              <Button 
+                onClick={handleSendMessage}
+                className="bg-rail-primary hover:bg-rail-primary/90"
+                disabled={!inputText.trim()}
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+            {isListening && (
+              <p className="text-sm text-red-600 mt-2 flex items-center gap-1">
+                <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
+                Listening... Speak now
+              </p>
+            )}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

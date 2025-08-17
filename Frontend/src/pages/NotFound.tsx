@@ -15,16 +15,17 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-rail-light p-4">
+    <div className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
       <div className="text-center max-w-md">
         <div className="flex justify-center mb-4">
           <div className="bg-rail-primary rounded-full p-4">
-            <Train className="h-12 w-12 text-white" />
+            <Train className="h-12 w-12 text-slate-100" />
           </div>
         </div>
-        <h1 className="text-6xl font-bold text-rail-primary mb-4">404</h1>
-        <p className="text-2xl text-rail-dark mb-4">Oops! This train doesn't stop here.</p>
-        <p className="text-rail-secondary mb-8">
+        <h1 className="text-6xl font-bold text-slate-100 mb-4">404</h1>
+        <h1 className="text-6xl font-bold text-rail-accent mb-4">404</h1>
+        <p className="text-2xl text-slate-100 mb-4">Oops! This train doesn't stop here.</p>
+        <p className="text-slate-400 mb-8">
           We couldn't find the page you're looking for. It might have been moved, 
           renamed, or might not exist.
         </p>

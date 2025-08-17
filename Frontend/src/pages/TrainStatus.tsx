@@ -133,7 +133,7 @@ const TrainStatus = () => {
         <p className="text-muted-foreground">Check real-time updates on train arrivals and departures</p>
       </header>
       
-      <section className="bg-rail-light p-6 rounded-lg">
+      <section className="bg-slate-800 p-6 rounded-lg text-slate-100">
         <form onSubmit={handleSearch}>
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
@@ -154,7 +154,7 @@ const TrainStatus = () => {
                 <Search size={18} className="mr-2" />
                 Search
               </Button>
-              <Button variant="outline" className="bg-white">
+              <Button variant="outline" className="bg-slate-700 text-slate-100">
                 <Filter size={18} />
               </Button>
             </div>

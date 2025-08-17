@@ -129,7 +129,7 @@ const ETicket = ({ ticketData }: ETicketProps) => {
               <div className="text-right">
                 <p className="text-sm font-medium">Fare</p>
                 <p className="text-lg font-bold text-rail-primary">
-                  ${ticketData.fare.toFixed(2)}
+                  ₹{ticketData.fare.toLocaleString('en-IN')}
                 </p>
               </div>
             </div>

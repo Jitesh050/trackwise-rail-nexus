@@ -1,4 +1,6 @@
 import { useState } from "react";
+// Theme is always dark mode
+import { Moon } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -72,6 +74,8 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
           </div>
 
           <div className="flex items-center space-x-2">
+            {/* Dark mode toggle */}
+            {/* Theme toggle removed - always dark mode */}
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -200,5 +204,17 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
     </nav>
   );
 };
+
+// Theme is always dark mode
+const ThemeToggle = () => (
+  <Button
+    variant="ghost"
+    size="icon"
+    aria-label="Dark mode"
+    className="text-white hover:bg-slate-800"
+  >
+    <Moon size={18} />
+  </Button>
+);
 
 export default Navbar;

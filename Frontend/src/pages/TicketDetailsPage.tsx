@@ -26,8 +26,8 @@ const TicketDetailsPage = () => {
 
   if (!ticket) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-white p-8 rounded shadow text-center">
+      <div className="min-h-screen flex items-center justify-center bg-slate-900">
+        <div className="bg-slate-800 p-8 rounded shadow text-center text-slate-100">
           <h2 className="text-2xl font-bold mb-2">Ticket Not Found</h2>
           <p>No ticket found for the provided PNR.</p>
         </div>
@@ -36,7 +36,7 @@ const TicketDetailsPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50">
+    <div className="min-h-screen flex items-center justify-center bg-slate-900">
       <Card className="max-w-md w-full">
         <CardHeader className="text-center bg-rail-primary text-white rounded-t-lg">
           <h3 className="text-xl font-semibold">Ticket Details</h3>
