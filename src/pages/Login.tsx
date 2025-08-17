@@ -1,12 +1,11 @@
 
 import { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Train, LogIn, Shield, User, ArrowRight, Sparkles } from "lucide-react";
+import { Train, LogIn, ArrowRight, Sparkles } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 
@@ -16,8 +15,6 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { signIn } = useAuth();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const userType = searchParams.get("type") || "passenger";
   
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,50 +63,15 @@ const Login = () => {
         {/* Login Card */}
         <Card className="bg-slate-800/90 backdrop-blur-sm border-slate-600 shadow-2xl">
           <CardHeader className="space-y-4">
-            <Tabs value={userType} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-slate-700 border-slate-600">
-                <TabsTrigger 
-                  value="passenger" 
-                  className="data-[state=active]:bg-rail-accent data-[state=active]:text-white"
-                  onClick={() => navigate("/login?type=passenger")}
-                >
-                  <User className="w-4 h-4 mr-2" />
-                  Passenger
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="admin" 
-                  className="data-[state=active]:bg-yellow-500 data-[state=active]:text-slate-900"
-                  onClick={() => navigate("/login?type=admin")}
-                >
-                  <Shield className="w-4 h-4 mr-2" />
-                  Admin
-                </TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="passenger" className="mt-4">
-                <div className="text-center space-y-2">
-                  <CardTitle className="text-xl text-white flex items-center justify-center gap-2">
-                    <div className="w-2 h-2 bg-rail-accent rounded-full animate-pulse"></div>
-                    Passenger Portal
-                  </CardTitle>
-                  <CardDescription className="text-slate-400">
-                    Access booking, trip planning, and travel updates
-                  </CardDescription>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="admin" className="mt-4">
-                <div className="text-center space-y-2">
-                  <CardTitle className="text-xl text-white flex items-center justify-center gap-2">
-                    <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
-                    Admin Control Center
-                  </CardTitle>
-                  <CardDescription className="text-slate-400">
-                    Monitor operations, safety systems, and analytics
-                  </CardDescription>
-                </div>
-              </TabsContent>
-            </Tabs>
+            <div className="text-center space-y-2">
+              <CardTitle className="text-xl text-white flex items-center justify-center gap-2">
+                <div className="w-2 h-2 bg-rail-accent rounded-full animate-pulse"></div>
+                TrackWise Portal
+              </CardTitle>
+              <CardDescription className="text-slate-400">
+                Access your dashboard and travel services
+              </CardDescription>
+            </div>
           </CardHeader>
           
           <form onSubmit={handleLogin}>
@@ -167,11 +129,7 @@ const Login = () => {
             <CardFooter className="flex flex-col space-y-4">
               <Button 
                 type="submit" 
-                className={`w-full h-12 text-white font-medium transition-all duration-200 ${
-                  userType === 'admin' 
-                    ? 'bg-yellow-500 hover:bg-yellow-600 hover:shadow-lg hover:shadow-yellow-500/25' 
-                    : 'bg-rail-primary hover:bg-rail-primary/90 hover:shadow-lg hover:shadow-rail-primary/25'
-                }`}
+                className="w-full h-12 bg-rail-primary hover:bg-rail-primary/90 text-white font-medium transition-all duration-200 hover:shadow-lg hover:shadow-rail-primary/25"
                 disabled={isLoading}
               >
                 {isLoading ? (
