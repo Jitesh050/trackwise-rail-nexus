@@ -5,6 +5,7 @@ import { DashboardCard } from "@/components/ui/dashboard-card";
 import { FeatureSection } from "@/components/ui/feature-section";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { 
   Train, 
   QrCode, 
@@ -15,183 +16,205 @@ import {
   Clock,
   User,
   Bell,
-  Settings
+  TrendingUp,
+  CheckCircle,
+  Calendar
 } from "lucide-react";
 
 const PassengerDashboard = () => {
   const navigate = useNavigate();
-  const [notifications] = useState(2);
+  const [notifications] = useState(3);
 
   const handleFeatureClick = (route: string) => {
     navigate(route);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-      <div className="container mx-auto p-6 space-y-8">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Passenger Dashboard</h1>
-            <p className="text-muted-foreground mt-1">
-              Welcome back! Manage your travel experience effortlessly.
-            </p>
+    <div className="min-h-screen">
+      <div className="space-y-8">
+        {/* Welcome Header */}
+        <div className="relative overflow-hidden bg-gradient-to-r from-primary/10 via-primary/5 to-transparent rounded-2xl p-8 border border-primary/10">
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome Back, John!</h1>
+                <p className="text-lg text-muted-foreground">
+                  Your personalized travel hub is ready to assist you
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <Button variant="outline" size="sm" className="relative bg-white/50 backdrop-blur-sm">
+                  <Bell className="h-4 w-4 mr-2" />
+                  Alerts
+                  {notifications > 0 && (
+                    <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center text-xs bg-red-500">
+                      {notifications}
+                    </Badge>
+                  )}
+                </Button>
+                <Button variant="outline" size="sm" className="bg-white/50 backdrop-blur-sm">
+                  <User className="h-4 w-4 mr-2" />
+                  Profile
+                </Button>
+              </div>
+            </div>
+            
+            {/* Quick Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-green-100 rounded-lg">
+                    <CheckCircle className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Active Bookings</p>
+                    <p className="text-xl font-bold">2</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-100 rounded-lg">
+                    <Calendar className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Next Journey</p>
+                    <p className="text-xl font-bold">Today</p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-purple-100 rounded-lg">
+                    <TrendingUp className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Miles Traveled</p>
+                    <p className="text-xl font-bold">1,247</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <Button variant="outline" size="sm" className="relative">
-              <Bell className="h-4 w-4 mr-2" />
-              Notifications
-              {notifications > 0 && (
-                <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center text-xs">
-                  {notifications}
-                </Badge>
-              )}
-            </Button>
-            <Button variant="outline" size="sm">
-              <User className="h-4 w-4 mr-2" />
-              Profile
-            </Button>
-          </div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
         </div>
 
         {/* Quick Actions */}
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-3">
           <DashboardCard
-            title="Book Ticket"
-            description="Quick booking with QR code"
+            title="Book New Ticket"
+            description="Quick QR code booking"
             icon={QrCode}
-            badge="Popular"
+            badge="Most Popular"
             badgeVariant="default"
             onClick={() => handleFeatureClick("/book-ticket")}
+            className="card-hover bg-gradient-to-br from-blue-50 to-blue-100/50 border-blue-200"
           />
           <DashboardCard
-            title="Train Status"
-            description="Live updates and tracking"
+            title="Live Train Status"
+            description="Real-time tracking"
             icon={Train}
-            badge="Live"
+            badge="Live Updates"
             badgeVariant="secondary"
             onClick={() => handleFeatureClick("/train-status")}
+            className="card-hover bg-gradient-to-br from-green-50 to-green-100/50 border-green-200"
           />
           <DashboardCard
             title="AI Assistant"
-            description="Get help with bookings"
+            description="Get instant help"
             icon={MessageCircle}
-            badge="24/7"
+            badge="24/7 Available"
             badgeVariant="outline"
             onClick={() => handleFeatureClick("/user-portal")}
+            className="card-hover bg-gradient-to-br from-purple-50 to-purple-100/50 border-purple-200"
           />
         </div>
 
         {/* Main Features */}
-        <FeatureSection title="Travel Services" icon={Train}>
+        <FeatureSection title="All Travel Services" icon={Train}>
           <DashboardCard
-            title="Live Train Status"
-            description="Real-time train tracking and updates"
+            title="Live Train Updates"
+            description="Track delays, arrivals & platform changes in real-time"
             icon={Clock}
             onClick={() => handleFeatureClick("/train-status")}
-          >
-            <div className="text-sm text-muted-foreground">
-              Track delays, arrivals, and platform changes
-            </div>
-          </DashboardCard>
+            className="card-hover"
+          />
 
           <DashboardCard
-            title="QR Ticket Booking"
-            description="Digital tickets with QR codes"
-            icon={QrCode}
-            badge="Contactless"
-            badgeVariant="secondary"
-            onClick={() => handleFeatureClick("/book-ticket")}
-          >
-            <div className="text-sm text-muted-foreground">
-              Instant booking with mobile-friendly QR codes
-            </div>
-          </DashboardCard>
-
-          <DashboardCard
-            title="Trip Planner"
-            description="Plan your complete journey"
+            title="Smart Trip Planner"
+            description="Discover hotels, restaurants & attractions near your destination"
             icon={MapPin}
             onClick={() => handleFeatureClick("/trip-planner")}
-          >
-            <div className="text-sm text-muted-foreground">
-              Find hotels, attractions, and nearby spots
-            </div>
-          </DashboardCard>
+            className="card-hover"
+          />
 
           <DashboardCard
-            title="Priority Tickets"
-            description="Fast-track booking and boarding"
+            title="Priority Booking"
+            description="Skip queues with premium fast-track access"
             icon={Star}
             badge="Premium"
             badgeVariant="outline"
             onClick={() => handleFeatureClick("/book-ticket")}
-          >
-            <div className="text-sm text-muted-foreground">
-              Skip queues with priority access
-            </div>
-          </DashboardCard>
+            className="card-hover"
+          />
 
           <DashboardCard
-            title="Payment System"
-            description="Secure and flexible payments"
+            title="Secure Payments"
+            description="Multiple payment methods with bank-level security"
             icon={CreditCard}
             onClick={() => handleFeatureClick("/book-ticket")}
-          >
-            <div className="text-sm text-muted-foreground">
-              Multiple payment options with security
-            </div>
-          </DashboardCard>
+            className="card-hover"
+          />
 
           <DashboardCard
-            title="Chatbot Support"
-            description="AI-powered booking assistance"
+            title="Smart Chatbot"
+            description="AI-powered assistance for all your booking needs"
             icon={MessageCircle}
-            badge="Smart"
+            badge="AI Powered"
             badgeVariant="default"
             onClick={() => handleFeatureClick("/user-portal")}
-          >
-            <div className="text-sm text-muted-foreground">
-              Get instant help with ticket booking
-            </div>
-          </DashboardCard>
+            className="card-hover"
+          />
         </FeatureSection>
 
         {/* Recent Activity */}
-        <div className="bg-card rounded-xl border border-border/50 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">Recent Activity</h3>
-            <Button variant="ghost" size="sm">
-              View All
-            </Button>
-          </div>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <QrCode className="h-4 w-4 text-green-600" />
-                </div>
-                <div>
-                  <p className="font-medium">Ticket Booked Successfully</p>
-                  <p className="text-sm text-muted-foreground">Express 101 - Central to North</p>
-                </div>
-              </div>
-              <Badge variant="outline">Today</Badge>
+        <Card className="glass-morphism border-0 shadow-lg">
+          <CardContent className="p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold">Recent Activity</h3>
+              <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80">
+                View All History
+              </Button>
             </div>
-            <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <Train className="h-4 w-4 text-blue-600" />
+            <div className="grid gap-4">
+              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-transparent rounded-xl border border-green-100">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-green-100 rounded-xl">
+                    <QrCode className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="font-semibold">Ticket Successfully Booked</p>
+                    <p className="text-sm text-muted-foreground">Express 101 • Central to North Station</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-medium">Journey Completed</p>
-                  <p className="text-sm text-muted-foreground">Local 205 - On time arrival</p>
-                </div>
+                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Today 2:30 PM</Badge>
               </div>
-              <Badge variant="outline">Yesterday</Badge>
+              
+              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-transparent rounded-xl border border-blue-100">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-blue-100 rounded-xl">
+                    <Train className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="font-semibold">Journey Completed Successfully</p>
+                    <p className="text-sm text-muted-foreground">Local 205 • Arrived on time at destination</p>
+                  </div>
+                </div>
+                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Yesterday 6:45 PM</Badge>
+              </div>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

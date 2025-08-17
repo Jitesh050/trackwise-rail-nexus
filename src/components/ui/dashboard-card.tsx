@@ -28,29 +28,33 @@ export function DashboardCard({
   return (
     <Card 
       className={cn(
-        "transition-all duration-200 hover:shadow-md cursor-pointer group",
-        "border-border/50 hover:border-border",
+        "group transition-all duration-300 hover:shadow-xl cursor-pointer border-border/50 bg-card/50 backdrop-blur-sm hover:bg-card hover:-translate-y-1",
         className
       )}
       onClick={onClick}
     >
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-              <Icon className="h-5 w-5 text-primary" />
+      <CardHeader className="pb-4">
+        <div className="flex items-start justify-between">
+          <div className="flex items-start space-x-4">
+            <div className="p-3 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-all duration-300 group-hover:scale-110">
+              <Icon className="h-6 w-6 text-primary" />
             </div>
-            <div>
-              <CardTitle className="text-lg font-semibold">{title}</CardTitle>
+            <div className="flex-1">
+              <CardTitle className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                {title}
+              </CardTitle>
               {description && (
-                <CardDescription className="text-sm text-muted-foreground mt-1">
+                <CardDescription className="text-muted-foreground leading-relaxed">
                   {description}
                 </CardDescription>
               )}
             </div>
           </div>
           {badge && (
-            <Badge variant={badgeVariant} className="text-xs">
+            <Badge 
+              variant={badgeVariant} 
+              className="text-xs font-medium px-3 py-1 rounded-full"
+            >
               {badge}
             </Badge>
           )}
@@ -58,7 +62,9 @@ export function DashboardCard({
       </CardHeader>
       {children && (
         <CardContent className="pt-0">
-          {children}
+          <div className="text-sm text-muted-foreground">
+            {children}
+          </div>
         </CardContent>
       )}
     </Card>

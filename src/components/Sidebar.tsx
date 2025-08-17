@@ -1,5 +1,4 @@
 
-
 import { Link } from "react-router-dom";
 import { 
   Home, 
@@ -25,17 +24,22 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
   
   return (
     <aside 
-      className={`bg-slate-900 text-white transition-all duration-300 ease-in-out border-r border-slate-700 ${
-        isOpen ? 'w-64' : 'w-0 md:w-16'
-      } overflow-hidden`}
+      className={`bg-white border-r border-border/50 transition-all duration-300 ease-in-out ${
+        isOpen ? 'w-72' : 'w-0 md:w-16'
+      } overflow-hidden shadow-sm`}
     >
       <div className="h-full flex flex-col py-6">
-        <div className="px-4 mb-6">
-          {isOpen && <h2 className="text-xl font-bold mb-4">TrackWise</h2>}
+        <div className="px-6 mb-8">
+          {isOpen && (
+            <div>
+              <h2 className="text-2xl font-bold text-primary mb-1">TrackWise</h2>
+              <p className="text-sm text-muted-foreground">Railway Management</p>
+            </div>
+          )}
         </div>
         
-        <nav className="flex-1">
-          <div className="px-2 space-y-1">
+        <nav className="flex-1 px-3">
+          <div className="space-y-2">
             <SidebarLink to="/" icon={Home} label="Home" isOpen={isOpen} />
             {user && isAdmin && (
               <SidebarLink to="/admin" icon={Shield} label="Admin Dashboard" isOpen={isOpen} />
@@ -50,9 +54,13 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
             )}
           </div>
           
-          <div className="mt-8 px-4">
-            {isOpen && <h3 className="text-xs uppercase tracking-wider text-slate-400 mb-2">Quick Access</h3>}
-            <div className="px-2 space-y-1">
+          <div className="mt-8">
+            {isOpen && (
+              <div className="px-3 mb-4">
+                <h3 className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">Quick Access</h3>
+              </div>
+            )}
+            <div className="space-y-2">
               {user && (
                 <SidebarLink to="/user" icon={User} label="My Profile" isOpen={isOpen} />
               )}
@@ -78,15 +86,14 @@ const SidebarLink = ({ to, icon: Icon, label, isOpen }: SidebarLinkProps) => {
   return (
     <Link 
       to={to} 
-      className={`flex items-center p-2 rounded-md hover:bg-slate-800 transition-colors text-slate-300 hover:text-white ${
+      className={`group flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-muted/50 ${
         isOpen ? 'justify-start' : 'justify-center'
       }`}
     >
-      <Icon size={isOpen ? 18 : 20} />
-      {isOpen && <span className="ml-3">{label}</span>}
+      <Icon className={`${isOpen ? 'h-5 w-5' : 'h-6 w-6'} flex-shrink-0 group-hover:scale-110 transition-transform`} />
+      {isOpen && <span className="ml-3 font-medium">{label}</span>}
     </Link>
   );
 };
 
 export default Sidebar;
-
