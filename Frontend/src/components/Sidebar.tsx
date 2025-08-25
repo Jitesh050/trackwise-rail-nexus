@@ -26,7 +26,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
   return (
     <aside 
       className={cn(
-        "transition-all duration-300 ease-in-out overflow-hidden shadow-lg rounded-r-2xl bg-slate-900 border-r border-border/50",
+        "transition-all duration-300 ease-in-out overflow-hidden shadow-lg rounded-r-2xl bg-gray-900 border-r border-gray-700",
         isOpen ? "w-72" : "w-0 md:w-16"
       )}
     >
@@ -35,14 +35,14 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
           {isOpen && (
             <div>
               <h2 className="text-2xl font-bold text-white mb-1">TrackWise</h2>
-              <p className="text-sm text-slate-400">Railway Management</p>
+              <p className="text-sm text-gray-300">Railway Management</p>
             </div>
           )}
         </div>
         
         <nav className="flex-1 px-3">
           <div className="space-y-2">
-            <SidebarLink to="/home" icon={Home} label="Home" isOpen={isOpen} />
+            <SidebarLink to="/" icon={Home} label="Home" isOpen={isOpen} />
             {user && isAdmin && (
               <SidebarLink to="/admin" icon={Shield} label="Admin Dashboard" isOpen={isOpen} />
             )}
@@ -79,7 +79,7 @@ const SidebarLink = ({ to, icon: Icon, label, isOpen }: SidebarLinkProps) => {
       to={to} 
       className={cn(
         "group flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200",
-        "text-slate-300 hover:text-white hover:bg-slate-800",
+        "text-gray-300 hover:text-white hover:bg-gray-800",
         isOpen ? "justify-start" : "justify-center"
       )}
     >

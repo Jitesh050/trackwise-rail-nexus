@@ -126,7 +126,7 @@ const CollisionDetection = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-2">Collision Detection System</h2>
-        <p className="text-muted-foreground">Real-time monitoring and prediction of potential train conflicts</p>
+        <p className="text-gray-600">Real-time monitoring and prediction of potential train conflicts</p>
       </div>
 
       {/* System Status */}
@@ -135,7 +135,7 @@ const CollisionDetection = () => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">System Status</p>
+                <p className="text-sm font-medium text-gray-500">System Status</p>
                 <p className="text-lg font-bold text-green-600">Active</p>
               </div>
               <CheckCircle className="h-8 w-8 text-green-500" />
@@ -147,10 +147,10 @@ const CollisionDetection = () => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Monitored Routes</p>
+                <p className="text-sm font-medium text-gray-500">Monitored Routes</p>
                 <p className="text-2xl font-bold">3</p>
               </div>
-              <MapPin className="h-8 w-8 text-rail-primary opacity-80" />
+              <MapPin className="h-8 w-8 text-blue-600 opacity-80" />
             </div>
           </CardContent>
         </Card>
@@ -159,7 +159,7 @@ const CollisionDetection = () => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Active Alerts</p>
+                <p className="text-sm font-medium text-gray-500">Active Alerts</p>
                 <p className="text-2xl font-bold text-red-600">1</p>
               </div>
               <AlertTriangle className="h-8 w-8 text-red-500" />
@@ -171,10 +171,10 @@ const CollisionDetection = () => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Response Time</p>
+                <p className="text-sm font-medium text-gray-500">Response Time</p>
                 <p className="text-2xl font-bold">1.2s</p>
               </div>
-              <Clock className="h-8 w-8 text-rail-primary opacity-80" />
+              <Clock className="h-8 w-8 text-blue-600 opacity-80" />
             </div>
           </CardContent>
         </Card>
@@ -198,9 +198,9 @@ const CollisionDetection = () => {
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="font-medium">{alert.message}</p>
-                      <p className="text-sm text-muted-foreground mt-1">Action: {alert.action}</p>
+                      <p className="text-sm text-gray-500 mt-1">Action: {alert.action}</p>
                     </div>
-                    <span className="text-xs text-muted-foreground">{alert.timestamp}</span>
+                    <span className="text-xs text-gray-500">{alert.timestamp}</span>
                   </div>
                 </AlertDescription>
               </Alert>
@@ -213,7 +213,7 @@ const CollisionDetection = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Train className="h-5 w-5 text-rail-primary" />
+            <Train className="h-5 w-5 text-blue-600" />
             Route Monitoring
           </CardTitle>
           <CardDescription>Real-time train positions and conflict analysis</CardDescription>
@@ -225,7 +225,7 @@ const CollisionDetection = () => {
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <h3 className="font-semibold text-lg">{route.name}</h3>
-                    <p className="text-sm text-muted-foreground">Last update: {route.lastUpdate}</p>
+                    <p className="text-sm text-gray-500">Last update: {route.lastUpdate}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge className={getRiskColor(route.riskLevel)}>
@@ -275,7 +275,7 @@ const CollisionDetection = () => {
                   </div>
                   
                   {/* Scale */}
-                  <div className="flex justify-between text-xs text-muted-foreground mt-2">
+                  <div className="flex justify-between text-xs text-gray-500 mt-2">
                     <span>0 km</span>
                     <span>50 km</span>
                     <span>100 km</span>
@@ -286,13 +286,13 @@ const CollisionDetection = () => {
                 {selectedRoute === route.id && (
                   <div className="mt-4 grid gap-3">
                     {route.trains.map((train, trainIndex) => (
-                      <div key={train.id} className="bg-rail-light p-3 rounded-md">
+                      <div key={train.id} className="bg-gray-50 p-3 rounded-md border border-gray-200">
                         <div className="flex justify-between items-center">
                           <div className="flex items-center gap-3">
                             <div className={`w-4 h-4 rounded ${trainIndex === 0 ? 'bg-blue-500' : 'bg-green-500'}`}></div>
                             <span className="font-medium">{train.id} - {train.name}</span>
                           </div>
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-4 text-sm text-gray-500">
                             <span>Speed: {train.speed} km/h</span>
                             <span>Position: {train.position} km</span>
                             <span>Next: {train.nextStation} ({train.eta})</span>

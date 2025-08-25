@@ -96,7 +96,7 @@ const PaymentPage = ({ selectedTrain, bookingDetails, selectedSeats, onBack, onP
             </div>
           </div>
           <h2 className="text-2xl font-bold text-green-600 mb-2">Ticket Confirmed!</h2>
-          <p className="text-muted-foreground">Your booking has been successfully processed</p>
+                          <p className="text-gray-600">Your booking has been successfully processed</p>
         </div>
         
         <ETicket ticketData={ticketData} />
@@ -125,8 +125,8 @@ const PaymentPage = ({ selectedTrain, bookingDetails, selectedSeats, onBack, onP
           <div className="flex justify-between items-center">
             <div>
               <p className="font-medium">{selectedTrain.trainNumber} - {selectedTrain.trainName}</p>
-              <p className="text-sm text-muted-foreground">{bookingDetails.origin} → {bookingDetails.destination}</p>
-              <p className="text-sm text-muted-foreground">{bookingDetails.date}</p>
+              <p className="text-sm text-gray-500">{bookingDetails.origin} → {bookingDetails.destination}</p>
+              <p className="text-sm text-gray-500">{bookingDetails.date}</p>
             </div>
             <Badge variant="secondary">{bookingDetails.trainClass}</Badge>
           </div>
@@ -136,7 +136,7 @@ const PaymentPage = ({ selectedTrain, bookingDetails, selectedSeats, onBack, onP
           <div className="flex items-center justify-between py-2">
             <div>
               <p className="font-medium">Priority Ticket</p>
-              <p className="text-xs text-muted-foreground">Skip queues and get faster support</p>
+              <p className="text-xs text-gray-500">Skip queues and get faster support</p>
             </div>
             <Switch checked={priority} onCheckedChange={setPriority} />
           </div>
@@ -173,7 +173,7 @@ const PaymentPage = ({ selectedTrain, bookingDetails, selectedSeats, onBack, onP
         <CardContent>
           {!showQR ? (
             <div className="flex flex-col items-center gap-6">
-              <Button className="bg-rail-primary hover:bg-rail-primary/90" onClick={() => setShowQR(true)}>
+              <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => setShowQR(true)}>
                 Show UPI QR Code
               </Button>
             </div>
@@ -185,7 +185,7 @@ const PaymentPage = ({ selectedTrain, bookingDetails, selectedSeats, onBack, onP
               </Button>
             </div>
           )}
-          <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="mt-6 flex items-center gap-2 text-sm text-gray-500">
             <Shield className="w-4 h-4" />
             <span>Your payment information is secured with 256-bit SSL encryption</span>
           </div>

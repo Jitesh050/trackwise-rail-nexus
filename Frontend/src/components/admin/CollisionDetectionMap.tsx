@@ -98,7 +98,7 @@ const CollisionDetectionMap = () => {
           <CardDescription>Real-time positions and collision predictions</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="relative bg-slate-100 rounded-lg h-96 overflow-hidden">
+          <div className="relative bg-gray-100 rounded-lg h-96 overflow-hidden">
             {/* Simulated Map Background */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-green-50">
               {/* Railway Lines */}
@@ -139,7 +139,7 @@ const CollisionDetectionMap = () => {
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <h3 className="font-semibold">{train.name}</h3>
-                  <p className="text-sm text-muted-foreground">{train.route}</p>
+                  <p className="text-sm text-gray-600">{train.route}</p>
                 </div>
                 <Badge className={getStatusColor(train.status) + " text-white"}>
                   {train.status.toUpperCase()}

@@ -16,7 +16,7 @@ const Layout = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-muted/30">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 via-white to-gray-100">
       <Navbar toggleSidebar={toggleSidebar} />
       <div className="flex flex-1">
         <Sidebar isOpen={sidebarOpen} />

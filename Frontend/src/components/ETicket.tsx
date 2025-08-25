@@ -47,7 +47,7 @@ const ETicket = ({ ticketData }: ETicketProps) => {
 
   return (
     <Card className="max-w-md mx-auto">
-      <CardHeader className="text-center bg-rail-primary text-white rounded-t-lg">
+      <CardHeader className="text-center bg-blue-600 text-white rounded-t-lg">
         <div className="flex items-center justify-center gap-2 mb-2">
           <Train size={24} />
           <span className="text-lg font-bold">TrackWise Rail</span>
@@ -59,7 +59,7 @@ const ETicket = ({ ticketData }: ETicketProps) => {
       <CardContent className="p-6 space-y-4">
         {/* Passenger Info */}
         <div className="flex items-center gap-2">
-          <User size={16} className="text-rail-secondary" />
+          <User size={16} className="text-gray-600" />
           <span className="font-medium">{ticketData.passengerName}</span>
         </div>
 
@@ -69,66 +69,66 @@ const ETicket = ({ ticketData }: ETicketProps) => {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-rail-primary">{ticketData.trainNumber}</p>
-              <p className="text-sm text-muted-foreground">{ticketData.trainName}</p>
+              <p className="font-medium text-blue-600">{ticketData.trainNumber}</p>
+              <p className="text-sm text-gray-600">{ticketData.trainName}</p>
             </div>
             <div className="text-right">
               <p className="text-sm font-medium">{ticketData.class}</p>
-              <p className="text-xs text-muted-foreground">Class</p>
+              <p className="text-xs text-gray-500">Class</p>
             </div>
           </div>
 
           {/* Journey Details */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <MapPin size={16} className="text-rail-secondary" />
+              <MapPin size={16} className="text-gray-600" />
               <div>
                 <p className="font-medium">{ticketData.from}</p>
-                <p className="text-xs text-muted-foreground">Origin</p>
+                <p className="text-xs text-gray-500">Origin</p>
               </div>
             </div>
             <div className="flex-1 flex justify-center">
-              <div className="w-12 border-t border-dashed border-rail-secondary"></div>
+              <div className="w-12 border-t border-dashed border-gray-400"></div>
             </div>
             <div className="flex items-center gap-2">
               <div className="text-right">
                 <p className="font-medium">{ticketData.to}</p>
-                <p className="text-xs text-muted-foreground">Destination</p>
+                <p className="text-xs text-gray-500">Destination</p>
               </div>
-              <MapPin size={16} className="text-rail-secondary" />
+              <MapPin size={16} className="text-gray-600" />
             </div>
           </div>
 
           {/* Date and Time */}
           <div className="grid grid-cols-2 gap-4">
             <div className="flex items-center gap-2">
-              <Calendar size={16} className="text-rail-secondary" />
+              <Calendar size={16} className="text-gray-600" />
               <div>
                 <p className="font-medium">{ticketData.date}</p>
-                <p className="text-xs text-muted-foreground">Journey Date</p>
+                <p className="text-xs text-gray-500">Journey Date</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Clock size={16} className="text-rail-secondary" />
+              <Clock size={16} className="text-gray-600" />
               <div>
                 <p className="font-medium">{ticketData.departureTime}</p>
-                <p className="text-xs text-muted-foreground">Departure</p>
+                <p className="text-xs text-gray-500">Departure</p>
               </div>
             </div>
           </div>
 
           {/* Seat Info */}
-          <div className="bg-rail-light p-3 rounded">
+          <div className="bg-gray-50 p-3 rounded border border-gray-200">
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-sm font-medium">Seat Numbers</p>
-                <p className="text-lg font-bold text-rail-accent">
+                <p className="text-lg font-bold text-blue-600">
                   {ticketData.seatNumbers.join(', ')}
                 </p>
               </div>
               <div className="text-right">
                 <p className="text-sm font-medium">Fare</p>
-                <p className="text-lg font-bold text-rail-primary">
+                <p className="text-lg font-bold text-blue-600">
                   ₹{ticketData.fare.toLocaleString('en-IN')}
                 </p>
               </div>
@@ -153,7 +153,7 @@ const ETicket = ({ ticketData }: ETicketProps) => {
               className="w-20 h-20 mx-auto mb-2 cursor-pointer transition-transform hover:scale-105"
               onClick={() => setShowQrModal(true)}
             />
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
+            <p className="text-xs text-gray-500 flex items-center gap-1">
               <QrCode size={12} />
               Scan at station
             </p>
@@ -165,7 +165,7 @@ const ETicket = ({ ticketData }: ETicketProps) => {
                     alt="QR Code Large" 
                     className="w-72 h-72 mx-auto mb-4" 
                   />
-                  <button className="block mx-auto mt-2 px-4 py-2 bg-rail-primary text-white rounded hover:bg-rail-accent" onClick={() => setShowQrModal(false)}>
+                  <button className="block mx-auto mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" onClick={() => setShowQrModal(false)}>
                     Close
                   </button>
                 </div>
@@ -184,7 +184,7 @@ const ETicket = ({ ticketData }: ETicketProps) => {
           Download E-Ticket
         </Button>
 
-        <p className="text-xs text-center text-muted-foreground">
+        <p className="text-xs text-center text-gray-500">
           Please carry a valid photo ID along with this e-ticket during your journey.
         </p>
       </CardContent>

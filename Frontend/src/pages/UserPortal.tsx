@@ -26,7 +26,7 @@ const UserPortal = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">User Portal</h1>
-            <p className="text-muted-foreground mt-1">
+            <p className="text-gray-600 mt-1">
               Manage your bookings and account information
             </p>
           </div>
@@ -129,7 +129,7 @@ const NavItem = ({ label, icon, active }: NavItemProps) => {
     <button className={`w-full flex items-center gap-3 px-3 py-2 text-left rounded-md transition-colors ${
       active 
         ? "bg-primary/10 text-primary border border-primary/20" 
-        : "hover:bg-muted text-muted-foreground hover:text-foreground"
+        : "hover:bg-gray-100 text-gray-600 hover:text-gray-900"
     }`}>
       {icon}
       <span>{label}</span>

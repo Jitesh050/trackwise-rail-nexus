@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DashboardCard } from "@/components/ui/dashboard-card";
-import { FeatureSection } from "@/components/ui/feature-section";
+
 import { 
   Shield,
   AlertTriangle, 
@@ -28,18 +28,18 @@ const AdminDashboard = () => {
   const [notifications] = useState(3);
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto p-6 space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white">Admin Control Center</h1>
-            <p className="text-muted-foreground mt-1">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Admin Control Center</h1>
+            <p className="text-gray-600 mt-1">
               Advanced monitoring and management for railway operations
             </p>
           </div>
           <div className="flex items-center space-x-4">
-            <Button variant="outline" size="sm" className="relative">
+            <Button variant="outline" size="sm" className="relative border-gray-300">
               <Bell className="h-4 w-4 mr-2" />
               Alerts
               {notifications > 0 && (
@@ -48,7 +48,7 @@ const AdminDashboard = () => {
                 </Badge>
               )}
             </Button>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="border-gray-300">
               <Settings className="h-4 w-4 mr-2" />
               Settings
             </Button>
@@ -56,20 +56,20 @@ const AdminDashboard = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6" onValueChange={setActiveTab}>
-          <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:flex bg-slate-800 border border-slate-700 rounded-xl shadow" style={{background: 'rgba(30,41,59,0.97)'}}>
-            <TabsTrigger value="overview" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+          <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:flex bg-white border border-gray-200 rounded-xl shadow-sm">
+            <TabsTrigger value="overview" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
               <BarChart3 className="h-4 w-4 mr-2" />
               Overview
             </TabsTrigger>
-            <TabsTrigger value="collision" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <TabsTrigger value="collision" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
               <Shield className="h-4 w-4 mr-2" />
               Collision Detection
             </TabsTrigger>
-            <TabsTrigger value="crowd" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <TabsTrigger value="crowd" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
               <Users className="h-4 w-4 mr-2" />
               Crowd Monitoring
             </TabsTrigger>
-            <TabsTrigger value="energy" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <TabsTrigger value="energy" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
               <Zap className="h-4 w-4 mr-2" />
               Energy Control
             </TabsTrigger>
@@ -84,8 +84,8 @@ const AdminDashboard = () => {
                 badge="43 Running"
                 badgeVariant="secondary"
               >
-                <div className="text-2xl font-bold">43</div>
-                <div className="text-sm text-muted-foreground">2 delayed, 41 on time</div>
+                <div className="text-2xl font-bold text-gray-900">43</div>
+                <div className="text-sm text-gray-600">2 delayed, 41 on time</div>
               </DashboardCard>
 
               <DashboardCard 
@@ -95,119 +95,95 @@ const AdminDashboard = () => {
                 badgeVariant="destructive"
               >
                 <div className="text-2xl font-bold text-red-600">1</div>
-                <div className="text-sm text-muted-foreground">Active warning detected</div>
+                <div className="text-sm text-gray-600">Active warning detected</div>
               </DashboardCard>
 
               <DashboardCard 
-                title="Crowd Status"
+                title="Crowd Density"
                 icon={Users}
-                badge="Peak Hours"
-                badgeVariant="outline"
+                badge="Normal"
+                badgeVariant="default"
               >
-                <div className="text-2xl font-bold text-orange-600">67%</div>
-                <div className="text-sm text-muted-foreground">Station capacity</div>
+                <div className="text-2xl font-bold text-gray-900">67%</div>
+                <div className="text-sm text-gray-600">Platform 2 is busy</div>
               </DashboardCard>
 
               <DashboardCard 
-                title="Energy Efficiency" 
+                title="Energy Usage"
                 icon={Zap}
-                badge="Optimized"
+                badge="Optimal"
                 badgeVariant="secondary"
               >
-                <div className="text-2xl font-bold text-green-600">89%</div>
-                <div className="text-sm text-muted-foreground">$127 saved today</div>
+                <div className="text-2xl font-bold text-gray-900">78%</div>
+                <div className="text-sm text-gray-600">Efficient consumption</div>
               </DashboardCard>
             </div>
 
-            {/* Main Control Features */}
-            <FeatureSection title="Control Systems" icon={Shield}>
-              <DashboardCard
-                title="Collision Detection"
-                description="Real-time train tracking and collision prevention"
-                icon={AlertTriangle}
-                badge="Active"
-                badgeVariant="destructive"
-                onClick={() => setActiveTab("collision")}
-              >
-                <div className="space-y-2">
-                  <div className="text-sm font-medium text-red-600">1 Warning Active</div>
-                  <div className="text-xs text-muted-foreground">Express 101 & Bullet 330 - 45s to collision</div>
+            {/* Quick Actions */}
+            <div className="grid gap-4 md:grid-cols-3">
+              <Button className="h-24 bg-blue-600 hover:bg-blue-700 text-white">
+                <div className="text-center">
+                  <Shield className="h-8 w-8 mx-auto mb-2" />
+                  <span className="block text-sm">Emergency Stop</span>
                 </div>
-              </DashboardCard>
-
-              <DashboardCard
-                title="Crowd Density Monitoring"
-                description="Heat map visualization of passenger flow"
-                icon={Users}
-                badge="2 Critical Zones"
-                badgeVariant="outline"
-                onClick={() => setActiveTab("crowd")}
-              >
-                <div className="space-y-2">
-                  <div className="text-sm font-medium text-orange-600">High Density Detected</div>
-                  <div className="text-xs text-muted-foreground">Central Station - Platform 1 & Waiting Area</div>
+              </Button>
+              
+              <Button className="h-24 bg-green-600 hover:bg-green-700 text-white">
+                <div className="text-center">
+                  <Users className="h-8 w-8 mx-auto mb-2" />
+                  <span className="block text-sm">Crowd Control</span>
                 </div>
-              </DashboardCard>
-
-              <DashboardCard
-                title="Energy Optimization"
-                description="Automated energy management system"
-                icon={Zap}
-                badge="Auto Mode"
-                badgeVariant="secondary"
-                onClick={() => setActiveTab("energy")}
-              >
-                <div className="space-y-2">
-                  <div className="text-sm font-medium text-green-600">89% Efficiency</div>
-                  <div className="text-xs text-muted-foreground">54.7 kWh saved today</div>
+              </Button>
+              
+              <Button className="h-24 bg-purple-600 hover:bg-purple-700 text-white">
+                <div className="text-center">
+                  <Zap className="h-8 w-8 mx-auto mb-2" />
+                  <span className="block text-sm">Energy Settings</span>
                 </div>
-              </DashboardCard>
-            </FeatureSection>
+              </Button>
+            </div>
+          </TabsContent>
 
-            {/* System Status Overview */}
-            <Card className="bg-slate-800 border-slate-700 rounded-2xl shadow-xl" style={{background: 'rgba(30,41,59,0.97)'}}>
+          <TabsContent value="collision" className="space-y-6">
+            <Card className="border-gray-200 shadow-sm">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Activity className="h-5 w-5" />
-                  System Status Overview
-                </CardTitle>
-                <CardDescription>Real-time monitoring of all railway systems</CardDescription>
+                <CardTitle className="text-gray-900">Collision Detection System</CardTitle>
+                <CardDescription className="text-gray-600">
+                  Real-time monitoring of train positions and collision prevention
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
-                    <div className="text-2xl font-bold text-red-600">1</div>
-                    <div className="text-sm text-red-700">Active Alerts</div>
-                  </div>
-                  <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
-                    <div className="text-2xl font-bold text-green-600">98.5%</div>
-                    <div className="text-sm text-green-700">System Uptime</div>
-                  </div>
-                  <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <div className="text-2xl font-bold text-blue-600">43</div>
-                    <div className="text-sm text-blue-700">Monitored Trains</div>
-                  </div>
-                </div>
+                <CollisionDetectionMap />
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="collision">
-            <div className="bg-card rounded-xl border border-border/50 p-6">
-              <CollisionDetectionMap />
-            </div>
+          <TabsContent value="crowd" className="space-y-6">
+            <Card className="border-gray-200 shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-gray-900">Crowd Density Monitoring</CardTitle>
+                <CardDescription className="text-gray-600">
+                  Heat map visualization of station occupancy and crowd flow
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <CrowdDensityHeatmap />
+              </CardContent>
+            </Card>
           </TabsContent>
 
-          <TabsContent value="crowd">
-            <div className="bg-card rounded-xl border border-border/50 p-6">
-              <CrowdDensityHeatmap />
-            </div>
-          </TabsContent>
-
-          <TabsContent value="energy">
-            <div className="bg-card rounded-xl border border-border/50 p-6">
-              <EnergyOptimizationControl />
-            </div>
+          <TabsContent value="energy" className="space-y-6">
+            <Card className="border-gray-200 shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-gray-900">Energy Optimization Control</CardTitle>
+                <CardDescription className="text-gray-600">
+                  Smart lighting and power management based on real-time data
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <EnergyOptimizationControl />
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

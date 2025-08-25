@@ -6,14 +6,14 @@ import { useAuth } from "@/hooks/useAuth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/components/ThemeContext";
 import { useEffect } from 'react';
-import './App.css'; // Ensure dark styles are always loaded
+import './App.css';
 
 // Simple auth wrapper component
 const AuthWrapper: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const { isLoading } = useAuth();
   
   if (isLoading) {
-    return <div className="flex items-center justify-center min-h-screen bg-background">Loading...</div>;
+    return <div className="flex items-center justify-center min-h-screen bg-gray-50 text-gray-900">Loading...</div>;
   }
   
   return <>{children}</>;
@@ -45,7 +45,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
       <AuthWrapper>
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-gray-50">
           <TooltipProvider>
             <Sonner />
             <BrowserRouter>

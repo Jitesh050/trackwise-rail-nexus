@@ -315,8 +315,8 @@ const [trainStatusPNR, setTrainStatusPNR] = useState<string>("");
   };
 
   return (
-    <Card className="max-w-xl w-full h-[600px] max-h-[80vh] flex flex-col mx-auto shadow-2xl border border-slate-700 bg-slate-900">
-      <CardHeader className="bg-rail-primary text-white rounded-t-lg">
+    <Card className="max-w-xl w-full h-[600px] max-h-[80vh] flex flex-col mx-auto shadow-2xl border border-gray-200 bg-white">
+      <CardHeader className="bg-blue-600 text-white rounded-t-lg">
         <CardTitle className="flex items-center gap-2">
           <MessageCircle className="h-5 w-5" />
           TrackWise Assistant
@@ -333,14 +333,14 @@ const [trainStatusPNR, setTrainStatusPNR] = useState<string>("");
             >
               <div className={`flex items-start gap-2 max-w-[80%] ${message.isBot ? '' : 'flex-row-reverse'}`}>
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  message.isBot ? 'bg-rail-primary text-white' : 'bg-rail-accent text-white'
+                  message.isBot ? 'bg-blue-600 text-white' : 'bg-gray-600 text-white'
                 }`}>
                   {message.isBot ? <Bot size={16} /> : <User size={16} />}
                 </div>
                 <div className={`p-3 rounded-lg break-words ${
                   message.isBot 
-                    ? 'bg-slate-800 text-slate-100 border border-slate-700' 
-                    : 'bg-rail-accent text-white border border-rail-accent/30'
+                    ? 'bg-gray-100 text-gray-900 border border-gray-200' 
+                    : 'bg-blue-600 text-white border border-blue-500'
                 }`}>
                   <p className="text-sm whitespace-pre-line">{message.text}</p>
                   <span className="text-xs opacity-70 mt-1 block">
@@ -354,7 +354,7 @@ const [trainStatusPNR, setTrainStatusPNR] = useState<string>("");
           {isTyping && (
             <div className="flex justify-start">
               <div className="flex items-start gap-2 max-w-[80%]">
-                <div className="w-8 h-8 rounded-full bg-rail-primary text-white flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center">
                   <Bot size={16} />
                 </div>
                 <div className="p-3 rounded-lg bg-gray-100">
@@ -376,19 +376,19 @@ const [trainStatusPNR, setTrainStatusPNR] = useState<string>("");
             <div className="flex gap-2">
               <Button 
                 onClick={() => handleOptionClick('book_ticket')}
-                className="bg-rail-primary hover:bg-rail-primary/90"
+                className="bg-blue-600 hover:bg-blue-700"
               >
                 Book Ticket
               </Button>
               <Button 
                 onClick={() => handleOptionClick('ask_query')}
-                className="bg-rail-primary hover:bg-rail-primary/90"
+                className="bg-blue-600 hover:bg-blue-700"
               >
                 Ask Query
               </Button>
               <Button 
                 onClick={() => handleOptionClick('train_status')}
-                className="bg-rail-primary hover:bg-rail-primary/90"
+                className="bg-blue-600 hover:bg-blue-700"
               >
                 Train Status
               </Button>
@@ -417,7 +417,7 @@ const [trainStatusPNR, setTrainStatusPNR] = useState<string>("");
               />
               <Button 
                 onClick={handleSendMessage}
-                className="bg-rail-primary hover:bg-rail-primary/90"
+                className="bg-blue-600 hover:bg-blue-700"
                 disabled={!inputText.trim()}
               >
                 <Send className="h-4 w-4" />

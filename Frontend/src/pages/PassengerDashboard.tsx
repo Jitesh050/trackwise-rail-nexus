@@ -30,20 +30,20 @@ const PassengerDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-gray-50">
       <div className="space-y-8">
         {/* Welcome Header */}
-        <div className="relative overflow-hidden bg-slate-800 rounded-2xl p-8 border border-slate-700">
+        <div className="relative overflow-hidden bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome Back, John!</h1>
-                <p className="text-lg text-muted-foreground">
+                <h1 className="text-4xl font-bold tracking-tight mb-2 text-gray-900">Welcome Back, John!</h1>
+                <p className="text-lg text-gray-600">
                   Your personalized travel hub is ready to assist you
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <Button variant="outline" size="sm" className="relative bg-white/50 backdrop-blur-sm">
+                <Button variant="outline" size="sm" className="relative bg-gray-50 backdrop-blur-sm border-gray-300">
                   <Bell className="h-4 w-4 mr-2" />
                   Alerts
                   {notifications > 0 && (
@@ -52,7 +52,7 @@ const PassengerDashboard = () => {
                     </Badge>
                   )}
                 </Button>
-                <Button variant="outline" size="sm" className="bg-white/50 backdrop-blur-sm">
+                <Button variant="outline" size="sm" className="bg-gray-50 backdrop-blur-sm border-gray-300">
                   <User className="h-4 w-4 mr-2" />
                   Profile
                 </Button>
@@ -61,160 +61,159 @@ const PassengerDashboard = () => {
             
             {/* Quick Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-slate-800 rounded-xl p-4 border border-slate-700 text-slate-100">
+              <div className="bg-gray-50 rounded-xl p-4 border border-gray-200 text-gray-900">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-green-100 rounded-lg">
                     <CheckCircle className="h-5 w-5 text-green-600" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Active Bookings</p>
+                    <p className="text-sm text-gray-600">Active Bookings</p>
                     <p className="text-xl font-bold">2</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-slate-800 rounded-xl p-4 border border-slate-700 text-slate-100">
+              <div className="bg-gray-50 rounded-xl p-4 border border-gray-200 text-gray-900">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-blue-100 rounded-lg">
                     <Calendar className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Next Journey</p>
+                    <p className="text-sm text-gray-600">Next Journey</p>
                     <p className="text-xl font-bold">Today</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-slate-800 rounded-xl p-4 border border-slate-700 text-slate-100">
+              <div className="bg-gray-50 rounded-xl p-4 border border-gray-200 text-gray-900">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-purple-100 rounded-lg">
                     <TrendingUp className="h-5 w-5 text-purple-600" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Miles Traveled</p>
+                    <p className="text-sm text-gray-600">Miles Traveled</p>
                     <p className="text-xl font-bold">1,247</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-100/50 rounded-full blur-3xl"></div>
         </div>
 
         {/* Quick Actions */}
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <DashboardCard
-            title="Book New Ticket"
-            description="Quick QR code booking"
-            icon={QrCode}
-            badge="Most Popular"
-            badgeVariant="default"
-            onClick={() => handleFeatureClick("/book-ticket")}
-            className="card-hover bg-slate-800 border-slate-700 text-slate-100"
-          />
-          <DashboardCard
-            title="Live Train Status"
-            description="Real-time tracking"
             icon={Train}
-            badge="Live Updates"
-            badgeVariant="secondary"
-            onClick={() => handleFeatureClick("/train-status")}
-            className="card-hover bg-slate-800 border-slate-700 text-slate-100"
+            title="Book Tickets"
+            description="Reserve seats for your journey"
+            onClick={() => handleFeatureClick("/book-ticket")}
+            className="bg-blue-50 border-blue-200 hover:bg-blue-100"
+            iconClassName="text-blue-600"
           />
+          
           <DashboardCard
-            title="AI Assistant"
-            description="Get instant help"
+            icon={QrCode}
+            title="My Tickets"
+            description="View and manage your bookings"
+            onClick={() => handleFeatureClick("/user")}
+            className="bg-green-50 border-green-200 hover:bg-green-100"
+            iconClassName="text-green-600"
+          />
+          
+          <DashboardCard
             icon={MessageCircle}
-            badge="24/7 Available"
-            badgeVariant="outline"
-            onClick={() => handleFeatureClick("/user-portal")}
-            className="card-hover bg-slate-800 border-slate-700 text-slate-100"
+            title="AI Assistant"
+            description="Get help with voice commands"
+            onClick={() => handleFeatureClick("/chatbot")}
+            className="bg-purple-50 border-purple-200 hover:bg-purple-100"
+            iconClassName="text-purple-600"
+          />
+          
+          <DashboardCard
+            icon={MapPin}
+            title="Trip Planner"
+            description="Discover hotels and attractions"
+            onClick={() => handleFeatureClick("/trip-planner")}
+            className="bg-orange-50 border-orange-200 hover:bg-orange-100"
+            iconClassName="text-orange-600"
           />
         </div>
 
-        {/* Main Features */}
-        <FeatureSection title="All Travel Services" icon={Train}>
-          <DashboardCard
-            title="Live Train Updates"
-            description="Track delays, arrivals & platform changes in real-time"
-            icon={Clock}
-            onClick={() => handleFeatureClick("/train-status")}
-            className="card-hover"
-          />
-
-          <DashboardCard
-            title="Smart Trip Planner"
-            description="Discover hotels, restaurants & attractions near your destination"
-            icon={MapPin}
-            onClick={() => handleFeatureClick("/trip-planner")}
-            className="card-hover"
-          />
-
-          <DashboardCard
-            title="Priority Booking"
-            description="Skip queues with premium fast-track access"
-            icon={Star}
-            badge="Premium"
-            badgeVariant="outline"
-            onClick={() => handleFeatureClick("/book-ticket")}
-            className="card-hover"
-          />
-
-          <DashboardCard
-            title="Secure Payments"
-            description="Multiple payment methods with bank-level security"
-            icon={CreditCard}
-            onClick={() => handleFeatureClick("/book-ticket")}
-            className="card-hover"
-          />
-
-          <DashboardCard
-            title="Smart Chatbot"
-            description="AI-powered assistance for all your booking needs"
-            icon={MessageCircle}
-            badge="AI Powered"
-            badgeVariant="default"
-            onClick={() => handleFeatureClick("/user-portal")}
-            className="card-hover"
-          />
-        </FeatureSection>
-
         {/* Recent Activity */}
-        <Card className="glass-morphism border-0 shadow-lg">
-          <CardContent className="p-8">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold">Recent Activity</h3>
-              <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80">
-                View All History
-              </Button>
-            </div>
-            <div className="grid gap-4">
-              <div className="flex items-center justify-between p-4 bg-slate-800 border-slate-700 text-slate-100">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-green-100 rounded-xl">
-                    <QrCode className="h-5 w-5 text-green-600" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card className="border-gray-200 shadow-sm">
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold mb-4 text-gray-900">Recent Bookings</h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div>
+                      <p className="font-medium text-gray-900">Central → Harbor</p>
+                      <p className="text-sm text-gray-600">Today, 14:30</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold">Ticket Successfully Booked</p>
-                    <p className="text-sm text-muted-foreground">Express 101 • Central to North Station</p>
-                  </div>
+                  <Badge className="bg-green-100 text-green-800">Confirmed</Badge>
                 </div>
-                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Today 2:30 PM</Badge>
-              </div>
-              
-              <div className="flex items-center justify-between p-4 bg-slate-800 border-slate-700 text-slate-100">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-blue-100 rounded-xl">
-                    <Train className="h-5 w-5 text-blue-600" />
+                
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                    <div>
+                      <p className="font-medium text-gray-900">North → South</p>
+                      <p className="text-sm text-gray-600">Tomorrow, 09:15</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold">Journey Completed Successfully</p>
-                    <p className="text-sm text-muted-foreground">Local 205 • Arrived on time at destination</p>
-                  </div>
+                  <Badge className="bg-yellow-100 text-yellow-800">Waiting</Badge>
                 </div>
-                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Yesterday 6:45 PM</Badge>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+
+          <Card className="border-gray-200 shadow-sm">
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold mb-4 text-gray-900">Quick Actions</h3>
+              <div className="space-y-3">
+                <Button variant="outline" className="w-full justify-start border-gray-300 text-gray-700 hover:bg-gray-50">
+                  <Clock className="h-4 w-4 mr-2" />
+                  Check Train Status
+                </Button>
+                
+                <Button variant="outline" className="w-full justify-start border-gray-300 text-gray-700 hover:bg-gray-50">
+                  <Star className="h-4 w-4 mr-2" />
+                  Rate Your Journey
+                </Button>
+                
+                <Button variant="outline" className="w-full justify-start border-gray-300 text-gray-700 hover:bg-gray-50">
+                  <CreditCard className="h-4 w-4 mr-2" />
+                  Payment History
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Premium Features */}
+        <FeatureSection
+          title="Premium Features"
+          description="Enhance your travel experience with exclusive services"
+          features={[
+            {
+              icon: Star,
+              title: "Priority Booking",
+              description: "Skip queues with priority tickets"
+            },
+            {
+              icon: MessageCircle,
+              title: "24/7 Support",
+              description: "Round-the-clock customer assistance"
+            },
+            {
+              icon: QrCode,
+              title: "Contactless Travel",
+              description: "Digital tickets and QR codes"
+            }
+          ]}
+        />
       </div>
     </div>
   );

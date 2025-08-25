@@ -79,7 +79,7 @@ const WelcomePage = () => {
           <h1 className="text-5xl lg:text-7xl font-bold tracking-tight mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
             TrackWise Railway
           </h1>
-          <p className="text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Next-generation railway management platform combining intelligent automation with seamless passenger experience
           </p>
           <div className="flex items-center justify-center gap-2 mt-4">
@@ -137,19 +137,19 @@ const WelcomePage = () => {
                   </form>
                   
                   <div className="pt-6 border-t border-border/50">
-                    <p className="text-sm text-muted-foreground text-center mb-4">Try Demo Accounts</p>
+                    <p className="text-sm text-gray-500 text-center mb-4">Try Demo Accounts</p>
                     <div className="grid gap-3">
                       <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">
                         <div>
                           <span className="text-sm font-medium">user@example.com</span>
-                          <p className="text-xs text-muted-foreground">Passenger Portal</p>
+                          <p className="text-xs text-gray-500">Passenger Portal</p>
                         </div>
                         <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">User</Badge>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">
                         <div>
                           <span className="text-sm font-medium">admin@example.com</span>
-                          <p className="text-xs text-muted-foreground">Admin Dashboard</p>
+                          <p className="text-xs text-gray-500">Admin Dashboard</p>
                         </div>
                         <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Admin</Badge>
                       </div>
@@ -169,7 +169,7 @@ const WelcomePage = () => {
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold">For Passengers</h2>
-                    <p className="text-muted-foreground">Smart travel solutions at your fingertips</p>
+                    <p className="text-gray-600">Smart travel solutions at your fingertips</p>
                   </div>
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -181,7 +181,7 @@ const WelcomePage = () => {
                         </div>
                         <div className="flex-1">
                           <h3 className="font-semibold text-sm mb-1">{feature.title}</h3>
-                          <p className="text-xs text-muted-foreground leading-relaxed">{feature.description}</p>
+                          <p className="text-xs text-gray-500 leading-relaxed">{feature.description}</p>
                         </div>
                       </div>
                     </div>
@@ -197,7 +197,7 @@ const WelcomePage = () => {
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold">For Administrators</h2>
-                    <p className="text-muted-foreground">Advanced control & monitoring systems</p>
+                    <p className="text-gray-600">Advanced control & monitoring systems</p>
                   </div>
                 </div>
                 <div className="grid md:grid-cols-3 gap-4">
@@ -208,7 +208,7 @@ const WelcomePage = () => {
                           <feature.icon className={`h-6 w-6 ${feature.color}`} />
                         </div>
                         <h3 className="font-semibold text-sm mb-2">{feature.title}</h3>
-                        <p className="text-xs text-muted-foreground leading-relaxed">{feature.description}</p>
+                        <p className="text-xs text-gray-500 leading-relaxed">{feature.description}</p>
                       </div>
                     </div>
                   ))}

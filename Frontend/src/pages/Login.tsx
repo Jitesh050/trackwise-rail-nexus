@@ -42,33 +42,33 @@ const Login = () => {
   };
   
   return (
-    <div className="min-h-screen bg-slate-900 dark:bg-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8 animate-fade-in">
         {/* Header Section */}
         <div className="text-center space-y-4">
           <div className="flex justify-center mb-6">
             <div className="relative">
-              <div className="absolute inset-0 bg-rail-accent/20 rounded-full blur-xl"></div>
-              <div className="relative p-4 bg-gradient-to-br from-rail-primary to-rail-secondary rounded-full">
+              <div className="absolute inset-0 bg-blue-200/50 rounded-full blur-xl"></div>
+              <div className="relative p-4 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full">
                 <Train className="h-12 w-12 text-white" />
               </div>
             </div>
           </div>
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold text-white">Welcome Back</h1>
-            <p className="text-slate-400">Sign in to access your TrackWise account</p>
+            <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
+            <p className="text-gray-600">Sign in to access your TrackWise account</p>
           </div>
         </div>
 
         {/* Login Card */}
-        <Card className="bg-slate-800 dark:bg-slate-800 border-slate-700 rounded-2xl shadow-xl">
+        <Card className="bg-white border-gray-200 rounded-2xl shadow-xl">
           <CardHeader className="space-y-4">
             <div className="text-center space-y-2">
-              <CardTitle className="text-xl text-white flex items-center justify-center gap-2">
-                <div className="w-2 h-2 bg-rail-accent rounded-full animate-pulse"></div>
+              <CardTitle className="text-xl text-gray-900 flex items-center justify-center gap-2">
+                <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
                 TrackWise Portal
               </CardTitle>
-              <CardDescription className="text-slate-400">
+              <CardDescription className="text-gray-600">
                 Access your dashboard and travel services
               </CardDescription>
             </div>
@@ -78,7 +78,7 @@ const Login = () => {
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-white text-sm font-medium">
+                  <Label htmlFor="email" className="text-gray-900 text-sm font-medium">
                     Email Address
                   </Label>
                   <div className="relative">
@@ -88,14 +88,14 @@ const Login = () => {
                       placeholder="Enter your email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-rail-accent focus:ring-rail-accent/20 transition-all duration-200"
+                      className="bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500/20 transition-all duration-200"
                       required
                     />
                   </div>
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-white text-sm font-medium">
+                  <Label htmlFor="password" className="text-gray-900 text-sm font-medium">
                     Password
                   </Label>
                   <div className="relative">
@@ -105,7 +105,7 @@ const Login = () => {
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-400 focus:border-rail-accent focus:ring-rail-accent/20 transition-all duration-200"
+                      className="bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500/20 transition-all duration-200"
                       required
                     />
                   </div>
@@ -113,15 +113,15 @@ const Login = () => {
               </div>
 
               {/* Demo Credentials */}
-              <div className="p-4 bg-slate-700/30 rounded-lg border border-slate-600/50">
+              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <div className="flex items-center gap-2 mb-2">
-                  <Sparkles className="w-4 h-4 text-rail-accent" />
-                  <span className="text-sm font-medium text-slate-300">Demo Credentials</span>
+                  <Sparkles className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm font-medium text-blue-800">Demo Credentials</span>
                 </div>
-                <div className="space-y-1 text-xs text-slate-400">
-                  <p><strong className="text-slate-300">Admin:</strong> admin@example.com</p>
-                  <p><strong className="text-slate-300">Passenger:</strong> user@example.com</p>
-                  <p><strong className="text-slate-300">Password:</strong> any password</p>
+                <div className="space-y-1 text-xs text-blue-700">
+                  <p><strong className="text-blue-800">Admin:</strong> admin@example.com</p>
+                  <p><strong className="text-blue-800">Passenger:</strong> user@example.com</p>
+                  <p><strong className="text-blue-800">Password:</strong> any password</p>
                 </div>
               </div>
             </CardContent>
@@ -129,7 +129,7 @@ const Login = () => {
             <CardFooter className="flex flex-col space-y-4">
               <Button 
                 type="submit" 
-                className="w-full h-12 bg-rail-primary hover:bg-rail-primary/90 text-white font-medium transition-all duration-200 hover:shadow-lg hover:shadow-rail-primary/25"
+                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -147,18 +147,18 @@ const Login = () => {
               </Button>
               
               <div className="text-center space-y-2">
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-gray-600">
                   Don't have an account?{" "}
                   <Link 
                     to="/register" 
-                    className="text-rail-accent hover:text-rail-accent/80 font-medium transition-colors hover:underline"
+                    className="text-blue-600 hover:text-blue-700 font-medium transition-colors hover:underline"
                   >
                     Create Account
                   </Link>
                 </p>
                 <Link 
                   to="/" 
-                  className="text-xs text-slate-500 hover:text-slate-400 transition-colors inline-flex items-center gap-1"
+                  className="text-xs text-gray-500 hover:text-gray-700 transition-colors inline-flex items-center gap-1"
                 >
                   ← Back to Home
                 </Link>

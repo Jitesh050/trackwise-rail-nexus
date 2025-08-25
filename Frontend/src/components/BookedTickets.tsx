@@ -83,14 +83,14 @@ const BookedTickets = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-2">Your Booked Tickets</h2>
-        <p className="text-muted-foreground">Manage and view all your train bookings</p>
+        <p className="text-gray-600">Manage and view all your train bookings</p>
       </div>
 
       {bookedTickets.length === 0 ? (
         <Card>
           <CardContent className="text-center py-12">
             <Train className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p className="text-muted-foreground mb-4">No booked tickets found</p>
+            <p className="text-gray-600 mb-4">No booked tickets found</p>
             <Button>Book Your First Ticket</Button>
           </CardContent>
         </Card>
@@ -102,7 +102,7 @@ const BookedTickets = () => {
                 <div className="flex justify-between items-start">
                   <div>
                     <CardTitle className="text-lg flex items-center gap-2">
-                      <Train size={20} className="text-rail-primary" />
+                      <Train size={20} className="text-blue-600" />
                       {ticket.trainNumber} - {ticket.trainName}
                     </CardTitle>
                     <CardDescription>PNR: {ticket.pnr}</CardDescription>
@@ -117,45 +117,45 @@ const BookedTickets = () => {
                 {/* Journey Details */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <MapPin size={16} className="text-rail-secondary" />
+                    <MapPin size={16} className="text-gray-600" />
                     <div>
                       <p className="font-medium">{ticket.from}</p>
-                      <p className="text-xs text-muted-foreground">Origin</p>
+                      <p className="text-xs text-gray-500">Origin</p>
                     </div>
                   </div>
                   <div className="flex-1 flex justify-center">
-                    <div className="w-12 border-t border-dashed border-rail-secondary"></div>
+                    <div className="w-12 border-t border-dashed border-gray-400"></div>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="text-right">
                       <p className="font-medium">{ticket.to}</p>
-                      <p className="text-xs text-muted-foreground">Destination</p>
+                      <p className="text-xs text-gray-500">Destination</p>
                     </div>
-                    <MapPin size={16} className="text-rail-secondary" />
+                    <MapPin size={16} className="text-gray-600" />
                   </div>
                 </div>
 
                 {/* Date and Time */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="flex items-center gap-2">
-                    <Calendar size={16} className="text-rail-secondary" />
+                    <Calendar size={16} className="text-gray-600" />
                     <div>
                       <p className="font-medium">{ticket.date}</p>
-                      <p className="text-xs text-muted-foreground">Journey Date</p>
+                      <p className="text-xs text-gray-500">Journey Date</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock size={16} className="text-rail-secondary" />
+                    <Clock size={16} className="text-gray-600" />
                     <div>
                       <p className="font-medium">{ticket.departureTime}</p>
-                      <p className="text-xs text-muted-foreground">Departure</p>
+                      <p className="text-xs text-gray-500">Departure</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock size={16} className="text-rail-secondary" />
+                    <Clock size={16} className="text-gray-600" />
                     <div>
                       <p className="font-medium">{ticket.arrivalTime}</p>
-                      <p className="text-xs text-muted-foreground">Arrival</p>
+                      <p className="text-xs text-gray-500">Arrival</p>
                     </div>
                   </div>
                 </div>
@@ -166,7 +166,7 @@ const BookedTickets = () => {
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2">
-                      <User size={16} className="text-rail-secondary" />
+                      <User size={16} className="text-gray-600" />
                       <span className="font-medium">{ticket.passengerName}</span>
                     </div>
                     <Badge variant="outline">{ticket.class}</Badge>

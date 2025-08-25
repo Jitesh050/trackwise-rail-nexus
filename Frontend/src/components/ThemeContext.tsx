@@ -1,16 +1,34 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
-const ThemeContext = createContext({
-  theme: "dark",
+interface ThemeContextType {
+  theme: "light" | "dark";
+  toggleTheme: () => void;
+}
+
+const ThemeContext = createContext<ThemeContextType>({
+  theme: "light",
   toggleTheme: () => {}
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    // Apply theme to document
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === "light" ? "dark" : "light");
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme: "dark", toggleTheme: () => {} }}>
-      <div className="dark">
-        {children}
-      </div>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
     </ThemeContext.Provider>
   );
 }

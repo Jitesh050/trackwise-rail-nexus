@@ -61,9 +61,6 @@
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
     --primary: 220 98% 61%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
@@ -100,12 +97,12 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-gray-50 text-gray-900 font-sans antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
+    @apply font-semibold tracking-tight text-gray-900;
   }
 
   h1 {
@@ -118,6 +115,10 @@
 
   h3 {
     @apply text-2xl lg:text-3xl;
+  }
+
+  p {
+    @apply text-gray-700 leading-relaxed;
   }
 
   .animate-enter {
@@ -138,5 +139,32 @@
 
   .card-hover {
     @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02];
+  }
+
+  /* Improved text readability */
+  .text-readable {
+    @apply text-gray-900;
+  }
+
+  .text-readable-secondary {
+    @apply text-gray-700;
+  }
+
+  .text-readable-muted {
+    @apply text-gray-600;
+  }
+
+  /* Modern card styles */
+  .modern-card {
+    @apply bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all duration-200;
+  }
+
+  /* Button improvements */
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium px-4 py-2 rounded-lg transition-colors duration-200;
   }
 }

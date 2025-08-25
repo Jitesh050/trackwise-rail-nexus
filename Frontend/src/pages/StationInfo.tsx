@@ -40,21 +40,21 @@ const StationInfo = () => {
   return (
     <div className="container mx-auto space-y-8 pb-10 animate-enter">
       <header>
-        <h1 className="text-3xl font-bold">Station Information</h1>
-        <p className="text-muted-foreground">Find details about our stations, amenities, and facilities</p>
+        <h1 className="text-3xl font-bold text-gray-900">Station Information</h1>
+        <p className="text-gray-600">Find details about our stations, amenities, and facilities</p>
       </header>
       
-      <div className="bg-slate-800 p-6 rounded-lg">
+      <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
         <div className="relative max-w-lg mx-auto">
-          <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-100" size={18} />
+          <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
           <Input
             type="text"
             placeholder="Search for a station"
-            className="pl-10 bg-slate-800 text-slate-100 border border-slate-700 placeholder:text-slate-400"
+            className="pl-10 bg-gray-50 text-gray-900 border-gray-300 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500/20"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <Button className="absolute right-0 top-0 rounded-l-none bg-rail-primary hover:bg-rail-primary/90">
+          <Button className="absolute right-0 top-0 rounded-l-none bg-blue-600 hover:bg-blue-700">
             <Search size={18} />
           </Button>
         </div>
@@ -82,13 +82,13 @@ interface StationCardProps {
 
 const StationCard = ({ station }: StationCardProps) => {
   return (
-    <Card>
+    <Card className="border-gray-200 shadow-sm">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <MapPin size={18} className="text-rail-accent" />
+        <CardTitle className="flex items-center gap-2 text-gray-900">
+          <MapPin size={18} className="text-blue-600" />
           {station.name}
         </CardTitle>
-        <p className="text-sm text-muted-foreground">{station.location}</p>
+        <p className="text-sm text-gray-600">{station.location}</p>
       </CardHeader>
       <CardContent className="pb-2">
         <Tabs defaultValue="info">
@@ -98,57 +98,38 @@ const StationCard = ({ station }: StationCardProps) => {
             <TabsTrigger value="connections">Connections</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="info" className="mt-4">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Train size={16} className="text-rail-secondary" />
-                <span>{station.platforms} Platforms</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Coffee size={16} className="text-rail-secondary" />
-                <span>{station.amenities.length} Amenities Available</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Info size={16} className="text-rail-secondary" />
-                <span>Open 24/7</span>
-              </div>
+          <TabsContent value="info" className="space-y-3">
+            <div className="flex items-center gap-2 text-sm">
+              <Train size={16} className="text-blue-600" />
+              <span className="text-gray-700">{station.platforms} Platforms</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <Info size={16} className="text-blue-600" />
+              <span className="text-gray-700">Station ID: {station.id}</span>
             </div>
           </TabsContent>
           
-          <TabsContent value="amenities" className="mt-4">
-            <div className="grid grid-cols-2 gap-2">
-              {station.amenities.map((amenity, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  {amenity === "WiFi" ? (
-                    <Wifi size={16} className="text-rail-accent" />
-                  ) : amenity === "Accessibility" ? (
-                    <Accessibility size={16} className="text-rail-accent" />
-                  ) : (
-                    <div className="w-4 h-4 rounded-full bg-rail-accent/20 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-rail-accent"></div>
-                    </div>
-                  )}
-                  <span className="text-sm">{amenity}</span>
-                </div>
+          <TabsContent value="amenities" className="space-y-2">
+            <div className="flex flex-wrap gap-2">
+              {station.amenities.map((amenity) => (
+                <span key={amenity} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                  {amenity}
+                </span>
               ))}
             </div>
           </TabsContent>
           
-          <TabsContent value="connections" className="mt-4">
-            <div className="space-y-2">
-              {station.connections.map((connection, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-rail-primary"></div>
-                  <span>{connection}</span>
-                </div>
+          <TabsContent value="connections" className="space-y-2">
+            <div className="flex flex-wrap gap-2">
+              {station.connections.map((connection) => (
+                <span key={connection} className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                  {connection}
+                </span>
               ))}
             </div>
           </TabsContent>
         </Tabs>
       </CardContent>
-      <CardFooter>
-        <Button variant="outline" className="w-full">View Station Details</Button>
-      </CardFooter>
     </Card>
   );
 };

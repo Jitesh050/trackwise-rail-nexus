@@ -74,7 +74,7 @@ const BookTicket = () => {
     <div className="container mx-auto space-y-8 pb-10 animate-enter">
       <header>
         <h1 className="text-3xl font-bold">Book Tickets</h1>
-        <p className="text-muted-foreground">Search and book train tickets for your journey</p>
+        <p className="text-gray-600">Search and book train tickets for your journey</p>
       </header>
       
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
@@ -91,7 +91,7 @@ const BookTicket = () => {
                     <div className="space-y-2">
                       <Label htmlFor="origin">From</Label>
                       <div className="relative">
-                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={16} />
                         <Input
                           id="origin"
                           name="origin"
@@ -107,7 +107,7 @@ const BookTicket = () => {
                     <div className="space-y-2">
                       <Label htmlFor="destination">To</Label>
                       <div className="relative">
-                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={16} />
                         <Input
                           id="destination"
                           name="destination"
@@ -125,7 +125,7 @@ const BookTicket = () => {
                     <div className="space-y-2">
                       <Label htmlFor="date">Date of Journey</Label>
                       <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={16} />
                         <Input
                           id="date"
                           name="date"
@@ -141,7 +141,7 @@ const BookTicket = () => {
                     <div className="space-y-2">
                       <Label htmlFor="passengers">Passengers</Label>
                       <div className="relative">
-                        <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+                        <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={16} />
                         <Input
                           id="passengers"
                           name="passengers"
@@ -210,7 +210,7 @@ const BookTicket = () => {
                         <RadioGroupItem value="general" id="general" className="peer sr-only" />
                         <Label
                           htmlFor="general"
-                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-slate-800 p-4 hover:bg-slate-700 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10 text-slate-100"
+                          className="flex flex-col items-center justify-between rounded-md border-2 border-gray-300 bg-white p-4 hover:bg-gray-50 hover:border-blue-600 peer-data-[state=checked]:border-blue-600 peer-data-[state=checked]:bg-blue-50 text-gray-900"
                         >
                           <span className="text-sm font-medium">General</span>
                         </Label>
@@ -219,7 +219,7 @@ const BookTicket = () => {
                         <RadioGroupItem value="sleeper" id="sleeper" className="peer sr-only" />
                         <Label
                           htmlFor="sleeper"
-                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-slate-800 p-4 hover:bg-slate-700 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10 text-slate-100"
+                          className="flex flex-col items-center justify-between rounded-md border-2 border-gray-300 bg-white p-4 hover:bg-gray-50 hover:border-blue-600 peer-data-[state=checked]:border-blue-600 peer-data-[state=checked]:bg-blue-50 text-gray-900"
                         >
                           <span className="text-sm font-medium">Sleeper</span>
                         </Label>
@@ -228,7 +228,7 @@ const BookTicket = () => {
                         <RadioGroupItem value="ac3" id="ac3" className="peer sr-only" />
                         <Label
                           htmlFor="ac3"
-                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-slate-800 p-4 hover:bg-slate-700 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10 text-slate-100"
+                          className="flex flex-col items-center justify-between rounded-md border-2 border-gray-300 bg-white p-4 hover:bg-gray-50 hover:border-blue-600 peer-data-[state=checked]:border-blue-600 peer-data-[state=checked]:bg-blue-50 text-gray-900"
                         >
                           <span className="text-sm font-medium">AC 3-Tier</span>
                         </Label>
@@ -237,7 +237,7 @@ const BookTicket = () => {
                         <RadioGroupItem value="ac2" id="ac2" className="peer sr-only" />
                         <Label
                           htmlFor="ac2"
-                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-slate-800 p-4 hover:bg-slate-700 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10 text-slate-100"
+                          className="flex flex-col items-center justify-between rounded-md border-2 border-gray-300 bg-white p-4 hover:bg-gray-50 hover:border-blue-600 peer-data-[state=checked]:border-blue-600 peer-data-[state=checked]:bg-blue-50 text-gray-900"
                         >
                           <span className="text-sm font-medium">AC 2-Tier</span>
                         </Label>
@@ -246,7 +246,7 @@ const BookTicket = () => {
                         <RadioGroupItem value="ac1" id="ac1" className="peer sr-only" />
                         <Label
                           htmlFor="ac1"
-                          className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-slate-800 p-4 hover:bg-slate-700 hover:border-rail-accent peer-data-[state=checked]:border-rail-accent peer-data-[state=checked]:bg-rail-accent/10 text-slate-100"
+                          className="flex flex-col items-center justify-between rounded-md border-2 border-gray-300 bg-white p-4 hover:bg-gray-50 hover:border-blue-600 peer-data-[state=checked]:border-blue-600 peer-data-[state=checked]:bg-blue-50 text-gray-900"
                         >
                           <span className="text-sm font-medium">AC First Class</span>
                         </Label>
@@ -269,7 +269,7 @@ const BookTicket = () => {
                           <Star className="h-4 w-4 text-yellow-600" />
                           <span className="font-medium">Priority Ticket (+20%)</span>
                         </div>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-xs text-gray-500 mt-1">
                           Faster confirmation, priority boarding, and dedicated customer support
                         </p>
                       </Label>
@@ -278,7 +278,7 @@ const BookTicket = () => {
                 </CardContent>
                 
                 <CardFooter>
-                  <Button type="submit" className="w-full bg-rail-primary hover:bg-rail-primary/90">
+                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
                     <Train size={18} className="mr-2" />
                     Find Trains
                   </Button>
@@ -366,7 +366,7 @@ const BookTicket = () => {
             <div className="mt-6">
               <Button 
                 onClick={() => setStep(4)}
-                className="w-full bg-rail-primary hover:bg-rail-primary/90"
+                                 className="w-full bg-blue-600 hover:bg-blue-700"
               >
                 Proceed to Payment
               </Button>
@@ -424,36 +424,36 @@ const BookTicket = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex gap-3">
-                <div className="bg-rail-light p-2 rounded-full">
-                  <Calendar size={18} className="text-rail-primary" />
+                                 <div className="bg-gray-100 p-2 rounded-full">
+                   <Calendar size={18} className="text-blue-600" />
                 </div>
                 <div>
                   <p className="font-medium text-sm">Book in Advance</p>
-                  <p className="text-xs text-muted-foreground">Get better deals by booking your tickets early</p>
+                  <p className="text-xs text-gray-500">Get better deals by booking your tickets early</p>
                 </div>
               </div>
               
               <Separator />
               
               <div className="flex gap-3">
-                <div className="bg-rail-light p-2 rounded-full">
-                  <CreditCard size={18} className="text-rail-primary" />
+                                 <div className="bg-gray-100 p-2 rounded-full">
+                   <CreditCard size={18} className="text-blue-600" />
                 </div>
                 <div>
                   <p className="font-medium text-sm">Multiple Payment Options</p>
-                  <p className="text-xs text-muted-foreground">Pay using credit/debit cards, mobile wallets, or bank transfer</p>
+                                     <p className="text-xs text-gray-500">Pay using credit/debit cards, mobile wallets, or bank transfer</p>
                 </div>
               </div>
               
               <Separator />
               
               <div className="flex gap-3">
-                <div className="bg-rail-light p-2 rounded-full">
-                  <QrCode size={18} className="text-rail-primary" />
+                                 <div className="bg-gray-100 p-2 rounded-full">
+                   <QrCode size={18} className="text-blue-600" />
                 </div>
                 <div>
                   <p className="font-medium text-sm">Digital Tickets</p>
-                  <p className="text-xs text-muted-foreground">Download e-tickets with QR code for contactless travel</p>
+                                     <p className="text-xs text-gray-500">Download e-tickets with QR code for contactless travel</p>
                 </div>
               </div>
             </CardContent>
@@ -462,17 +462,17 @@ const BookTicket = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <MessageCircle className="h-5 w-5 text-rail-primary" />
+                                 <MessageCircle className="h-5 w-5 text-blue-600" />
                 Need Help?
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground mb-3">
+                             <p className="text-sm text-gray-500 mb-3">
                 Our AI assistant can help you with booking tickets through voice or text chat.
               </p>
               <Button 
                 onClick={() => navigate('/chatbot')}
-                className="w-full bg-rail-accent hover:bg-rail-accent/90"
+                                 className="w-full bg-blue-600 hover:bg-blue-700"
               >
                 Open ChatBot Assistant
               </Button>
@@ -518,16 +518,16 @@ const TrainOption = ({
       className={`border rounded-lg p-4 transition-all ${
         disabled 
           ? 'bg-gray-50 opacity-60' 
-          : 'hover:border-rail-accent hover:shadow-md cursor-pointer'
+          : 'hover:border-blue-600 hover:shadow-md cursor-pointer'
       }`}
       onClick={isAvailable ? onSelect : undefined}
     >
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
         <div>
           <div className="flex items-center gap-2">
-            <Train size={16} className="text-rail-primary" />
+            <Train size={16} className="text-blue-600" />
             <span className="font-medium">{trainNumber}</span>
-            <span className="text-sm text-muted-foreground">|</span>
+            <span className="text-sm text-gray-500">|</span>
             <span>{trainName}</span>
             {priorityMultiplier > 1 && (
               <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
@@ -536,14 +536,14 @@ const TrainOption = ({
           <div className="flex items-center mt-2">
             <div>
               <div className="font-medium">{departureTime}</div>
-              <div className="text-xs text-muted-foreground">Departure</div>
+              <div className="text-xs text-gray-500">Departure</div>
             </div>
-            <ArrowRight size={16} className="mx-3 text-muted-foreground" />
+            <ArrowRight size={16} className="mx-3 text-gray-500" />
             <div>
               <div className="font-medium">{arrivalTime}</div>
-              <div className="text-xs text-muted-foreground">Arrival</div>
+              <div className="text-xs text-gray-500">Arrival</div>
             </div>
-            <div className="ml-4 text-sm text-muted-foreground">
+            <div className="ml-4 text-sm text-gray-500">
               <span className="block sm:inline">Duration: {duration}</span>
             </div>
           </div>
@@ -552,14 +552,14 @@ const TrainOption = ({
           <div className="text-lg font-semibold">
             ₹{finalPrice.toFixed(0)}
             {priorityMultiplier > 1 && (
-              <span className="text-sm text-muted-foreground line-through ml-1">
+              <span className="text-sm text-gray-500 line-through ml-1">
                 ₹{price.toFixed(0)}
               </span>
             )}
           </div>
           <div className={`text-xs ${disabled ? 'text-red-500' : 'text-green-600'}`}>{availability}</div>
           {isAvailable && (
-            <Button size="sm" className="mt-2 bg-rail-primary hover:bg-rail-primary/90">
+            <Button size="sm" className="mt-2 bg-blue-600 hover:bg-blue-700">
               Select
             </Button>
           )}

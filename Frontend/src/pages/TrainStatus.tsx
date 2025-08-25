@@ -130,16 +130,16 @@ const TrainStatus = () => {
     <div className="container mx-auto space-y-8 pb-10 animate-enter">
       <header>
         <h1 className="text-3xl font-bold">Train Status</h1>
-        <p className="text-muted-foreground">Check real-time updates on train arrivals and departures</p>
+        <p className="text-gray-600">Check real-time updates on train arrivals and departures</p>
       </header>
       
-      <section className="bg-slate-800 p-6 rounded-lg text-slate-100">
+      <section className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
         <form onSubmit={handleSearch}>
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
               <Label htmlFor="search" className="mb-2 block">Search by train number, name or station</Label>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={18} />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
                 <Input 
                   id="search"
                   className="pl-10"
@@ -150,11 +150,11 @@ const TrainStatus = () => {
               </div>
             </div>
             <div className="flex items-end gap-2">
-              <Button type="submit" className="bg-rail-primary hover:bg-rail-primary/90">
+              <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
                 <Search size={18} className="mr-2" />
                 Search
               </Button>
-              <Button variant="outline" className="bg-slate-700 text-slate-100">
+              <Button variant="outline" className="bg-gray-100 text-gray-900 hover:bg-gray-200">
                 <Filter size={18} />
               </Button>
             </div>
@@ -194,7 +194,7 @@ const TrainStatus = () => {
               </div>
             ) : (
               <div className="text-center py-12">
-                <p className="text-lg text-muted-foreground">No trains found matching your search criteria.</p>
+                <p className="text-lg text-gray-600">No trains found matching your search criteria.</p>
                 <Button variant="link" onClick={() => setSearchQuery("")}>
                   Clear search and view all trains
                 </Button>

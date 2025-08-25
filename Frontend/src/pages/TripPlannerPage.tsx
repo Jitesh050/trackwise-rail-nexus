@@ -76,14 +76,14 @@ const TripPlannerPage = () => {
     <div className="container mx-auto space-y-8 pb-10 animate-enter">
       <header>
         <h1 className="text-3xl font-bold">Trip Planner</h1>
-        <p className="text-muted-foreground">Discover hotels and attractions near {destination}</p>
+        <p className="text-gray-600">Discover hotels and attractions near {destination}</p>
       </header>
 
       {/* Hotels Section */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <MapPin className="h-5 w-5 text-rail-primary" />
+            <MapPin className="h-5 w-5 text-blue-600" />
             Recommended Hotels
           </CardTitle>
           <CardDescription>Stay close to the station for convenient travel</CardDescription>
@@ -100,12 +100,12 @@ const TripPlannerPage = () => {
                         <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                         <span className="text-sm font-medium ml-1">{hotel.rating}</span>
                       </div>
-                      <span className="text-sm text-muted-foreground">•</span>
-                      <span className="text-sm text-muted-foreground">{hotel.distance}</span>
+                      <span className="text-sm text-gray-500">•</span>
+                      <span className="text-sm text-gray-500">{hotel.distance}</span>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-lg font-semibold text-rail-primary">{hotel.price}</div>
+                    <div className="text-lg font-semibold text-blue-600">{hotel.price}</div>
                   </div>
                 </div>
                 
@@ -118,7 +118,7 @@ const TripPlannerPage = () => {
                 </div>
                 
                 <div className="flex gap-2">
-                  <Button size="sm" className="bg-rail-primary hover:bg-rail-primary/90">
+                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
                     <Globe className="h-4 w-4 mr-1" />
                     View Details
                   </Button>
@@ -137,7 +137,7 @@ const TripPlannerPage = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Star className="h-5 w-5 text-rail-accent" />
+            <Star className="h-5 w-5 text-blue-600" />
             Tourist Attractions
           </CardTitle>
           <CardDescription>Explore popular destinations and activities</CardDescription>
@@ -159,9 +159,9 @@ const TripPlannerPage = () => {
                   </div>
                 </div>
                 
-                <p className="text-sm text-muted-foreground mb-2">{attraction.description}</p>
+                <p className="text-sm text-gray-600 mb-2">{attraction.description}</p>
                 
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
                   <div className="flex items-center gap-1">
                     <MapPin className="h-4 w-4" />
                     {attraction.distance}

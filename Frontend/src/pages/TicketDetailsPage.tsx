@@ -26,34 +26,67 @@ const TicketDetailsPage = () => {
 
   if (!ticket) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-900">
-        <div className="bg-slate-800 p-8 rounded shadow text-center text-slate-100">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-200 text-center text-gray-900">
           <h2 className="text-2xl font-bold mb-2">Ticket Not Found</h2>
-          <p>No ticket found for the provided PNR.</p>
+          <p className="text-gray-600">No ticket found for the provided PNR.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900">
-      <Card className="max-w-md w-full">
-        <CardHeader className="text-center bg-rail-primary text-white rounded-t-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <Card className="max-w-md w-full border-gray-200 shadow-sm">
+        <CardHeader className="text-center bg-blue-600 text-white rounded-t-lg">
           <h3 className="text-xl font-semibold">Ticket Details</h3>
           <p className="text-sm opacity-90">PNR: {ticket.pnr}</p>
         </CardHeader>
         <CardContent className="p-6 space-y-4">
-          <div><strong>Passenger Name:</strong> {ticket.passengerName}</div>
-          <div><strong>Train:</strong> {ticket.trainNumber} - {ticket.trainName}</div>
-          <div><strong>From:</strong> {ticket.from}</div>
-          <div><strong>To:</strong> {ticket.to}</div>
-          <div><strong>Date:</strong> {ticket.date}</div>
-          <div><strong>Departure:</strong> {ticket.departureTime}</div>
-          <div><strong>Arrival:</strong> {ticket.arrivalTime}</div>
-          <div><strong>Seat Numbers:</strong> {ticket.seatNumbers.join(', ')}</div>
-          <div><strong>Class:</strong> {ticket.class}</div>
-          <div><strong>Fare:</strong> ₹{ticket.fare}</div>
-          <div><strong>Status:</strong> {ticket.status}</div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-700">Passenger Name:</span>
+            <span className="text-gray-900">{ticket.passengerName}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-700">Train:</span>
+            <span className="text-gray-900">{ticket.trainNumber} - {ticket.trainName}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-700">From:</span>
+            <span className="text-gray-900">{ticket.from}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-700">To:</span>
+            <span className="text-gray-900">{ticket.to}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-700">Date:</span>
+            <span className="text-gray-900">{ticket.date}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-700">Departure:</span>
+            <span className="text-gray-900">{ticket.departureTime}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-700">Arrival:</span>
+            <span className="text-gray-900">{ticket.arrivalTime}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-700">Seat Numbers:</span>
+            <span className="text-gray-900">{ticket.seatNumbers.join(', ')}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-700">Class:</span>
+            <span className="text-gray-900">{ticket.class}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-700">Fare:</span>
+            <span className="text-gray-900">₹{ticket.fare}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-700">Status:</span>
+            <span className="text-gray-900">{ticket.status}</span>
+          </div>
         </CardContent>
       </Card>
     </div>

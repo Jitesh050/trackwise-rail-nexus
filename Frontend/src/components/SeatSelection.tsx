@@ -14,8 +14,8 @@ interface SeatProps {
 const Seat = ({ seatNumber, isAvailable, isSelected, isReserved, onSelect }: SeatProps) => {
   const getSeatStyles = () => {
     if (isReserved) return "bg-red-100 border-red-300 cursor-not-allowed";
-    if (isSelected) return "bg-rail-accent border-rail-accent text-white";
-    if (isAvailable) return "bg-white border-gray-300 hover:border-rail-accent cursor-pointer";
+    if (isSelected) return "bg-blue-600 border-blue-600 text-white";
+    if (isAvailable) return "bg-white border-gray-300 hover:border-blue-600 cursor-pointer";
     return "bg-gray-100 border-gray-300 cursor-not-allowed";
   };
 
@@ -106,7 +106,7 @@ const SeatSelection = ({ onSeatsSelected, maxSeats = 4 }: SeatSelectionProps) =>
             <span>Available</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-rail-accent border-2 border-rail-accent rounded"></div>
+            <div className="w-4 h-4 bg-blue-600 border-2 border-blue-600 rounded"></div>
             <span>Selected</span>
           </div>
           <div className="flex items-center gap-2">
@@ -148,9 +148,9 @@ const SeatSelection = ({ onSeatsSelected, maxSeats = 4 }: SeatSelectionProps) =>
         </div>
 
         {selectedSeats.length > 0 && (
-          <div className="mt-4 p-3 bg-slate-800 rounded text-slate-100">
+          <div className="mt-4 p-3 bg-blue-50 rounded text-blue-900 border border-blue-200">
             <p className="text-sm font-medium">Selected Seats:</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-blue-700">
               {selectedSeats.join(', ')}
             </p>
           </div>

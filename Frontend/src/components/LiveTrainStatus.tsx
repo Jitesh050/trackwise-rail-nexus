@@ -78,7 +78,7 @@ const LiveTrainStatus = () => {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-2">Live Train Status</h2>
-        <p className="text-muted-foreground">Get real-time updates on train schedules and delays</p>
+        <p className="text-gray-600">Get real-time updates on train schedules and delays</p>
       </div>
 
       {/* Search Section */}
@@ -100,7 +100,7 @@ const LiveTrainStatus = () => {
               />
             </div>
             <div className="flex items-end">
-              <Button onClick={handleSearch} disabled={isSearching} className="bg-rail-primary hover:bg-rail-primary/90">
+              <Button onClick={handleSearch} disabled={isSearching} className="bg-blue-600 hover:bg-blue-700">
                 <Search size={16} className="mr-2" />
                 {isSearching ? "Searching..." : "Track"}
               </Button>
@@ -116,7 +116,7 @@ const LiveTrainStatus = () => {
             <div className="flex justify-between items-start">
               <div>
                 <CardTitle className="flex items-center gap-2">
-                  <Train size={24} className="text-rail-primary" />
+                  <Train size={24} className="text-blue-600" />
                   {selectedTrain.trainNumber} - {selectedTrain.trainName}
                 </CardTitle>
                 <CardDescription>Platform {selectedTrain.platformNumber} • {selectedTrain.coaches} Coaches</CardDescription>
@@ -133,13 +133,13 @@ const LiveTrainStatus = () => {
               <div className="space-y-4">
                 <div>
                   <h4 className="font-semibold mb-2 flex items-center gap-2">
-                    <MapPin size={16} className="text-rail-secondary" />
+                    <MapPin size={16} className="text-gray-600" />
                     Current Location
                   </h4>
                   <p className="text-lg font-medium">{selectedTrain.currentStation}</p>
                   <div className="flex items-center gap-2 mt-1">
-                    <Clock size={14} className="text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">
+                    <Clock size={14} className="text-gray-500" />
+                    <span className="text-sm text-gray-500">
                       Departure: {selectedTrain.estimatedDeparture}
                     </span>
                   </div>
@@ -149,8 +149,8 @@ const LiveTrainStatus = () => {
                   <h4 className="font-semibold mb-2">Next Station</h4>
                   <p className="text-lg font-medium">{selectedTrain.nextStation}</p>
                   <div className="flex items-center gap-2 mt-1">
-                    <Clock size={14} className="text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">
+                    <Clock size={14} className="text-gray-500" />
+                    <span className="text-sm text-gray-500">
                       ETA: {selectedTrain.estimatedArrival}
                     </span>
                   </div>
@@ -203,10 +203,10 @@ const LiveTrainStatus = () => {
                     }`} />
                     <span className={`${
                       index === selectedTrain.currentStationIndex 
-                        ? "font-semibold text-rail-primary" 
+                        ? "font-semibold text-blue-600" 
                         : index < selectedTrain.currentStationIndex
                         ? "text-green-600"
-                        : "text-muted-foreground"
+                        : "text-gray-500"
                     }`}>
                       {station}
                       {index === selectedTrain.currentStationIndex && " (Current)"}
@@ -232,7 +232,7 @@ const LiveTrainStatus = () => {
         <Card>
           <CardContent className="text-center py-12">
             <Train className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p className="text-muted-foreground">Enter a train number to view live status</p>
+            <p className="text-gray-600">Enter a train number to view live status</p>
           </CardContent>
         </Card>
       )}
