@@ -77,7 +77,7 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
                     Book Ticket
                   </Link>
                 )}
-                <Link to="/help" className="text-gray-700 hover:text-blue-600 transition-colors">
+                <Link to="/help" className="text-gray-300 hover:text-white transition-colors">
                   Help
                 </Link>
               </>
@@ -169,9 +169,87 @@ const Navbar = ({ toggleSidebar }: NavbarProps) => {
             >
               {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
             </Button>
+            
+            {/* Mobile menu trigger */}
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden text-gray-300 hover:bg-gray-800 hover:text-white">
+                  <Menu size={20} />
+                </Button>
+              </SheetTrigger>
+            </Sheet>
           </div>
         </div>
       </div>
+      
+      {/* Mobile Menu */}
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetContent side="right" className="w-64 bg-gray-900 border-gray-700">
+          <div className="flex flex-col space-y-4 pt-4">
+            {user && !isLoginPage && (
+              <>
+                <Link
+                  to="/train-status"
+                  className="text-left p-2 hover:bg-gray-800 rounded-md transition-colors text-gray-300 hover:text-white"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Train Status
+                </Link>
+                <Link
+                  to="/stations"
+                  className="text-left p-2 hover:bg-gray-800 rounded-md transition-colors text-gray-300 hover:text-white"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Stations
+                </Link>
+                {user && !isAdmin && (
+                  <Link
+                    to="/book-ticket"
+                    className="text-left p-2 hover:bg-gray-800 rounded-md transition-colors text-gray-300 hover:text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Book Ticket
+                  </Link>
+                )}
+                <Link
+                  to="/help"
+                  className="text-left p-2 hover:bg-gray-800 rounded-md transition-colors text-gray-300 hover:text-white"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Help
+                </Link>
+              </>
+            )}
+            {user && (
+              <Link 
+                to={isAdmin ? '/admin' : '/passenger'} 
+                className="text-left p-2 hover:bg-gray-800 rounded-md transition-colors text-gray-300 hover:text-white"
+                onClick={() => setIsOpen(false)}
+              >
+                {isAdmin ? 'Admin Control Center' : 'Passenger Portal'}
+              </Link>
+            )}
+            {!user && (
+              <>
+                <Link 
+                  to="/login" 
+                  className="text-left p-2 hover:bg-gray-800 rounded-md transition-colors text-gray-300 hover:text-white"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Sign In
+                </Link>
+                <Link 
+                  to="/register" 
+                  className="text-left p-2 hover:bg-gray-800 rounded-md transition-colors text-gray-300 hover:text-white"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
     </nav>
   );
 };
