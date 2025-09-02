@@ -10,7 +10,31 @@ import {
   Bell, 
   Info,
   Shield,
-  Activity
+  Activity,
+  Users,
+  FileText,
+  Settings,
+  BarChart3,
+  AlertTriangle,
+  Zap,
+  Calendar,
+  Database,
+  MessageSquare,
+  CreditCard,
+  Route,
+  Clock,
+  CheckCircle,
+  XCircle,
+  Star,
+  TrendingUp,
+  Eye,
+  Edit,
+  Trash2,
+  Plus,
+  Search,
+  Filter,
+  Download,
+  Upload
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
@@ -43,16 +67,74 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
         <nav className="flex-1 px-3">
           <div className="space-y-2">
             <SidebarLink to="/" icon={Home} label="Home" isOpen={isOpen} />
+            
             {user && isAdmin && (
-              <SidebarLink to="/admin" icon={Shield} label="Admin Dashboard" isOpen={isOpen} />
+              <>
+                {/* Admin Dashboard */}
+                <SidebarLink to="/admin" icon={Shield} label="Admin Dashboard" isOpen={isOpen} />
+                
+                {/* Priority Tickets Management */}
+                <SidebarLink to="/admin/priority-tickets" icon={Star} label="Priority Tickets" isOpen={isOpen} />
+                
+                {/* Ticket Management */}
+                <SidebarLink to="/admin/tickets" icon={Ticket} label="Ticket Management" isOpen={isOpen} />
+                
+                {/* Train Management */}
+                <SidebarLink to="/admin/trains" icon={Train} label="Train Management" isOpen={isOpen} />
+                
+                {/* Route Management */}
+                <SidebarLink to="/admin/routes" icon={Route} label="Route Management" isOpen={isOpen} />
+                
+                {/* Station Management */}
+                <SidebarLink to="/admin/stations" icon={Map} label="Station Management" isOpen={isOpen} />
+                
+                {/* Schedule Management */}
+                <SidebarLink to="/admin/schedules" icon={Calendar} label="Schedule Management" isOpen={isOpen} />
+                
+                {/* User Management */}
+                <SidebarLink to="/admin/users" icon={Users} label="User Management" isOpen={isOpen} />
+                
+                {/* Staff Management */}
+                <SidebarLink to="/admin/staff" icon={User} label="Staff Management" isOpen={isOpen} />
+                
+                {/* Reports & Analytics */}
+                <SidebarLink to="/admin/reports" icon={BarChart3} label="Reports & Analytics" isOpen={isOpen} />
+                
+                {/* Financial Management */}
+                <SidebarLink to="/admin/finance" icon={CreditCard} label="Financial Management" isOpen={isOpen} />
+                
+                {/* Customer Support */}
+                <SidebarLink to="/admin/support" icon={MessageSquare} label="Customer Support" isOpen={isOpen} />
+                
+                {/* System Monitoring */}
+                <SidebarLink to="/admin/monitoring" icon={Activity} label="System Monitoring" isOpen={isOpen} />
+                
+                {/* Collision Detection */}
+                <SidebarLink to="/admin/collision" icon={AlertTriangle} label="Collision Detection" isOpen={isOpen} />
+                
+                {/* Crowd Monitoring */}
+                <SidebarLink to="/admin/crowd" icon={Users} label="Crowd Monitoring" isOpen={isOpen} />
+                
+                {/* Energy Management */}
+                <SidebarLink to="/admin/energy" icon={Zap} label="Energy Management" isOpen={isOpen} />
+                
+                {/* Database Management */}
+                <SidebarLink to="/admin/database" icon={Database} label="Database Management" isOpen={isOpen} />
+                
+                {/* System Settings */}
+                <SidebarLink to="/admin/settings" icon={Settings} label="System Settings" isOpen={isOpen} />
+              </>
             )}
+            
             {user && !isAdmin && (
               <>
                 <SidebarLink to="/passenger" icon={Gauge} label="Passenger Portal" isOpen={isOpen} />
               </>
             )}
+            
             <SidebarLink to="/train-status" icon={Train} label="Train Status" isOpen={isOpen} />
             <SidebarLink to="/stations" icon={Map} label="Stations" isOpen={isOpen} />
+            
             {user && !isAdmin && (
               <>
                 <SidebarLink to="/book-ticket" icon={Ticket} label="Book Ticket" isOpen={isOpen} />

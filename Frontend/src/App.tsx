@@ -38,6 +38,23 @@ import HelpCenter from "./pages/HelpCenter";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TripPlannerPage from "./pages/TripPlannerPage";
+import PriorityTicketManagement from "./components/admin/PriorityTicketManagement";
+import TicketManagement from "./pages/TicketManagement";
+import TrainManagement from "./pages/TrainManagement";
+import RouteManagement from "./pages/RouteManagement";
+import StationManagement from "./pages/StationManagement";
+import ScheduleManagement from "./pages/ScheduleManagement";
+import UserManagement from "./pages/UserManagement";
+import StaffManagement from "./pages/StaffManagement";
+import ReportsAnalytics from "./pages/ReportsAnalytics";
+import FinancialManagement from "./pages/FinancialManagement";
+import CustomerSupport from "./pages/CustomerSupport";
+import SystemMonitoring from "./pages/SystemMonitoring";
+import CollisionDetection from "./pages/CollisionDetection";
+import CrowdMonitoring from "./pages/CrowdMonitoring";
+import EnergyManagement from "./pages/EnergyManagement";
+import DatabaseManagement from "./pages/DatabaseManagement";
+import SystemSettings from "./pages/SystemSettings";
 
 const queryClient = new QueryClient();
 
@@ -75,6 +92,142 @@ const App = () => (
                     element={
                       <ProtectedRoute requireRole="admin">
                         <AdminDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/priority-tickets"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <PriorityTicketManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/tickets"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <TicketManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/trains"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <TrainManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/routes"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <RouteManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/stations"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <StationManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/schedules"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <ScheduleManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/users"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <UserManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/staff"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <StaffManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/reports"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <ReportsAnalytics />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/finance"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <FinancialManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/support"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <CustomerSupport />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/monitoring"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <SystemMonitoring />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/collision"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <CollisionDetection />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/crowd"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <CrowdMonitoring />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/energy"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <EnergyManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/database"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <DatabaseManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="admin/settings"
+                    element={
+                      <ProtectedRoute requireRole="admin">
+                        <SystemSettings />
                       </ProtectedRoute>
                     }
                   />

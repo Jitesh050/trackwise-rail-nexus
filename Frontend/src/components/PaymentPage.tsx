@@ -12,6 +12,7 @@ const qrCodeImage = "/src/assets/upi-qr.png";
 import ETicket from "./ETicket";
 import { Switch } from "@/components/ui/switch";
 import { ticketsApi, type TicketRecord } from "@/lib/tickets";
+import { priorityTicketsApi, type PriorityTicketRecord } from "@/lib/priority-tickets";
 
 interface PaymentPageProps {
   selectedTrain: {
@@ -43,15 +44,48 @@ const PaymentPage = ({ selectedTrain, bookingDetails, selectedSeats, onBack, onP
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [ticketData, setTicketData] = useState<any>(null);
-  const [priority, setPriority] = useState(bookingDetails.priorityTicket);
+  const [priority, setPriority] = useState(false);
+  const [priorityType, setPriorityType] = useState("");
+  const [priorityDoc, setPriorityDoc] = useState<File | null>(null);
+  const [docUploaded, setDocUploaded] = useState(false);
 
   const totalFare = selectedTrain.price * parseInt(bookingDetails.passengers);
   const serviceFee = 2.99;
-  const priorityFee = priority ? 20 : 0;
-  const totalAmount = totalFare + serviceFee + priorityFee;
+  const totalAmount = totalFare + serviceFee;
 
   const handlePayment = async () => {
     setIsProcessing(true);
+    
+    // If priority ticket is selected and document is uploaded, save priority ticket application
+    if (priority && priorityType && priorityDoc) {
+      const priorityTicketData: PriorityTicketRecord = {
+        pnr: `PNR${Math.random().toString(36).substr(2, 8).toUpperCase()}`,
+        passengerName: bookingDetails.passengerName,
+        trainNumber: selectedTrain.trainNumber,
+        trainName: selectedTrain.trainName,
+        from: bookingDetails.origin,
+        to: bookingDetails.destination,
+        date: bookingDetails.date,
+        departureTime: selectedTrain.departureTime,
+        arrivalTime: selectedTrain.arrivalTime,
+        seatNumbers: selectedSeats,
+        class: bookingDetails.trainClass,
+        fare: totalAmount,
+        priorityType: priorityType as "Student" | "Old-Age" | "Medical",
+        documentUrl: URL.createObjectURL(priorityDoc), // In real app, upload to cloud storage
+        documentName: priorityDoc.name,
+        status: "Pending",
+        email: bookingDetails.email,
+        phone: bookingDetails.phone,
+      };
+
+      try {
+        await priorityTicketsApi.add(priorityTicketData);
+        console.log("Priority ticket application submitted successfully");
+      } catch (error) {
+        console.error("Error submitting priority ticket application:", error);
+      }
+    }
     
     // Simulate payment processing
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -71,7 +105,6 @@ const PaymentPage = ({ selectedTrain, bookingDetails, selectedSeats, onBack, onP
       fare: totalAmount,
       status: "Confirmed",
       coach: "C1",
-      priority,
     };
 
     try {
@@ -130,17 +163,7 @@ const PaymentPage = ({ selectedTrain, bookingDetails, selectedSeats, onBack, onP
             </div>
             <Badge variant="secondary">{bookingDetails.trainClass}</Badge>
           </div>
-          
           <Separator />
-          
-          <div className="flex items-center justify-between py-2">
-            <div>
-              <p className="font-medium">Priority Ticket</p>
-              <p className="text-xs text-gray-500">Skip queues and get faster support</p>
-            </div>
-            <Switch checked={priority} onCheckedChange={setPriority} />
-          </div>
-          
           <div className="space-y-2">
             <div className="flex justify-between">
               <span>Tickets ({bookingDetails.passengers}x)</span>
@@ -150,21 +173,67 @@ const PaymentPage = ({ selectedTrain, bookingDetails, selectedSeats, onBack, onP
               <span>Service Fee</span>
               <span>₹{serviceFee.toFixed(2)}</span>
             </div>
-            {priority && (
-              <div className="flex justify-between">
-                <span>Priority Fee</span>
-                <span>₹{priorityFee.toFixed(2)}</span>
-              </div>
-            )}
             <Separator />
             <div className="flex justify-between font-semibold text-lg">
               <span>Total Amount</span>
-              <span>₹{totalAmount.toFixed(2)}</span>
+              <span>₹{(totalFare + serviceFee).toFixed(2)}</span>
             </div>
+          </div>
+          {/* Priority Option */}
+          <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded">
+            <label className="flex items-center gap-2 font-medium">
+              <input type="checkbox" checked={priority} onChange={e => {
+                setPriority(e.target.checked);
+                if (!e.target.checked) {
+                  setPriorityType("");
+                  setPriorityDoc(null);
+                  setDocUploaded(false);
+                }
+              }} />
+              Apply for Priority Ticket
+            </label>
+            {priority && (
+              <div className="mt-3 space-y-3">
+                <div>
+                  <label className="block mb-1 font-medium">Select Priority Type</label>
+                  <select
+                    className="w-full border rounded px-2 py-1"
+                    value={priorityType}
+                    onChange={e => {
+                      setPriorityType(e.target.value);
+                      setPriorityDoc(null);
+                      setDocUploaded(false);
+                    }}
+                  >
+                    <option value="">-- Select --</option>
+                    <option value="Student">Student</option>
+                    <option value="Old-Age">Old-Age</option>
+                    <option value="Medical">Medical</option>
+                  </select>
+                </div>
+                {priorityType && (
+                  <div>
+                    <label className="block mb-1 font-medium">Upload Document</label>
+                    <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      onChange={e => {
+                        if (e.target.files && e.target.files[0]) {
+                          setPriorityDoc(e.target.files[0]);
+                          setDocUploaded(true); // Mock upload
+                        }
+                      }}
+                    />
+                    {docUploaded && priorityDoc && (
+                      <div className="mt-2 text-green-700 text-sm">Document uploaded: {priorityDoc.name} (sent to admin)</div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
-
       <Card>
         <CardHeader>
           <CardTitle>UPI Payment</CardTitle>

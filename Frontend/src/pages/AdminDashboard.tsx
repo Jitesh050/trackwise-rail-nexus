@@ -22,6 +22,7 @@ import {
 import CollisionDetectionMap from "@/components/admin/CollisionDetectionMap";
 import CrowdDensityHeatmap from "@/components/admin/CrowdDensityHeatmap";
 import EnergyOptimizationControl from "@/components/admin/EnergyOptimizationControl";
+import PriorityTicketManagement from "@/components/admin/PriorityTicketManagement";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -60,6 +61,10 @@ const AdminDashboard = () => {
             <TabsTrigger value="overview" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
               <BarChart3 className="h-4 w-4 mr-2" />
               Overview
+            </TabsTrigger>
+            <TabsTrigger value="priority" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+              <Users className="h-4 w-4 mr-2" />
+              Priority Tickets
             </TabsTrigger>
             <TabsTrigger value="collision" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
               <Shield className="h-4 w-4 mr-2" />
@@ -142,6 +147,10 @@ const AdminDashboard = () => {
                 </div>
               </Button>
             </div>
+          </TabsContent>
+
+          <TabsContent value="priority" className="space-y-6">
+            <PriorityTicketManagement />
           </TabsContent>
 
           <TabsContent value="collision" className="space-y-6">
