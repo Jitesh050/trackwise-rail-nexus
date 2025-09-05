@@ -38,6 +38,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 // Add proper types
 interface SidebarProps {
@@ -156,21 +157,43 @@ interface SidebarLinkProps {
 }
 
 const SidebarLink = ({ to, icon: Icon, label, isOpen }: SidebarLinkProps) => {
+  if (isOpen) {
+    return (
+      <Link 
+        to={to} 
+        className={cn(
+          "group flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200",
+          "text-gray-300 hover:text-white hover:bg-gray-800",
+          isOpen ? "justify-start" : "justify-center"
+        )}
+      >
+        <Icon className={cn(
+          "flex-shrink-0 transition-transform group-hover:scale-110",
+          isOpen ? "h-5 w-5" : "h-6 w-6"
+        )} />
+        {isOpen && <span className="ml-3 font-medium">{label}</span>}
+      </Link>
+    );
+  }
+  // Collapsed: show tooltip on icon hover
   return (
-    <Link 
-      to={to} 
-      className={cn(
-        "group flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200",
-        "text-gray-300 hover:text-white hover:bg-gray-800",
-        isOpen ? "justify-start" : "justify-center"
-      )}
-    >
-      <Icon className={cn(
-        "flex-shrink-0 transition-transform group-hover:scale-110",
-        isOpen ? "h-5 w-5" : "h-6 w-6"
-      )} />
-      {isOpen && <span className="ml-3 font-medium">{label}</span>}
-    </Link>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Link 
+          to={to} 
+          className={cn(
+            "group flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200",
+            "text-gray-300 hover:text-white hover:bg-gray-800",
+            "justify-center"
+          )}
+        >
+          <Icon className="flex-shrink-0 transition-transform group-hover:scale-110 h-6 w-6" />
+        </Link>
+      </TooltipTrigger>
+      <TooltipContent side="right" align="center">
+        {label}
+      </TooltipContent>
+    </Tooltip>
   );
 };
 
